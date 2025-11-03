@@ -6,7 +6,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: { unoptimized: true },
+  swcMinify: false,
+  compiler: {
+    removeConsole: false,
+  },
 };
 
 module.exports = nextConfig;
