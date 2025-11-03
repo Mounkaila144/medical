@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'inscription patient</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .loading {
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inscription patient</h1>
+    
+    <form id="patientForm">
+        <div class="form-group">
+            <label for="firstName">Prénom</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="lastName">Nom</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="dob">Date de naissance</label>
+            <input type="date" id="dob" name="dob" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="gender">Genre</label>
+            <select id="gender" name="gender" required>
+                <option value="">Sélectionnez</option>
+                <option value="MALE">Homme</option>
+                <option value="FEMALE">Femme</option>
+                <option value="OTHER">Autre</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Adresse</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit">Enregistrer et envoyer sur WhatsApp</button>
+        </div>
+        
+        <div id="error" class="error"></div>
+        <div id="loading" class="loading">
+            Enregistrement en cours...
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('patientForm');
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+            
+            // ID de la clinique (tenant)
+            const TENANT_ID = 'REMPLACER_PAR_ID_CLINIQUE';
+            // URL de l'API
+            const API_URL = 'http://localhost:3000/public/patients/' + TENANT_ID;
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Récupérer les données du formulaire
+                const formData = new FormData(form);
+                const patientData = {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    dob: formData.get('dob'),
+                    gender: formData.get('gender'),
+                    email: formData.get('email') || undefined,
+                    phone: formData.get('phone') || undefined,
+                    clinicId: TENANT_ID,
+                    // Générer un MRN aléatoire pour l'exemple
+                    mrn: 'MRN' + Math.floor(Math.random() * 10000),
+                    // Adresse formatée en objet JSON
+                    address: {
+                        street: formData.get('address'),
+                        city: '',
+                        country: 'Niger'
+                    }
+                };
+                
+                errorDiv.textContent = '';
+                loadingDiv.style.display = 'block';
+                
+                try {
+                    // Envoyer les données à l'API
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(patientData)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de l\'enregistrement du patient');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Rediriger vers WhatsApp
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    } else if (data.redirect_info && data.redirect_info.url) {
+                        window.location.href = data.redirect_info.url;
+                    } else {
+                        alert('Patient enregistré avec succès!');
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    errorDiv.textContent = error.message;
+                } finally {
+                    loadingDiv.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

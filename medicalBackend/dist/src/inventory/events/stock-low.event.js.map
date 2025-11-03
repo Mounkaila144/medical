@@ -1,0 +1,1 @@
+{"version":3,"file":"stock-low.event.js","sourceRoot":"","sources":["../../../../src/inventory/events/stock-low.event.ts"],"names":[],"mappings":";;;AAEA,MAAa,aAAa;IAEN;IACA;IAFlB,YACkB,IAAqF,EACrF,YAAoB;QADpB,SAAI,GAAJ,IAAI,CAAiF;QACrF,iBAAY,GAAZ,YAAY,CAAQ;IACnC,CAAC;CACL;AALD,sCAKC"}

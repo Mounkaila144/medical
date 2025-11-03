@@ -1,0 +1,91 @@
+# Dépendances
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers de développement
+.env
+.env.local
+.env.development
+.env.test
+*.env
+
+# Logs
+logs
+*.log
+
+# Répertoires de build et cache
+dist
+build
+.next
+.nuxt
+.cache
+
+# Fichiers de test
+coverage
+.nyc_output
+test-results
+
+# Fichiers IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentation
+README*.md
+docs/
+*.md
+
+# Fichiers temporaires
+tmp/
+temp/
+
+# Uploads et storage (seront créés dans le conteneur)
+uploads/
+storage/
+exports/
+
+# Sauvegardes
+backups/
+*.sql
+*.dump
+
+# Certificats SSL
+ssl/
+*.pem
+*.key
+*.crt
+
+# Scripts de déploiement
+deploy.sh
+setup.sh
+init-db.sh
+
+# Configuration Nginx
+nginx.conf
+
+# Postman collections
+*.postman_collection.json
+postmancollection/
+
+# Fichiers de configuration spécifiques
+.prettierrc
+eslint.config.mjs
+nest-cli.json
+tsconfig*.json 

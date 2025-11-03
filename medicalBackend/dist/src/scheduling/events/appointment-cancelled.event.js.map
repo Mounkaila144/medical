@@ -1,0 +1,1 @@
+{"version":3,"file":"appointment-cancelled.event.js","sourceRoot":"","sources":["../../../../src/scheduling/events/appointment-cancelled.event.ts"],"names":[],"mappings":";;;AAEA,MAAa,yBAAyB;IAElB;IACA;IAFlB,YACkB,WAAwB,EACxB,gBAAyB,IAAI;QAD7B,gBAAW,GAAX,WAAW,CAAa;QACxB,kBAAa,GAAb,aAAa,CAAgB;IAC5C,CAAC;CACL;AALD,8DAKC"}

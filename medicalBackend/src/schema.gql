@@ -1,0 +1,726 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddInvoiceLineGqlDto {
+  description: String!
+  invoiceId: String!
+  qty: Float!
+  tax: Float! = 0
+  thirdPartyRate: Float! = 0
+  unitPrice: Float!
+}
+
+input AdjustItemInput {
+  itemId: String!
+  lotId: String!
+  newQuantity: Float!
+  reason: String!
+}
+
+type AgendaDto {
+  appointments: [Appointment!]!
+  date: String!
+}
+
+type Appointment {
+  endAt: DateTime!
+  id: String!
+  patientId: String!
+  practitionerId: String!
+  reason: String
+  room: String
+  startAt: DateTime!
+  status: AppointmentStatus!
+  tenantId: String!
+  urgency: UrgencyLevel!
+}
+
+enum AppointmentStatus {
+  BOOKED
+  CANCELLED
+  DONE
+  NO_SHOW
+}
+
+input ApproveLeaveRequestInput {
+  comment: String
+  id: String!
+  status: LeaveStatus!
+}
+
+enum AuthUserRole {
+  CLINIC_ADMIN
+  EMPLOYEE
+  PRACTITIONER
+  SUPERADMIN
+}
+
+type BillingAddress {
+  city: String!
+  country: String!
+  line1: String!
+  line2: String
+  postalCode: String!
+}
+
+input BillingAddressDto {
+  city: String!
+  country: String!
+  line1: String!
+  line2: String
+  postalCode: String!
+}
+
+input CreateEncounterDto {
+  diagnosis: String
+  endAt: DateTime
+  exam: String
+  icd10Codes: [String!]! = []
+  motive: String!
+  patientId: String!
+  practitionerId: String!
+  startAt: DateTime!
+}
+
+input CreateInvoiceGqlDto {
+  billingAddress: BillingAddressDto
+  dueAt: DateTime
+  encounterId: String
+  issueDate: DateTime
+  notes: String
+  number: String
+  patientId: String!
+}
+
+input CreateLabResultDto {
+  encounterId: String
+  filePath: String
+  labName: String!
+  patientId: String!
+  receivedAt: DateTime!
+  result: JSON!
+}
+
+input CreateLeaveRequestInput {
+  end: DateTime!
+  staffId: String!
+  start: DateTime!
+}
+
+input CreateMedicalHistoryItemDto {
+  label: String!
+  note: String!
+  patientId: String!
+  type: String!
+}
+
+input CreatePatientDto {
+  address: JSON
+  age: Int
+  bloodType: String
+  clinicId: String!
+  dob: DateTime
+  email: String
+  firstName: String!
+  gender: String!
+  lastName: String!
+  mrn: String
+  phone: String
+}
+
+input CreatePaymentGqlDto {
+  amount: Float!
+  invoiceId: String!
+  method: PaymentMethod!
+  reference: String
+}
+
+input CreatePayrollExportInput {
+  period: String!
+  tenantId: String!
+}
+
+input CreatePrescriptionGqlDto {
+  encounterId: String!
+  expiresAt: DateTime
+  items: [PrescriptionItemGqlDto!]!
+  practitionerId: String!
+}
+
+input CreateShiftInput {
+  endAt: DateTime!
+  staffId: String!
+  startAt: DateTime!
+}
+
+input CreateStaffInput {
+  firstName: String!
+  hireDate: DateTime!
+  lastName: String!
+  role: StaffRole!
+  salary: Float!
+  tenantId: String!
+}
+
+input CreateSupplierInput {
+  contact: String!
+  name: String!
+}
+
+input CreateTariffGqlDto {
+  category: TariffCategory!
+  code: String!
+  currency: String
+  description: String
+  duration: Float
+  isActive: Boolean
+  name: String!
+  price: Float!
+}
+
+input CreateTimesheetInput {
+  approved: Boolean! = false
+  hours: Float!
+  month: Float!
+  staffId: String!
+  year: Float!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DispenseItemInput {
+  itemId: String!
+  quantity: Float!
+  reason: String!
+  reference: String
+}
+
+type Encounter {
+  diagnosis: String
+  endAt: DateTime
+  exam: String
+  icd10Codes: [String!]
+  id: ID!
+  labResults: [LabResult!]
+  locked: Boolean!
+  motive: String!
+  patient: Patient!
+  practitioner: Practitioner!
+  prescriptions: [Prescription!]
+  startAt: DateTime!
+  tenantId: String!
+}
+
+type Invoice {
+  billingAddress: BillingAddress
+  dueAt: DateTime
+  encounterId: String
+  id: ID!
+  issueDate: DateTime
+  lines: [InvoiceLine!]
+  notes: String
+  number: String!
+  patient: Patient!
+  payments: [Payment!]
+  pdfPath: String
+  qr: String
+  status: InvoiceStatus!
+  tenantId: String!
+  total: Float!
+}
+
+type InvoiceLine {
+  description: String!
+  id: ID!
+  invoice: Invoice!
+  qty: Float!
+  tax: Float!
+  thirdPartyRate: Float!
+  unitPrice: Float!
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OVERDUE
+  PAID
+  SENT
+}
+
+type Item {
+  category: ItemCategory!
+  id: ID!
+  name: String!
+  reorderLevel: Float!
+  sku: String!
+  tenant: String!
+  unit: ItemUnit!
+}
+
+enum ItemCategory {
+  CONSUMABLE
+  DRUG
+}
+
+enum ItemUnit {
+  BOX
+  ML
+  PIECE
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LabResult {
+  encounter: Encounter
+  filePath: String
+  id: ID!
+  labName: String!
+  patient: Patient!
+  receivedAt: DateTime!
+  result: JSON!
+  tenantId: String!
+}
+
+type LeaveRequest {
+  comment: String
+  createdAt: DateTime!
+  end: DateTime!
+  id: String!
+  staff: Staff!
+  staffId: String!
+  start: DateTime!
+  status: LeaveStatus!
+  updatedAt: DateTime!
+}
+
+type LeaveRequestDto {
+  end: DateTime!
+  id: ID!
+  staffId: String!
+  start: DateTime!
+  status: LeaveStatus!
+}
+
+enum LeaveStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+input LockEncounterDto {
+  id: String!
+}
+
+type MedicalHistoryItem {
+  id: String!
+  label: String!
+  note: String!
+  patientId: String!
+  recordedAt: DateTime!
+  type: String!
+}
+
+type Movement {
+  id: ID!
+  item: Item!
+  movedAt: DateTime!
+  qty: Float!
+  reason: String
+  reference: String
+  type: MovementType!
+}
+
+enum MovementType {
+  ADJUST
+  IN
+  OUT
+}
+
+type Mutation {
+  addInvoiceLine(addLineDto: AddInvoiceLineGqlDto!): Invoice!
+  addLabResult(createLabResultDto: CreateLabResultDto!): LabResult!
+  addMedicalHistoryItem(input: CreateMedicalHistoryItemDto!): MedicalHistoryItem!
+  adjustItem(input: AdjustItemInput!): Movement!
+  approveLeaveRequest(approveLeaveRequestInput: ApproveLeaveRequestInput!): LeaveRequestDto!
+  approveTimesheet(id: String!): TimesheetDto!
+  archivePatient(id: String!): Boolean!
+  createEncounter(createEncounterDto: CreateEncounterDto!): Encounter!
+  createInvoice(createInvoiceDto: CreateInvoiceGqlDto!): Invoice!
+  createLeaveRequest(createLeaveRequestInput: CreateLeaveRequestInput!): LeaveRequestDto!
+  createPatient(input: CreatePatientDto!): Patient!
+  createPayment(createPaymentDto: CreatePaymentGqlDto!): Payment!
+  createPrescription(createPrescriptionDto: CreatePrescriptionGqlDto!): Prescription!
+  createShift(createShiftInput: CreateShiftInput!): ShiftDto!
+  createStaff(createStaffInput: CreateStaffInput!): StaffDto!
+  createSupplier(input: CreateSupplierInput!): Supplier!
+  createTariff(createTariffDto: CreateTariffGqlDto!): Tariff!
+  createTimesheet(createTimesheetInput: CreateTimesheetInput!): TimesheetDto!
+  deleteDocument(id: String!): Boolean!
+  dispenseItem(input: DispenseItemInput!): Movement!
+  generatePayroll(createPayrollExportInput: CreatePayrollExportInput!): PayrollExportDto!
+  lockEncounter(lockEncounterDto: LockEncounterDto!): Encounter!
+  markInvoicePaid(updateStatusDto: UpdateInvoiceStatusDto!): Invoice!
+  receiveItem(input: ReceiveItemInput!): Movement!
+  remindOverdueInvoices: [Invoice!]!
+  removeLeaveRequest(id: String!): Boolean!
+  removeMedicalHistoryItem(id: String!): Boolean!
+  removePayrollExport(id: String!): Boolean!
+  removeShift(id: String!): Boolean!
+  removeStaff(id: String!): Boolean!
+  removeTimesheet(id: String!): Boolean!
+  sendInvoice(updateStatusDto: UpdateInvoiceStatusDto!): Invoice!
+  updateEncounter(updateEncounterDto: UpdateEncounterDto!): Encounter!
+  updateLeaveRequest(id: String!, updateLeaveRequestInput: UpdateLeaveRequestInput!): LeaveRequestDto!
+  updatePatient(id: String!, input: UpdatePatientDto!): Patient!
+  updateShift(id: String!, updateShiftInput: UpdateShiftInput!): ShiftDto!
+  updateStaff(id: String!, updateStaffInput: UpdateStaffInput!): StaffDto!
+  updateTimesheet(id: String!, updateTimesheetInput: UpdateTimesheetInput!): TimesheetDto!
+}
+
+type Patient {
+  address: JSON
+  bloodType: String
+  clinicId: String!
+  createdAt: DateTime!
+  deletedAt: DateTime
+  dob: DateTime!
+  email: String
+  firstName: String!
+  gender: String!
+  id: String!
+  lastName: String!
+  mrn: String!
+  phone: String
+  updatedAt: DateTime!
+}
+
+type Payment {
+  amount: Float!
+  id: ID!
+  invoice: Invoice!
+  method: PaymentMethod!
+  paidAt: DateTime!
+  reference: String
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CARD
+  CASH
+  CHECK
+  INSURANCE
+}
+
+type PayrollExportDto {
+  filePath: String!
+  generatedAt: DateTime!
+  id: ID!
+  period: String!
+  tenantId: String!
+}
+
+type Practitioner {
+  color: String!
+  email: String
+  firstName: String!
+  id: String!
+  lastName: String!
+  phoneNumber: String
+  slotDuration: Float
+  specialty: String!
+  tenantId: String!
+  userId: String
+}
+
+type Prescription {
+  encounter: Encounter!
+  expiresAt: DateTime
+  id: ID!
+  items: [PrescriptionItem!]!
+  pdfPath: String
+  practitioner: Practitioner!
+  qr: String
+}
+
+type PrescriptionItem {
+  dosage: String!
+  duration: String
+  frequency: String!
+  id: ID!
+  instructions: String
+  medication: String!
+}
+
+input PrescriptionItemGqlDto {
+  dosage: String!
+  duration: String
+  frequency: String!
+  instructions: String
+  medication: String!
+}
+
+type Query {
+  agenda(date: String!, practitionerId: String!): AgendaDto!
+  encounter(id: String!): Encounter!
+  encounters: [Encounter!]!
+  invoice(id: String!): Invoice!
+  invoices: [Invoice!]!
+  labResult(id: String!): LabResult!
+  labResults: [LabResult!]!
+  leaveRequest(id: String!): LeaveRequestDto!
+  leaveRequests: [LeaveRequestDto!]!
+  leaveRequestsByStaff(staffId: String!): [LeaveRequestDto!]!
+  lowStockItems: [Item!]!
+  patient(id: String!): Patient!
+  patientDocuments(patientId: String!): [ScannedDocument!]!
+  patientLabResults(patientId: String!): [LabResult!]!
+  patientMedicalHistory(patientId: String!): [MedicalHistoryItem!]!
+  patients: [Patient!]!
+  paymentsByInvoice(invoiceId: String!): [Payment!]!
+  payrollExport(id: String!): PayrollExportDto!
+  payrollExports: [PayrollExportDto!]!
+  payrollExportsByTenant(tenantId: String!): [PayrollExportDto!]!
+  pendingLeaveRequests: [LeaveRequestDto!]!
+  pendingTimesheets: [TimesheetDto!]!
+  prescription(id: String!): Prescription!
+  prescriptions: [Prescription!]!
+  searchPatients(input: SearchPatientDto!): [Patient!]!
+  shift(id: String!): ShiftDto!
+  shifts: [ShiftDto!]!
+  shiftsByDateRange(end: DateTime!, start: DateTime!): [ShiftDto!]!
+  shiftsByStaff(staffId: String!): [ShiftDto!]!
+  staff: [StaffDto!]!
+  staffByTenant(tenantId: String!): [StaffDto!]!
+  staffMember(id: String!): StaffDto!
+  suppliers: [Supplier!]!
+  tariffs: [Tariff!]!
+  tariffsByCategory(category: String!): [Tariff!]!
+  timesheet(id: String!): TimesheetDto!
+  timesheets: [TimesheetDto!]!
+  timesheetsByPeriod(month: Float!, year: Float!): [TimesheetDto!]!
+  timesheetsByStaff(staffId: String!): [TimesheetDto!]!
+}
+
+input ReceiveItemInput {
+  expiry: DateTime!
+  itemId: String!
+  lotNumber: String!
+  quantity: Float!
+  reference: String
+}
+
+type ScannedDocument {
+  docType: String!
+  id: String!
+  path: String!
+  patientId: String!
+  tags: [String!]
+  uploadedAt: DateTime!
+  uploadedBy: String!
+}
+
+input SearchPatientDto {
+  clinicId: String
+  email: String
+  firstName: String
+  gender: String
+  lastName: String
+  mrn: String
+  phone: String
+  search: String
+}
+
+type Session {
+  createdAt: DateTime!
+  expiresAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  userId: ID!
+}
+
+type Shift {
+  createdAt: DateTime!
+  endAt: DateTime!
+  id: ID!
+  staff: Staff!
+  staffId: ID!
+  startAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ShiftDto {
+  endAt: DateTime!
+  id: ID!
+  staffId: String!
+  startAt: DateTime!
+}
+
+type Staff {
+  createdAt: DateTime!
+  firstName: String!
+  hireDate: DateTime!
+  id: ID!
+  lastName: String!
+  leaveRequests: [LeaveRequest!]
+  role: StaffRole!
+  salary: Float!
+  shifts: [Shift!]
+  tenantId: ID!
+  timesheets: [Timesheet!]
+  updatedAt: DateTime!
+}
+
+type StaffDto {
+  firstName: String!
+  hireDate: DateTime!
+  id: ID!
+  lastName: String!
+  role: StaffRole!
+  salary: Float!
+  tenantId: String!
+}
+
+enum StaffRole {
+  ADMIN
+  DOCTOR
+  NURSE
+  RECEPTIONIST
+}
+
+type Supplier {
+  contact: JSON!
+  id: ID!
+  name: String!
+  tenant: Tenant!
+}
+
+type Tariff {
+  category: TariffCategory!
+  code: String!
+  costPrice: Float
+  createdAt: DateTime!
+  currency: String!
+  description: String
+  duration: Float
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  price: Float!
+  tenantId: String!
+  updatedAt: DateTime!
+}
+
+enum TariffCategory {
+  CONSULTATION
+  IMAGING
+  LABORATORY
+  MEDICATION
+  OTHER
+  PROCEDURE
+}
+
+type Tenant {
+  createdAt: DateTime!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  slug: String!
+  users: [User!]
+}
+
+type Timesheet {
+  approved: Boolean!
+  createdAt: DateTime!
+  hours: Float!
+  id: ID!
+  month: Float!
+  staff: Staff!
+  staffId: ID!
+  updatedAt: DateTime!
+  year: Float!
+}
+
+type TimesheetDto {
+  approved: Boolean!
+  hours: Float!
+  id: ID!
+  month: Float!
+  staffId: String!
+  year: Float!
+}
+
+input UpdateEncounterDto {
+  diagnosis: String
+  endAt: DateTime
+  exam: String
+  icd10Codes: [String!] = []
+  id: String!
+  motive: String
+  patientId: String
+  practitionerId: String
+  startAt: DateTime
+}
+
+input UpdateInvoiceStatusDto {
+  invoiceId: String!
+  status: InvoiceStatus!
+}
+
+input UpdateLeaveRequestInput {
+  status: LeaveStatus!
+}
+
+input UpdatePatientDto {
+  address: JSON
+  bloodType: String
+  clinicId: String
+  dob: DateTime
+  email: String
+  firstName: String
+  gender: String
+  lastName: String
+  phone: String
+}
+
+input UpdateShiftInput {
+  endAt: DateTime
+  startAt: DateTime
+}
+
+input UpdateStaffInput {
+  firstName: String
+  hireDate: DateTime
+  lastName: String
+  role: StaffRole
+  salary: Float
+}
+
+input UpdateTimesheetInput {
+  approved: Boolean
+  hours: Float
+}
+
+enum UrgencyLevel {
+  ROUTINE
+  URGENT
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  firstName: String!
+  id: ID!
+  isActive: Boolean!
+  lastLogin: DateTime
+  lastName: String!
+  role: AuthUserRole!
+  sessions: [Session!]
+  tenantId: ID
+  updatedAt: DateTime!
+}

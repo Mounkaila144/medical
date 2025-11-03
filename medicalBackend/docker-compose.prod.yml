@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  # Application NestJS
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical-app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3000"  # Bind seulement sur localhost
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=${DB_PASSWORD:-medical_secure_password_2024}
+      - DB_NAME=medical
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET:-your_super_secret_jwt_access_key_2024}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-your_super_secret_jwt_refresh_key_2024}
+      - RABBITMQ_URL=amqp://admin:${RABBITMQ_PASSWORD:-medical_rabbitmq_2024}@rabbitmq:5672
+      - RABBITMQ_USER=admin
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-medical_rabbitmq_2024}
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_USE_SSL=false
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-medical_minio_access_2024}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-medical_minio_secret_2024}
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    volumes:
+      - app_uploads:/app/uploads
+      - app_storage:/app/storage
+      - app_exports:/app/exports
+    networks:
+      - medical-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: medical-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-medical_secure_password_2024}
+      POSTGRES_DB: medical
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "127.0.0.1:5433:5432"  # Port différent pour éviter les conflits
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    networks:
+      - medical-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d medical"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # RabbitMQ pour la messagerie
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: medical-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-medical_rabbitmq_2024}
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "127.0.0.1:5673:5672"   # AMQP protocol port
+      - "127.0.0.1:15673:15672" # Management UI port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - medical-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # MinIO pour le stockage de fichiers
+  minio:
+    image: minio/minio:latest
+    container_name: medical-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-medical_minio_access_2024}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-medical_minio_secret_2024}
+    ports:
+      - "127.0.0.1:9003:9000"   # API port
+      - "127.0.0.1:9004:9001"   # Console port
+    volumes:
+      - minio_data:/data
+    networks:
+      - medical-network
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  minio_data:
+    driver: local
+  app_uploads:
+    driver: local
+  app_storage:
+    driver: local
+  app_exports:
+    driver: local
+
+networks:
+  medical-network:
+    driver: bridge 
