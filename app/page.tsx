@@ -130,15 +130,15 @@ export default function Home() {
               <div className="space-y-3 text-gray-400">
                 <div className="flex items-center gap-3">
                   <Mail className="h-4 w-4 text-blue-400" />
-                  <span>contact@medclinic.fr</span>
+                  <span>mail@ptrniger.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="h-4 w-4 text-blue-400" />
-                  <span>+33 1 23 45 67 89</span>
+                  <span>+227 97 97 71 99</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="h-4 w-4 text-blue-400" />
-                  <span>Paris, France</span>
+                  <span>Niamey, Niger</span>
                 </div>
               </div>
               <div className="pt-4">

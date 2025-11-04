@@ -7,8 +7,9 @@ export function LandingPricing() {
     {
       name: "Starter",
       description: "Parfait pour les praticiens individuels",
-      price: "29",
+      price: "10.000",
       period: "mois",
+      currency: "FCFA",
       icon: <Zap className="h-6 w-6" />,
       gradient: "from-green-500 to-emerald-500",
       bgGradient: "from-green-50 to-emerald-50",
@@ -25,8 +26,9 @@ export function LandingPricing() {
     {
       name: "Professional",
       description: "Idéal pour les cabinets en croissance",
-      price: "79",
+      price: "25.000",
       period: "mois",
+      currency: "FCFA",
       icon: <Star className="h-6 w-6" />,
       gradient: "from-blue-500 to-indigo-500",
       bgGradient: "from-blue-50 to-indigo-50",
@@ -45,8 +47,9 @@ export function LandingPricing() {
     {
       name: "Enterprise",
       description: "Pour les grandes structures médicales",
-      price: "149",
+      price: "80.000",
       period: "mois",
+      currency: "FCFA",
       icon: <Crown className="h-6 w-6" />,
       gradient: "from-purple-500 to-pink-500",
       bgGradient: "from-purple-50 to-pink-50",
@@ -122,9 +125,12 @@ export function LandingPricing() {
 
               {/* Price */}
               <div className="text-center mb-8">
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-5xl font-bold text-gray-900">{plan.price}€</span>
-                  <span className="text-gray-600">/{plan.period}</span>
+                <div className="flex items-baseline justify-center gap-2">
+                  <span className="text-4xl md:text-5xl font-bold text-gray-900">{plan.price}</span>
+                  <div className="flex flex-col items-start">
+                    <span className="text-lg font-semibold text-gray-700">{plan.currency}</span>
+                    <span className="text-sm text-gray-600">/{plan.period}</span>
+                  </div>
                 </div>
                 <p className="text-sm text-gray-500 mt-2">Facturation mensuelle</p>
               </div>
@@ -186,7 +192,7 @@ export function LandingPricing() {
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="h-6 w-6 text-green-600" />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Essai gratuit 30 jours</h4>
+            <h4 className="font-semibold text-gray-900 mb-2">Essai gratuit 5 jours</h4>
             <p className="text-gray-600 text-sm">Testez toutes les fonctionnalités sans engagement</p>
           </div>
           

@@ -43,22 +43,22 @@ export function LandingContact() {
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email",
-      content: "contact@medclinic.fr",
+      content: "mail@ptrniger.com",
       description: "Réponse sous 24h",
       gradient: "from-blue-500 to-cyan-500"
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Téléphone",
-      content: "+33 1 23 45 67 89",
+      content: "+227 97 97 71 99",
       description: "Lun-Ven 9h-18h",
       gradient: "from-green-500 to-emerald-500"
     },
     {
       icon: <MapPin className="h-6 w-6" />,
       title: "Adresse",
-      content: "123 Avenue de la Santé",
-      description: "75001 Paris, France",
+      content: "Niamey",
+      description: "Niger",
       gradient: "from-purple-500 to-indigo-500"
     },
     {
@@ -184,7 +184,7 @@ export function LandingContact() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="mt-2 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="+33 1 23 45 67 89"
+                    placeholder="+227 97 97 71 99"
                   />
                 </div>
                 
