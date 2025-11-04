@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle, Sparkles, Zap } from "lucide-react";
 
 export function LandingCTA() {
   const features = [
-    "Essai gratuit de 30 jours",
+    "Essai gratuit de 5 jours",
     "Configuration en moins de 5 minutes",
     "Support dédié inclus",
     "Aucun engagement"
@@ -72,25 +72,25 @@ export function LandingCTA() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     asChild
                     className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group"
                   >
-                    <Link href="/auth/register" className="flex items-center gap-2">
+                    <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%20MedClinic" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       Commencer Gratuitement
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-            </Button>
-                  
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
+                    </a>
+                  </Button>
+
+                  <Button
+                    size="lg"
+                    variant="outline"
                     asChild
                     className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300"
                   >
                     <Link href="/auth/login">Se Connecter</Link>
-            </Button>
+                  </Button>
                 </div>
               </div>
 

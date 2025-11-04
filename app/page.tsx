@@ -142,8 +142,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="pt-4">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                  <Link href="#contact">Nous Contacter</Link>
+                <Button asChild className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                  <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20vous%20contacter%20pour%20MedClinic" target="_blank" rel="noopener noreferrer">
+                    Nous Contacter
+                  </a>
                 </Button>
               </div>
             </div>

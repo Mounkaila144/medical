@@ -238,28 +238,39 @@ export function LandingContact() {
             </div>
 
             <div className="space-y-6">
-              {supportOptions.map((option, index) => (
-                <div 
-                  key={index}
-                  className="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-r ${option.gradient} flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300`}>
-                      {option.icon}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h4>
-                      <p className="text-gray-600 mb-4">{option.description}</p>
-                      <Button 
-                        variant="outline" 
-                        className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600 transition-all duration-300"
-                      >
-                        {option.action}
-                      </Button>
+              {supportOptions.map((option, index) => {
+                const whatsappMessages = [
+                  "Bonjour,%20je%20souhaite%20discuter%20avec%20le%20support%20MedClinic",
+                  "Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20MedClinic",
+                  "Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20formation%20MedClinic"
+                ];
+
+                return (
+                  <div
+                    key={index}
+                    className="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-r ${option.gradient} flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300`}>
+                        {option.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h4>
+                        <p className="text-gray-600 mb-4">{option.description}</p>
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600 transition-all duration-300"
+                        >
+                          <a href={`https://wa.me/22797977199?text=${whatsappMessages[index]}`} target="_blank" rel="noopener noreferrer">
+                            {option.action}
+                          </a>
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* FAQ Link */}
@@ -271,8 +282,14 @@ export function LandingContact() {
               <p className="text-gray-600 mb-4">
                 Consultez notre FAQ pour trouver rapidement des réponses aux questions les plus courantes.
               </p>
-              <Button variant="outline" className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50">
-                Voir la FAQ
+              <Button
+                asChild
+                variant="outline"
+                className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50"
+              >
+                <a href="https://wa.me/22797977199?text=Bonjour,%20j'ai%20des%20questions%20sur%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  Voir la FAQ
+                </a>
               </Button>
             </div>
           </div>

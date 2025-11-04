@@ -5,12 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90ae7e04-aa5e-41c9-b229-d9c3335549d5" name="Changes" comment="init">
-      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/domaine.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/badge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/badge.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-contact.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-cta.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-cta.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-hero.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-pricing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-pricing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-testimonials.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-testimonials.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/BUILD-AND-DEPLOY-GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/DATABASE_RESET_README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/DEPLOY-QUICK-GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/DEPLOYMENT-APACHE-GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/DEPLOYMENT-GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/IMPLEMENTATION-SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-ANALYTICS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-BILLING.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-EHR.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-HR.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-patients.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-practitioner-auth.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/README-scheduling.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/deploy-apache.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/deploy-to-server.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/deploy.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medicalBackend/diagnose-server.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +140,8 @@
       <workItem from="1762152021256" duration="5246000" />
       <workItem from="1762160295558" duration="1330000" />
       <workItem from="1762188916738" duration="3719000" />
-      <workItem from="1762194904769" duration="785000" />
+      <workItem from="1762194904769" duration="2875000" />
+      <workItem from="1762236664336" duration="8935000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -187,7 +207,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762161036719</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="init">
+      <option name="closed" value="true" />
+      <created>1762195710645</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1762195710645</updated>
+    </task>
+    <task id="LOCAL-00010" summary="init">
+      <option name="closed" value="true" />
+      <created>1762249209643</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1762249209643</updated>
+    </task>
+    <task id="LOCAL-00011" summary="init">
+      <option name="closed" value="true" />
+      <created>1762254280197</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1762254280197</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,7 +249,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="init" />
     <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
   </component>
 </project>

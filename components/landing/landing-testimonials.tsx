@@ -1,10 +1,11 @@
 import { Star, Quote } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function LandingTestimonials() {
   const testimonials = [
     {
       quote: "MedClinic a complètement transformé le fonctionnement de notre clinique. Le système de planification seul nous a fait économiser d'innombrables heures.",
-      author: "Dr. Sarah Dubois",
+      author: "Dr. Fatouma Ali",
       role: "Médecine Générale, Clinique Santé Plus",
       rating: 5,
       avatar: "SD",
@@ -13,7 +14,7 @@ export function LandingTestimonials() {
     },
     {
       quote: "Les modules de gestion des patients et des dossiers médicaux sont intuitifs et complets. Notre équipe s'est adaptée au système en quelques jours.",
-      author: "Dr. Michel Tremblay",
+      author: "Dr. Moussa Aminou",
       role: "Pédiatre, Centre de Bien-être Enfants",
       rating: 5,
       avatar: "MT",
@@ -22,7 +23,7 @@ export function LandingTestimonials() {
     },
     {
       quote: "En tant que gestionnaire de cabinet, le tableau de bord analytique me donne des insights précieux sur nos opérations que nous n'avions jamais eus auparavant.",
-      author: "Rebecca Martin",
+      author: "Adamou Issa",
       role: "Gestionnaire de Cabinet, Spécialistes Cardio",
       rating: 5,
       avatar: "RM",
@@ -132,12 +133,23 @@ export function LandingTestimonials() {
               Commencez votre essai gratuit dès aujourd'hui et découvrez pourquoi MedClinic est le choix préféré des professionnels de santé.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
-                Essai Gratuit 30 Jours
-              </button>
-              <button className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:border-blue-300 hover:text-blue-600 transition-all duration-300">
-                Demander une Démo
-              </button>
+              <Button
+                asChild
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%205%20jours%20avec%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  Essai Gratuit 5 Jours
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:border-blue-300 hover:text-blue-600 transition-all duration-300"
+              >
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20demander%20une%20démo%20de%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  Demander une Démo
+                </a>
+              </Button>
             </div>
           </div>
         </div>

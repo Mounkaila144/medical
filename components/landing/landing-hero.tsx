@@ -56,20 +56,20 @@ export default function LandingHero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                asChild 
-                size="lg" 
+              <Button
+                asChild
+                size="lg"
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                <Link href="/auth/register" className="flex items-center gap-2">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20démarrer%20gratuitement%20avec%20MedClinic" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                   Démarrer Gratuitement
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg" 
+
+              <Button
+                variant="outline"
+                size="lg"
                 asChild
                 className="border-2 border-gray-300 hover:border-blue-300 hover:bg-blue-50 transition-all duration-300"
               >

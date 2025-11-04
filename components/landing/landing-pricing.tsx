@@ -146,18 +146,18 @@ export function LandingPricing() {
               </div>
 
               {/* CTA Button */}
-              <Button 
+              <Button
                 asChild
                 className={`w-full ${
-                  plan.popular 
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white' 
+                  plan.popular
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
                     : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
                 } transition-all duration-300 group-hover:shadow-lg`}
                 size="lg"
               >
-                <Link href="/auth/register">
+                <a href={`https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20souscrire%20au%20plan%20${plan.name}%20de%20MedClinic`} target="_blank" rel="noopener noreferrer">
                   {plan.popular ? 'Commencer maintenant' : 'Choisir ce plan'}
-                </Link>
+                </a>
               </Button>
 
               {/* Background Gradient on Hover */}
@@ -176,11 +176,22 @@ export function LandingPricing() {
               Contactez notre équipe pour discuter de vos besoins spécifiques et obtenir un devis personnalisé.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white">
-                Demander un devis
+              <Button
+                asChild
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+              >
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  Demander un devis
+                </a>
               </Button>
-              <Button variant="outline" className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600">
-                Planifier une démo
+              <Button
+                asChild
+                variant="outline"
+                className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600"
+              >
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  Planifier une démo
+                </a>
               </Button>
             </div>
           </div>
