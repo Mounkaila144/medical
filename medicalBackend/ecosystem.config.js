@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'medical-backend-dev',
-      script: 'pnpm',
+      script: 'npm',
       args: 'run start:dev',
       cwd: '/var/www/medicalBackend',
       instances: 1,
@@ -25,13 +25,13 @@ module.exports = {
     },
     {
       name: 'medical-backend-prod',
-      script: 'dist/main.js',
+      script: './dist/src/main.js',
       cwd: '/var/www/medicalBackend',
-      instances: 'max',
+      instances: 2, // Ou 'max' pour utiliser tous les CPU
       exec_mode: 'cluster',
       autorestart: true,
       max_memory_restart: '1G',
-      env: {
+      env_production: {
         NODE_ENV: 'production',
         PORT: 3001
       },
@@ -48,7 +48,10 @@ module.exports = {
       kill_timeout: 5000,
       listen_timeout: 3000,
       // Health check
-      health_check_grace_period: 3000
+      health_check_grace_period: 3000,
+      // Rotation des logs
+      log_rotate_max_size: '10M',
+      log_rotate_max_files: 10
     }
   ],
 
@@ -61,7 +64,7 @@ module.exports = {
       repo: 'git@github.com:username/medicalBackend.git',
       path: '/var/www/medicalBackend',
       'pre-deploy-local': '',
-      'post-deploy': 'pnpm install && pnpm run build && pm2 reload ecosystem.config.js --env production',
+      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
       'pre-setup': ''
     }
   }
