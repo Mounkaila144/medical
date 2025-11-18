@@ -106,27 +106,28 @@ export function AppointmentCalendarView({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Calendar Header */}
       <Card className="border-none shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
+        <CardContent className="p-4 md:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-lg md:text-2xl font-bold text-gray-900 capitalize">
                 {format(currentMonth, "MMMM yyyy", { locale: fr })}
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-xs md:text-sm text-gray-600 mt-1">
                 {appointments.length} rendez-vous ce mois-ci
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handlePreviousMonth}
-                className="hover:bg-white hover:shadow-md transition-all"
+                className="hover:bg-white hover:shadow-md transition-all flex-1 sm:flex-none"
               >
                 <ChevronLeft className="h-4 w-4" />
+                <span className="ml-1 sm:hidden">Préc.</span>
               </Button>
               <Button
                 variant="outline"
@@ -136,16 +137,17 @@ export function AppointmentCalendarView({
                   setCurrentMonth(today);
                   setDate(today);
                 }}
-                className="hover:bg-white hover:shadow-md transition-all"
+                className="hover:bg-white hover:shadow-md transition-all text-xs md:text-sm flex-1 sm:flex-none"
               >
-                Aujourd'hui
+                Aujourd&apos;hui
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleNextMonth}
-                className="hover:bg-white hover:shadow-md transition-all"
+                className="hover:bg-white hover:shadow-md transition-all flex-1 sm:flex-none"
               >
+                <span className="mr-1 sm:hidden">Suiv.</span>
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
@@ -153,8 +155,8 @@ export function AppointmentCalendarView({
         </CardContent>
       </Card>
 
-      {/* Calendar Grid */}
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+      {/* Calendar Grid - Hidden on mobile */}
+      <div className="hidden lg:block bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
         {/* Day Headers */}
         <div className="grid grid-cols-7 bg-gradient-to-r from-gray-50 to-gray-100">
           {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map((day, index) => (
@@ -259,9 +261,126 @@ export function AppointmentCalendarView({
         </div>
       </div>
 
-      {/* Selected Day Details */}
+      {/* Mobile Calendar View - Compact List */}
+      <div className="lg:hidden space-y-3">
+        {calendarDays
+          .filter(day => isSameMonth(day, currentMonth))
+          .map((day, index) => {
+            const dayAppointments = getAppointmentsForDay(day);
+            const isSelected = isSameDay(day, date);
+            const isDayToday = isToday(day);
+
+            // Skip days with no appointments on mobile for cleaner view
+            if (dayAppointments.length === 0) return null;
+
+            return (
+              <Card
+                key={index}
+                className={cn(
+                  "cursor-pointer transition-all duration-200 hover:shadow-md border-l-4",
+                  isSelected && "ring-2 ring-purple-400 shadow-lg",
+                  isDayToday && !isSelected && "ring-1 ring-yellow-300",
+                  isDayToday ? "border-l-yellow-500" : "border-l-purple-500"
+                )}
+                onClick={() => handleDayClick(day)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        "w-12 h-12 rounded-lg flex flex-col items-center justify-center font-bold shadow-sm",
+                        isDayToday ? "bg-yellow-100 text-yellow-800" : "bg-purple-100 text-purple-800"
+                      )}>
+                        <span className="text-xs uppercase">{format(day, "EEE", { locale: fr })}</span>
+                        <span className="text-lg">{format(day, "d")}</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 capitalize">
+                          {format(day, "EEEE d MMMM", { locale: fr })}
+                        </h4>
+                        <p className="text-xs text-gray-500">
+                          {dayAppointments.length} rendez-vous
+                        </p>
+                      </div>
+                    </div>
+                    {isDayToday && (
+                      <Badge className="bg-yellow-500 text-white text-xs">
+                        Aujourd&apos;hui
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    {dayAppointments.map((appointment) => (
+                      <div
+                        key={appointment.id}
+                        className={cn(
+                          "p-3 rounded-lg border-l-3 text-sm",
+                          getStatusColor(appointment.status)
+                        )}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onAppointmentEdit) {
+                            onAppointmentEdit(appointment);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-3.5 w-3.5" />
+                            <span className="font-bold">
+                              {format(new Date(appointment.startAt || appointment.startTime || ''), "HH:mm")}
+                            </span>
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {appointment.status === 'SCHEDULED' && 'Planifié'}
+                            {appointment.status === 'CONFIRMED' && 'Confirmé'}
+                            {appointment.status === 'IN_PROGRESS' && 'En cours'}
+                            {appointment.status === 'COMPLETED' && 'Terminé'}
+                            {appointment.status === 'CANCELLED' && 'Annulé'}
+                            {appointment.status === 'NO_SHOW' && 'Absent'}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-700">
+                          <User className="h-3.5 w-3.5" />
+                          <span className="font-medium truncate">
+                            {appointment.patientName ||
+                             (appointment.patient ? `${appointment.patient.firstName} ${appointment.patient.lastName}` :
+                              `Patient #${appointment.patientId?.substring(0, 8) || 'N/A'}`)}
+                          </span>
+                        </div>
+                        {appointment.purpose && (
+                          <div className="flex items-start gap-2 text-xs text-gray-600 mt-1">
+                            <FileText className="h-3 w-3 mt-0.5 shrink-0" />
+                            <span className="line-clamp-1">{appointment.purpose}</span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+
+        {/* Show message if no appointments this month */}
+        {calendarDays
+          .filter(day => isSameMonth(day, currentMonth))
+          .every(day => getAppointmentsForDay(day).length === 0) && (
+          <Card className="border-2 border-dashed">
+            <CardContent className="p-8 text-center">
+              <CalendarIconSmall className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+              <p className="text-gray-500 font-medium">
+                Aucun rendez-vous ce mois-ci
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Selected Day Details - Desktop Only */}
       {getAppointmentsForDay(date).length > 0 && (
-        <Card className="shadow-lg border-t-4 border-t-blue-500">
+        <Card className="hidden lg:block shadow-lg border-t-4 border-t-blue-500">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -269,7 +388,7 @@ export function AppointmentCalendarView({
                   <CalendarIconSmall className="h-6 w-6 text-blue-600" />
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold text-gray-900">
+                  <h4 className="text-xl font-bold text-gray-900 capitalize">
                     {format(date, "EEEE d MMMM yyyy", { locale: fr })}
                   </h4>
                   <p className="text-sm text-gray-600">

@@ -180,27 +180,42 @@ export default function AppointmentsPage() {
   };
 
   return (
-    <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+    <div className="space-y-4 md:space-y-6 w-full overflow-x-hidden pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Rendez-vous</h2>
-          <p className="text-muted-foreground">
-            Gérez les rendez-vous et consultations
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm" onClick={fetchAppointments}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Actualiser
-          </Button>
-          <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={handleCreateAppointment}>
-                <Plus className="mr-2 h-4 w-4" />
-                Nouveau rendez-vous
-              </Button>
-            </DialogTrigger>
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-4 md:p-8 text-white shadow-xl">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="space-y-2">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold flex items-center gap-3">
+              <div className="p-2 bg-white/20 backdrop-blur-sm rounded-xl">
+                <CalendarIcon className="h-6 w-6 md:h-8 md:w-8" />
+              </div>
+              Rendez-vous
+            </h2>
+            <p className="text-purple-100 text-sm md:text-base">
+              Gérez les rendez-vous et consultations
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchAppointments}
+              className="bg-white/10 border-white text-white hover:bg-white/20 backdrop-blur-sm text-xs md:text-sm"
+            >
+              <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+              Actualiser
+            </Button>
+            <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  onClick={handleCreateAppointment}
+                  className="bg-white text-purple-600 hover:bg-purple-50 shadow-lg hover:shadow-xl transition-all text-xs md:text-sm"
+                  size="sm"
+                >
+                  <Plus className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                  Nouveau RDV
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Créer nouveau rendez-vous</DialogTitle>
@@ -214,129 +229,175 @@ export default function AppointmentsPage() {
               />
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <div className="flex items-center space-x-2">
-          <User className="h-4 w-4" />
-          <Select value={selectedPractitioner} onValueChange={setSelectedPractitioner}>
-            <SelectTrigger className="w-[250px]">
-              <SelectValue placeholder="Tous les praticiens" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les praticiens</SelectItem>
-              {practitioners.map((practitioner) => (
-                <SelectItem key={practitioner.id} value={practitioner.id}>
-                  {practitioner.firstName} {practitioner.lastName}
-                  {practitioner.speciality && (
-                    <span className="text-muted-foreground ml-2">
-                      - {practitioner.speciality}
-                    </span>
-                  )}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <Card className="border-t-4 border-t-purple-500 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50">
+          <CardTitle className="text-lg md:text-xl flex items-center gap-2">
+            <Filter className="h-5 w-5 text-purple-600" />
+            Filtres
+          </CardTitle>
+          <CardDescription className="text-xs md:text-sm">
+            Filtrer les rendez-vous par praticien, statut et date
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            <div className="space-y-2">
+              <label className="text-xs md:text-sm font-medium flex items-center gap-2">
+                <User className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-600" />
+                Praticien
+              </label>
+              <Select value={selectedPractitioner} onValueChange={setSelectedPractitioner}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Tous les praticiens" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les praticiens</SelectItem>
+                  {practitioners.map((practitioner) => (
+                    <SelectItem key={practitioner.id} value={practitioner.id}>
+                      {practitioner.firstName} {practitioner.lastName}
+                      {practitioner.speciality && (
+                        <span className="text-muted-foreground ml-2">
+                          - {practitioner.speciality}
+                        </span>
+                      )}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-        <div className="flex items-center space-x-2">
-          <Filter className="h-4 w-4" />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Tous les statuts" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les statuts</SelectItem>
-              <SelectItem value="SCHEDULED">Planifiés</SelectItem>
-              <SelectItem value="CONFIRMED">Confirmés</SelectItem>
-              <SelectItem value="IN_PROGRESS">En cours</SelectItem>
-              <SelectItem value="COMPLETED">Terminés</SelectItem>
-              <SelectItem value="CANCELLED">Annulés</SelectItem>
-              <SelectItem value="NO_SHOW">Absent</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+            <div className="space-y-2">
+              <label className="text-xs md:text-sm font-medium flex items-center gap-2">
+                <Filter className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-600" />
+                Statut
+              </label>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Tous les statuts" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
+                  <SelectItem value="SCHEDULED">Planifiés</SelectItem>
+                  <SelectItem value="CONFIRMED">Confirmés</SelectItem>
+                  <SelectItem value="IN_PROGRESS">En cours</SelectItem>
+                  <SelectItem value="COMPLETED">Terminés</SelectItem>
+                  <SelectItem value="CANCELLED">Annulés</SelectItem>
+                  <SelectItem value="NO_SHOW">Absent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-[240px] justify-start text-left font-normal"
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {format(date, "PPP", { locale: fr })}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={(date) => date && setDate(date)}
-              initialFocus
-              locale={fr}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
+            <div className="space-y-2">
+              <label className="text-xs md:text-sm font-medium flex items-center gap-2">
+                <CalendarIcon className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-600" />
+                Date
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {format(date, "PPP", { locale: fr })}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(date) => date && setDate(date)}
+                    initialFocus
+                    locale={fr}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Statistics */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4 text-blue-600" />
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-blue-500 hover:scale-105">
+          <CardContent className="p-3 md:p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Clock className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+                </div>
+              </div>
               <div>
-                <p className="text-2xl font-bold">{stats.total}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900">{stats.total}</p>
                 <p className="text-xs text-muted-foreground">Total</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <AlertCircle className="h-4 w-4 text-yellow-600" />
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-yellow-500 hover:scale-105">
+          <CardContent className="p-3 md:p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" />
+                </div>
+              </div>
               <div>
-                <p className="text-2xl font-bold">{stats.scheduled}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900">{stats.scheduled}</p>
                 <p className="text-xs text-muted-foreground">Planifiés</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-4 w-4 text-green-600" />
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-green-500 hover:scale-105">
+          <CardContent className="p-3 md:p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+                </div>
+              </div>
               <div>
-                <p className="text-2xl font-bold">{stats.completed}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900">{stats.completed}</p>
                 <p className="text-xs text-muted-foreground">Terminés</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <XCircle className="h-4 w-4 text-red-600" />
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-red-500 hover:scale-105">
+          <CardContent className="p-3 md:p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-red-100 rounded-lg">
+                  <XCircle className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
+                </div>
+              </div>
               <div>
-                <p className="text-2xl font-bold">{stats.cancelled}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900">{stats.cancelled}</p>
                 <p className="text-xs text-muted-foreground">Annulés</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <AlertCircle className="h-4 w-4 text-orange-600" />
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-orange-500 hover:scale-105 col-span-2 md:col-span-1">
+          <CardContent className="p-3 md:p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
+                </div>
+              </div>
               <div>
-                <p className="text-2xl font-bold">{stats.noShow}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900">{stats.noShow}</p>
                 <p className="text-xs text-muted-foreground">Absents</p>
               </div>
             </div>
@@ -345,42 +406,56 @@ export default function AppointmentsPage() {
       </div>
 
       {/* Content Tabs */}
-      <Tabs value={view} onValueChange={setView} className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="calendar">Vue Calendrier</TabsTrigger>
-          <TabsTrigger value="list">Vue Liste</TabsTrigger>
-        </TabsList>
+      <Card className="shadow-lg">
+        <CardContent className="p-4 md:p-6">
+          <Tabs value={view} onValueChange={setView} className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
+              <TabsTrigger value="calendar" className="text-xs md:text-sm">
+                <CalendarIcon className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                <span className="hidden sm:inline">Vue Calendrier</span>
+                <span className="sm:hidden">Calendrier</span>
+              </TabsTrigger>
+              <TabsTrigger value="list" className="text-xs md:text-sm">
+                <BarChart3 className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                <span className="hidden sm:inline">Vue Liste</span>
+                <span className="sm:hidden">Liste</span>
+              </TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="calendar" className="space-y-4">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <RefreshCw className="h-8 w-8 animate-spin" />
-            </div>
-          ) : (
-            <AppointmentCalendarView
-              appointments={appointments}
-              date={date}
-              setDate={setDate}
-              isLoading={isLoading}
-              onAppointmentEdit={handleEditAppointment}
-            />
-          )}
-        </TabsContent>
+            <TabsContent value="calendar" className="space-y-4 mt-4">
+              {isLoading ? (
+                <div className="flex flex-col items-center gap-4 py-12">
+                  <RefreshCw className="h-10 w-10 text-purple-600 animate-spin" />
+                  <p className="text-gray-500 font-medium">Chargement du calendrier...</p>
+                </div>
+              ) : (
+                <AppointmentCalendarView
+                  appointments={appointments}
+                  date={date}
+                  setDate={setDate}
+                  isLoading={isLoading}
+                  onAppointmentEdit={handleEditAppointment}
+                />
+              )}
+            </TabsContent>
 
-        <TabsContent value="list" className="space-y-4">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <RefreshCw className="h-8 w-8 animate-spin" />
-            </div>
-          ) : (
-            <AppointmentList
-              appointments={appointments}
-              isLoading={isLoading}
-              onAppointmentEdit={handleEditAppointment}
-            />
-          )}
-        </TabsContent>
-      </Tabs>
+            <TabsContent value="list" className="space-y-4 mt-4">
+              {isLoading ? (
+                <div className="flex flex-col items-center gap-4 py-12">
+                  <RefreshCw className="h-10 w-10 text-purple-600 animate-spin" />
+                  <p className="text-gray-500 font-medium">Chargement de la liste...</p>
+                </div>
+              ) : (
+                <AppointmentList
+                  appointments={appointments}
+                  isLoading={isLoading}
+                  onAppointmentEdit={handleEditAppointment}
+                />
+              )}
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
 
       {/* Edit Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>

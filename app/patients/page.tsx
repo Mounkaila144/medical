@@ -81,6 +81,9 @@ import {
   FileText,
   Clock,
   DollarSign,
+  User,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Patient, Gender, BloodType, PatientForm } from '@/types';
@@ -92,6 +95,7 @@ import { ClinicService } from '@/services/clinic-service';
 import { AppointmentService } from '@/services/appointment.service';
 import { practitionersService } from '@/services/practitioners-service';
 import { encountersService } from '@/services/encounters-service';
+import { PatientCard } from '@/components/patients/patient-card';
 
 // Form validation schema - based on backend requirements
 const patientFormSchema = z.object({
@@ -844,33 +848,54 @@ export default function PatientsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6 w-full overflow-x-hidden pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Patients</h1>
-          <p className="text-gray-600 mt-1">
-            Gérez vos patients et leurs informations médicales
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleExportPatients} disabled={!isAuthenticated}>
-            <Download className="h-4 w-4 mr-2" />
-            Exporter
-          </Button>
-          <Button onClick={() => loadPatients(currentPage)} variant="outline" size="sm" disabled={!isAuthenticated}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualiser
-          </Button>
-          
-      {/* Formulaire d'ajout de patient */}
-          <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-            <DialogTrigger asChild>
-              <Button disabled={!isAuthenticated}>
-              <Plus className="h-4 w-4 mr-2" />
-              Nouveau patient
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-4 md:p-8 text-white shadow-xl">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold flex items-center gap-3">
+              <div className="p-2 bg-white/20 backdrop-blur-sm rounded-xl">
+                <Users className="h-6 w-6 md:h-8 md:w-8" />
+              </div>
+              Patients
+            </h1>
+            <p className="text-indigo-100 text-sm md:text-base">
+              Gérez vos patients et leurs informations médicales
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              onClick={handleExportPatients}
+              disabled={!isAuthenticated}
+              className="bg-white/10 border-white text-white hover:bg-white/20 backdrop-blur-sm text-xs md:text-sm"
+              size="sm"
+            >
+              <Download className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+              Exporter
             </Button>
-            </DialogTrigger>
+            <Button
+              onClick={() => loadPatients(currentPage)}
+              variant="outline"
+              size="sm"
+              disabled={!isAuthenticated}
+              className="bg-white/10 border-white text-white hover:bg-white/20 backdrop-blur-sm text-xs md:text-sm"
+            >
+              <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+              Actualiser
+            </Button>
+
+            <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  disabled={!isAuthenticated}
+                  className="bg-white text-indigo-600 hover:bg-indigo-50 shadow-lg hover:shadow-xl transition-all text-xs md:text-sm"
+                  size="sm"
+                >
+                  <Plus className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                  Nouveau patient
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Ajouter un nouveau patient</DialogTitle>
@@ -1140,47 +1165,54 @@ export default function PatientsPage() {
               </Form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-blue-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Total Patients</CardTitle>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Users className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalPatients}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{totalPatients}</div>
+            <p className="text-xs text-muted-foreground mt-1">
               {totalPatients > 0 ? `${filteredPatients.length} affiché(s)` : 'Aucun patient'}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-purple-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Hommes / Femmes</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Hommes / Femmes</CardTitle>
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <Users className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">
               {filteredPatients.filter(p => p.gender === Gender.M).length} / {filteredPatients.filter(p => p.gender === Gender.F).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Répartition par genre
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-green-500 sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pages</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Pages</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <FileText className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{currentPage} / {totalPages}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{currentPage} / {totalPages}</div>
+            <p className="text-xs text-muted-foreground mt-1">
               Page actuelle
             </p>
           </CardContent>
@@ -1188,17 +1220,20 @@ export default function PatientsPage() {
       </div>
 
       {/* Filters and Search */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Liste des Patients</CardTitle>
-          <CardDescription>
+      <Card className="border-t-4 border-t-indigo-500 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50">
+          <CardTitle className="text-lg md:text-xl flex items-center gap-2">
+            <Search className="h-5 w-5 text-indigo-600" />
+            Liste des Patients
+          </CardTitle>
+          <CardDescription className="text-xs md:text-sm">
             Recherchez et filtrez vos patients
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="space-y-4">
             {/* Première ligne - Recherche et sélection clinique */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               {/* Clinic selector for SUPERADMIN */}
               {isSuperAdmin && (
                 <Select value={selectedClinicId || ''} onValueChange={setSelectedClinicId}>
@@ -1225,8 +1260,8 @@ export default function PatientsPage() {
                 />
               </div>
               
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => {
                   setSearchTerm('');
                   setGenderFilter('all');
@@ -1234,14 +1269,17 @@ export default function PatientsPage() {
                   setSortBy('lastName');
                   setSortOrder('asc');
                 }}
+                className="hover:bg-indigo-50 hover:border-indigo-300 text-xs md:text-sm"
+                size="sm"
               >
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Réinitialiser
+                <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                <span className="hidden sm:inline">Réinitialiser</span>
+                <span className="sm:hidden">Reset</span>
               </Button>
             </div>
 
             {/* Deuxième ligne - Filtres et tri */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 md:gap-4">
               <Select value={genderFilter} onValueChange={setGenderFilter}>
                 <SelectTrigger className="w-full sm:w-[150px]">
                   <Filter className="h-4 w-4 mr-2" />
@@ -1296,27 +1334,87 @@ export default function PatientsPage() {
 
           {/* Error message */}
           {error && (
-            <div className="flex items-center gap-2 p-4 border border-red-200 bg-red-50 rounded-md text-red-700">
-              <AlertCircle className="h-4 w-4" />
-              <span>{error}</span>
-              <Button variant="outline" size="sm" onClick={() => loadPatients(currentPage)}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 border-2 border-red-200 bg-red-50 rounded-xl text-red-700 shadow-sm">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                <span className="text-sm md:text-base font-medium">{error}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => loadPatients(currentPage)}
+                className="border-red-300 text-red-700 hover:bg-red-100 w-full sm:w-auto text-xs md:text-sm"
+              >
+                <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                 Réessayer
               </Button>
             </div>
           )}
 
-          {/* Patients Table */}
-          <div className="rounded-md border">
+          {/* Mobile Card View - Hidden on Desktop */}
+          <div className="block lg:hidden space-y-3">
+            {isLoading ? (
+              <div className="flex flex-col items-center gap-4 py-12">
+                <Loader2 className="h-10 w-10 text-indigo-600 animate-spin" />
+                <p className="text-gray-500 font-medium">Chargement des patients...</p>
+              </div>
+            ) : filteredPatients.length === 0 ? (
+              <div className="flex flex-col items-center gap-4 py-12 bg-gray-50 rounded-xl">
+                <Users className="h-12 w-12 text-gray-400" />
+                <p className="text-gray-500 font-medium">Aucun patient trouvé</p>
+                {searchTerm && (
+                  <p className="text-sm text-gray-400">
+                    Essayez de modifier vos critères de recherche
+                  </p>
+                )}
+              </div>
+            ) : (
+              filteredPatients.map((patient) => (
+                <PatientCard
+                  key={patient.id}
+                  patient={patient}
+                  onViewDetails={(p) => {
+                    setSelectedPatient(p);
+                    setShowPatientDetailModal(true);
+                  }}
+                  onEdit={handleOpenEditModal}
+                  onDelete={handleDeletePatient}
+                  onScheduleAppointment={(p) => {
+                    setSelectedPatient(p);
+                    setShowAppointmentModal(true);
+                  }}
+                  onNewConsultation={(p) => {
+                    setSelectedPatient(p);
+                    setShowConsultationModal(true);
+                  }}
+                  onViewHistory={(p) => {
+                    setSelectedPatient(p);
+                    setShowHistoryModal(true);
+                  }}
+                  onCreateInvoice={(p) => {
+                    setSelectedPatient(p);
+                    setShowInvoiceModal(true);
+                  }}
+                  calculateAge={calculateAge}
+                  getGenderLabel={getGenderLabel}
+                  formatDate={formatDate}
+                />
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View - Hidden on Mobile */}
+          <div className="hidden lg:block rounded-md border shadow-sm overflow-hidden">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-gray-50">
                 <TableRow>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>MRN</TableHead>
-                  <TableHead>Âge</TableHead>
-                  <TableHead>Genre</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Dernière visite</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="font-semibold">Patient</TableHead>
+                  <TableHead className="font-semibold">MRN</TableHead>
+                  <TableHead className="font-semibold">Âge</TableHead>
+                  <TableHead className="font-semibold">Genre</TableHead>
+                  <TableHead className="font-semibold">Contact</TableHead>
+                  <TableHead className="font-semibold">Dernière visite</TableHead>
+                  <TableHead className="text-right font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -1345,31 +1443,59 @@ export default function PatientsPage() {
                   </TableRow>
                 ) : (
                   filteredPatients.map((patient) => (
-                    <TableRow key={patient.id}>
+                    <TableRow key={patient.id} className="hover:bg-indigo-50/50 transition-colors">
                       <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            {patient.firstName} {patient.lastName}
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-sm">
+                            <User className="h-4 w-4 text-white" />
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {patient.email || 'Pas d\'email'}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{patient.mrn}</Badge>
-                      </TableCell>
-                      <TableCell>{calculateAge(patient.dob)} ans</TableCell>
-                      <TableCell>{getGenderLabel(patient.gender)}</TableCell>
-                      <TableCell>
-                        <div className="text-sm">
-                          <div>{patient.phone}</div>
-                          <div className="text-gray-500">
-                            {patient.address.city}
+                          <div>
+                            <div className="font-semibold text-gray-900">
+                              {patient.firstName} {patient.lastName}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {patient.email || 'Pas d\'email'}
+                            </div>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>{formatDate(patient.updatedAt)}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {patient.mrn}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary" className="text-xs">
+                          {calculateAge(patient.dob)} ans
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="text-xs bg-purple-100 text-purple-700 hover:bg-purple-100">
+                          {getGenderLabel(patient.gender)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm space-y-1">
+                          {patient.phone && (
+                            <div className="flex items-center gap-1.5">
+                              <Phone className="h-3.5 w-3.5 text-green-600" />
+                              <span>{patient.phone}</span>
+                            </div>
+                          )}
+                          {patient.address?.city && (
+                            <div className="flex items-center gap-1.5 text-gray-500">
+                              <MapPin className="h-3.5 w-3.5" />
+                              <span>{patient.address.city}</span>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1.5 text-sm">
+                          <Calendar className="h-3.5 w-3.5 text-gray-400" />
+                          <span>{formatDate(patient.updatedAt)}</span>
+                        </div>
+                      </TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -1500,27 +1626,31 @@ export default function PatientsPage() {
 
           {/* Pagination */}
           {!isLoading && totalPatients > 0 && (
-            <div className="flex items-center justify-between mt-4">
-              <p className="text-sm text-gray-500">
-                Affichage de {(currentPage - 1) * 10 + 1} à {Math.min(currentPage * 10, totalPatients)} sur {totalPatients} patient(s)
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-4 bg-gray-50 rounded-lg">
+              <p className="text-xs md:text-sm text-gray-600 text-center sm:text-left">
+                Affichage de <span className="font-semibold text-gray-900">{(currentPage - 1) * 10 + 1}</span> à{' '}
+                <span className="font-semibold text-gray-900">{Math.min(currentPage * 10, totalPatients)}</span> sur{' '}
+                <span className="font-semibold text-indigo-600">{totalPatients}</span> patient(s)
               </p>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
                   disabled={currentPage <= 1}
                   onClick={() => loadPatients(currentPage - 1)}
+                  className="hover:bg-indigo-50 hover:border-indigo-300 disabled:opacity-50 text-xs md:text-sm"
                 >
                   Précédent
                 </Button>
-                <span className="flex items-center px-2 text-sm text-gray-500">
-                  Page {currentPage} sur {totalPages}
+                <span className="flex items-center px-3 py-1.5 text-xs md:text-sm font-medium bg-white border rounded-md text-gray-700">
+                  Page {currentPage} / {totalPages}
                 </span>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   disabled={currentPage >= totalPages}
                   onClick={() => loadPatients(currentPage + 1)}
+                  className="hover:bg-indigo-50 hover:border-indigo-300 disabled:opacity-50 text-xs md:text-sm"
                 >
                   Suivant
                 </Button>
