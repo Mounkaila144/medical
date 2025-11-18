@@ -19,7 +19,7 @@ export default function Home() {
               <Stethoscope className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </div>
             <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">
-              MedClinic test1
+              MedClinic test2
             </span>
           </Link>
           
