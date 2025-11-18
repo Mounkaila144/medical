@@ -2435,7 +2435,7 @@ export default function PatientsPage() {
                 <Input id="invoice-quantity" type="number" defaultValue="1" />
               </div>
               <div>
-                <Label htmlFor="invoice-unit-price">Prix unitaire (€)</Label>
+                <Label htmlFor="invoice-unit-price">Prix unitaire (CFA)</Label>
                 <Input id="invoice-unit-price" type="number" placeholder="50.00" />
               </div>
             </div>
@@ -2450,7 +2450,7 @@ export default function PatientsPage() {
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="flex justify-between items-center">
                 <span className="font-medium">Total estimé:</span>
-                <span className="text-lg font-bold">€ 50.00</span>
+                <span className="text-lg font-bold">CFA 50.00</span>
               </div>
             </div>
           </div>

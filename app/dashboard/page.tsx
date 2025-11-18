@@ -207,7 +207,7 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.monthlyRevenue.toLocaleString()} €</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.monthlyRevenue.toLocaleString()} CFA</div>
             <p className="text-xs text-muted-foreground mt-1">
               <span className="text-green-600 font-semibold">+8%</span> vs mois dernier
             </p>
