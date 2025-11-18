@@ -358,21 +358,28 @@ export default function EncountersPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Consultations</h1>
-          <p className="text-gray-600 mt-1">
-            Gérez les consultations et dossiers médicaux
-          </p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 shadow-lg">
+              <FileText className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Consultations</h1>
+              <p className="text-gray-600 mt-0.5">
+                Gérez les consultations et dossiers médicaux
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={loadEncounters} variant="outline" size="sm" disabled={!isAuthenticated}>
             <RefreshCw className="h-4 w-4 mr-2" />
             Actualiser
           </Button>
           <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
             <DialogTrigger asChild>
-              <Button disabled={!isAuthenticated}>
+              <Button disabled={!isAuthenticated} size="sm" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
                 <Plus className="h-4 w-4 mr-2" />
                 Nouvelle consultation
               </Button>
@@ -538,62 +545,70 @@ export default function EncountersPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Consultations</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-900">Total Consultations</CardTitle>
+            <div className="bg-blue-500 rounded-full p-2">
+              <FileText className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{encounters.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-blue-900">{encounters.length}</div>
+            <p className="text-xs text-blue-700 mt-1">
               {filteredEncounters.length} affiché(s)
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Consultations verrouillées</CardTitle>
-            <Lock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-orange-900">Verrouillées</CardTitle>
+            <div className="bg-orange-500 rounded-full p-2">
+              <Lock className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-orange-900">
               {encounters.filter(e => e.locked).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-orange-700 mt-1">
               Dossiers finalisés
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Aujourd&apos;hui</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-green-900">Aujourd&apos;hui</CardTitle>
+            <div className="bg-green-500 rounded-full p-2">
+              <Calendar className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-green-900">
               {encounters.filter(e => 
                 new Date(e.startAt).toDateString() === new Date().toDateString()
               ).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-green-700 mt-1">
               Consultations du jour
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">En cours</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-purple-900">En cours</CardTitle>
+            <div className="bg-purple-500 rounded-full p-2">
+              <Clock className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-purple-900">
               {encounters.filter(e => !e.endAt && !e.locked).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-purple-700 mt-1">
               Consultations ouvertes
             </p>
           </CardContent>
@@ -601,163 +616,320 @@ export default function EncountersPage() {
       </div>
 
       {/* Filters and Search */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Liste des Consultations</CardTitle>
+      <Card className="shadow-sm">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 border-b">
+          <div className="flex items-center gap-2">
+            <Search className="h-5 w-5 text-blue-600" />
+            <CardTitle className="text-xl">Liste des Consultations</CardTitle>
+          </div>
           <CardDescription>
             Recherchez et filtrez les consultations
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 <Input
                   placeholder="Rechercher par patient, motif ou diagnostic..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
               
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full sm:w-[200px]">
-                  <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Statut" />
+                <SelectTrigger className="w-full sm:w-[220px] h-11 border-gray-300">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4" />
+                    <SelectValue placeholder="Statut" />
+                  </div>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Toutes les consultations</SelectItem>
-                  <SelectItem value="locked">Verrouillées</SelectItem>
-                  <SelectItem value="unlocked">Non verrouillées</SelectItem>
+                  <SelectItem value="all">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-gray-500" />
+                      <span>Toutes les consultations</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="locked">
+                    <div className="flex items-center gap-2">
+                      <Lock className="h-4 w-4 text-orange-500" />
+                      <span>Verrouillées</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="unlocked">
+                    <div className="flex items-center gap-2">
+                      <Edit className="h-4 w-4 text-blue-500" />
+                      <span>Non verrouillées</span>
+                    </div>
+                  </SelectItem>
                 </SelectContent>
               </Select>
               
               <Button 
                 variant="outline" 
+                className="h-11 px-4"
                 onClick={() => {
                   setSearchTerm('');
                   setStatusFilter('all');
                 }}
               >
-                <RefreshCw className="h-4 w-4 mr-2" />
+                <XCircle className="h-4 w-4 mr-2" />
                 Réinitialiser
               </Button>
             </div>
+
+            {/* Filter info badge */}
+            {(searchTerm || statusFilter !== 'all') && (
+              <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
+                <Filter className="h-4 w-4 text-blue-600" />
+                <span>
+                  {filteredEncounters.length} résultat(s) trouvé(s)
+                  {searchTerm && ` pour "${searchTerm}"`}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="flex items-center gap-2 p-4 border border-red-200 bg-red-50 rounded-md text-red-700">
-              <AlertCircle className="h-4 w-4" />
-              <span>{error}</span>
-              <Button variant="outline" size="sm" onClick={loadEncounters}>
+            <div className="flex items-center gap-3 p-4 mt-4 border border-red-200 bg-red-50 rounded-lg text-red-700">
+              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <span className="flex-1">{error}</span>
+              <Button variant="outline" size="sm" onClick={loadEncounters} className="flex-shrink-0">
                 Réessayer
               </Button>
             </div>
           )}
 
-          {/* Encounters Table */}
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Praticien</TableHead>
-                  <TableHead>Date/Heure</TableHead>
-                  <TableHead>Motif</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
-                        <p className="text-gray-500">Chargement des consultations...</p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : filteredEncounters.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <FileText className="h-8 w-8 text-gray-400" />
-                        <p className="text-gray-500">Aucune consultation trouvée</p>
-                        {searchTerm && (
-                          <p className="text-sm text-gray-400">
-                            Essayez de modifier vos critères de recherche
-                          </p>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredEncounters.map((encounter) => (
-                    <TableRow key={encounter.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            {encounter.patient?.firstName} {encounter.patient?.lastName}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            MRN: {encounter.patient?.mrn}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            Dr. {encounter.practitioner?.firstName} {encounter.practitioner?.lastName}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {encounter.practitioner?.specialty}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            {formatDateTime(encounter.startAt)}
-                          </div>
-                          {encounter.endAt && (
-                            <div className="text-sm text-gray-500">
-                              Fin: {formatDateTime(encounter.endAt)}
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
+              <p className="text-lg text-gray-600">Chargement des consultations...</p>
+            </div>
+          ) : filteredEncounters.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="bg-gray-100 rounded-full p-6 mb-4">
+                <FileText className="h-12 w-12 text-gray-400" />
+              </div>
+              <p className="text-xl font-medium text-gray-700 mb-2">Aucune consultation trouvée</p>
+              {searchTerm && (
+                <p className="text-gray-500">
+                  Essayez de modifier vos critères de recherche
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="font-semibold">Patient</TableHead>
+                      <TableHead className="font-semibold">Praticien</TableHead>
+                      <TableHead className="font-semibold">Date/Heure</TableHead>
+                      <TableHead className="font-semibold">Motif</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredEncounters.map((encounter) => (
+                      <TableRow key={encounter.id} className="hover:bg-gray-50 transition-colors">
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <div className="bg-blue-100 rounded-full p-2">
+                              <User className="h-4 w-4 text-blue-600" />
                             </div>
-                          )}
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                {encounter.patient?.firstName} {encounter.patient?.lastName}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                MRN: {encounter.patient?.mrn}
+                              </div>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <div className="bg-green-100 rounded-full p-2">
+                              <Stethoscope className="h-4 w-4 text-green-600" />
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                Dr. {encounter.practitioner?.firstName} {encounter.practitioner?.lastName}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {encounter.practitioner?.specialty}
+                              </div>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-gray-400" />
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                {formatDateTime(encounter.startAt)}
+                              </div>
+                              {encounter.endAt && (
+                                <div className="text-sm text-gray-500 flex items-center gap-1">
+                                  <Clock className="h-3 w-3" />
+                                  {formatDateTime(encounter.endAt)}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="max-w-[200px] truncate text-gray-700">
+                            {encounter.motive}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={encounter.locked ? "default" : "secondary"}
+                            className={encounter.locked ? "bg-orange-500 hover:bg-orange-600" : ""}
+                          >
+                            {encounter.locked ? (
+                              <>
+                                <Lock className="h-3 w-3 mr-1" />
+                                Verrouillée
+                              </>
+                            ) : (
+                              <>
+                                <Edit className="h-3 w-3 mr-1" />
+                                Modifiable
+                              </>
+                            )}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                              <DropdownMenuLabel>Actions de la consultation</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedEncounter(encounter);
+                                  setShowDetailModal(true);
+                                }}
+                              >
+                                <Eye className="mr-2 h-4 w-4" />
+                                Voir le détail complet
+                              </DropdownMenuItem>
+                              
+                              {!encounter.locked && (
+                                <DropdownMenuItem
+                                  onClick={() => handleOpenEditModal(encounter)}
+                                >
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Modifier la consultation
+                                </DropdownMenuItem>
+                              )}
+                              
+                              <DropdownMenuSeparator />
+                              
+                              {!encounter.locked && (
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                      <Lock className="mr-2 h-4 w-4" />
+                                      Verrouiller la consultation
+                                    </DropdownMenuItem>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Verrouiller la consultation</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Cette action verrouillera définitivement la consultation. 
+                                        Une fois verrouillée, elle ne pourra plus être modifiée. 
+                                        Êtes-vous sûr de vouloir continuer ?
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => handleLockEncounter(encounter.id)}
+                                        className="bg-orange-600 hover:bg-orange-700"
+                                      >
+                                        Verrouiller
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile/Tablet Card View */}
+              <div className="lg:hidden space-y-4">
+                {filteredEncounters.map((encounter) => (
+                  <Card 
+                    key={encounter.id} 
+                    className="hover:shadow-lg transition-all duration-200 border-l-4"
+                    style={{
+                      borderLeftColor: encounter.locked ? '#f97316' : '#3b82f6'
+                    }}
+                  >
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="bg-blue-100 rounded-full p-2">
+                              <User className="h-4 w-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-lg">
+                                {encounter.patient?.firstName} {encounter.patient?.lastName}
+                              </CardTitle>
+                              <CardDescription className="text-xs">
+                                MRN: {encounter.patient?.mrn}
+                              </CardDescription>
+                            </div>
+                          </div>
+                          <Badge 
+                            variant={encounter.locked ? "default" : "secondary"}
+                            className={`${encounter.locked ? "bg-orange-500 hover:bg-orange-600" : ""} mt-2`}
+                          >
+                            {encounter.locked ? (
+                              <>
+                                <Lock className="h-3 w-3 mr-1" />
+                                Verrouillée
+                              </>
+                            ) : (
+                              <>
+                                <Edit className="h-3 w-3 mr-1" />
+                                Modifiable
+                              </>
+                            )}
+                          </Badge>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="max-w-[200px] truncate">
-                          {encounter.motive}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={encounter.locked ? "default" : "secondary"}>
-                          {encounter.locked ? (
-                            <>
-                              <Lock className="h-3 w-3 mr-1" />
-                              Verrouillée
-                            </>
-                          ) : (
-                            <>
-                              <Edit className="h-3 w-3 mr-1" />
-                              Modifiable
-                            </>
-                          )}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-56">
-                            <DropdownMenuLabel>Actions de la consultation</DropdownMenuLabel>
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             
                             <DropdownMenuItem
@@ -767,7 +939,7 @@ export default function EncountersPage() {
                               }}
                             >
                               <Eye className="mr-2 h-4 w-4" />
-                              Voir le détail complet
+                              Voir le détail
                             </DropdownMenuItem>
                             
                             {!encounter.locked && (
@@ -775,50 +947,94 @@ export default function EncountersPage() {
                                 onClick={() => handleOpenEditModal(encounter)}
                               >
                                 <Edit className="mr-2 h-4 w-4" />
-                                Modifier la consultation
+                                Modifier
                               </DropdownMenuItem>
                             )}
                             
-                            <DropdownMenuSeparator />
-                            
                             {!encounter.locked && (
-                              <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                    <Lock className="mr-2 h-4 w-4" />
-                                    Verrouiller la consultation
-                                  </DropdownMenuItem>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Verrouiller la consultation</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      Cette action verrouillera définitivement la consultation. 
-                                      Une fois verrouillée, elle ne pourra plus être modifiée. 
-                                      Êtes-vous sûr de vouloir continuer ?
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
-                                  <AlertDialogFooter>
-                                    <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                    <AlertDialogAction
-                                      onClick={() => handleLockEncounter(encounter.id)}
-                                      className="bg-orange-600 hover:bg-orange-700"
-                                    >
+                              <>
+                                <DropdownMenuSeparator />
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                      <Lock className="mr-2 h-4 w-4" />
                                       Verrouiller
-                                    </AlertDialogAction>
-                                  </AlertDialogFooter>
-                                </AlertDialogContent>
-                              </AlertDialog>
+                                    </DropdownMenuItem>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Verrouiller la consultation</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Cette action verrouillera définitivement la consultation. 
+                                        Une fois verrouillée, elle ne pourra plus être modifiée. 
+                                        Êtes-vous sûr de vouloir continuer ?
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => handleLockEncounter(encounter.id)}
+                                        className="bg-orange-600 hover:bg-orange-700"
+                                      >
+                                        Verrouiller
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </>
                             )}
                           </DropdownMenuContent>
                         </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-3 pt-0">
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className="bg-green-100 rounded-full p-1.5">
+                          <Stethoscope className="h-3.5 w-3.5 text-green-600" />
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Dr. {encounter.practitioner?.firstName} {encounter.practitioner?.lastName}
+                          </span>
+                          <span className="text-gray-500 text-xs block">
+                            {encounter.practitioner?.specialty}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Calendar className="h-4 w-4 text-gray-400" />
+                        <span>{formatDateTime(encounter.startAt)}</span>
+                      </div>
+
+                      {encounter.endAt && (
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Clock className="h-4 w-4 text-gray-400" />
+                          <span>Fin: {formatDateTime(encounter.endAt)}</span>
+                        </div>
+                      )}
+
+                      <div className="pt-2 border-t">
+                        <p className="text-sm font-medium text-gray-700 mb-1">Motif:</p>
+                        <p className="text-sm text-gray-600 line-clamp-2">
+                          {encounter.motive}
+                        </p>
+                      </div>
+
+                      {encounter.diagnosis && (
+                        <div className="pt-2 border-t">
+                          <p className="text-sm font-medium text-gray-700 mb-1">Diagnostic:</p>
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {encounter.diagnosis}
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
 

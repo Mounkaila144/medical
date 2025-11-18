@@ -81,6 +81,8 @@ import {
   Users,
   Filter,
   X,
+  Mail,
+  Phone,
 } from 'lucide-react';
 import { 
   practitionersService, 
@@ -92,6 +94,7 @@ import {
   TimeSlot 
 } from '@/services/practitioners-service';
 import { useAuth } from '@/hooks/useAuth';
+import { PractitionerCard } from '@/components/practitioners/practitioner-card';
 
 // Specialty labels in French
 const specialityLabels: Record<Speciality, string> = {
@@ -401,27 +404,43 @@ export default function PractitionersPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6 w-full overflow-x-hidden pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Praticiens</h1>
-          <p className="text-gray-600 mt-1">
-            Gérez les praticiens et leurs horaires de travail
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button onClick={loadPractitioners} variant="outline" size="sm" disabled={!isAuthenticated}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualiser
-          </Button>
-          <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-            <DialogTrigger asChild>
-              <Button disabled={!isAuthenticated}>
-                <Plus className="h-4 w-4 mr-2" />
-                Nouveau praticien
-              </Button>
-            </DialogTrigger>
+      <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-4 md:p-8 text-white shadow-xl">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold flex items-center gap-3">
+              <div className="p-2 bg-white/20 backdrop-blur-sm rounded-xl">
+                <Stethoscope className="h-6 w-6 md:h-8 md:w-8" />
+              </div>
+              Praticiens
+            </h1>
+            <p className="text-green-100 text-sm md:text-base">
+              Gérez les praticiens et leurs horaires de travail
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={loadPractitioners}
+              variant="outline"
+              size="sm"
+              disabled={!isAuthenticated}
+              className="bg-white/10 border-white text-white hover:bg-white/20 backdrop-blur-sm text-xs md:text-sm"
+            >
+              <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+              Actualiser
+            </Button>
+            <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  disabled={!isAuthenticated}
+                  className="bg-white text-green-600 hover:bg-green-50 shadow-lg hover:shadow-xl transition-all text-xs md:text-sm"
+                  size="sm"
+                >
+                  <Plus className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                  Nouveau praticien
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Ajouter un nouveau praticien</DialogTitle>
@@ -691,52 +710,59 @@ export default function PractitionersPage() {
               </Form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-green-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Praticiens</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Total Praticiens</CardTitle>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <UserCheck className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{practitioners.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{practitioners.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">
               {filteredPractitioners.length} affiché(s)
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-teal-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Spécialités</CardTitle>
-            <Stethoscope className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Spécialités</CardTitle>
+            <div className="p-2 bg-teal-100 rounded-lg">
+              <Stethoscope className="h-4 w-4 md:h-5 md:w-5 text-teal-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">
               {new Set(practitioners.map(p => p.specialty)).size}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Spécialités différentes
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-cyan-500 sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Moyenne créneaux</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Moyenne créneaux</CardTitle>
+            <div className="p-2 bg-cyan-100 rounded-lg">
+              <Clock className="h-4 w-4 md:h-5 md:w-5 text-cyan-600" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {practitioners.length > 0 
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">
+              {practitioners.length > 0
                 ? Math.round(practitioners.reduce((acc, p) => acc + (p.slotDuration || 30), 0) / practitioners.length)
                 : 0
               } min
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Durée moyenne des créneaux
             </p>
           </CardContent>
@@ -744,16 +770,19 @@ export default function PractitionersPage() {
       </div>
 
       {/* Filters and Search */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Liste des Praticiens</CardTitle>
-          <CardDescription>
+      <Card className="border-t-4 border-t-green-500 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-green-50 to-teal-50">
+          <CardTitle className="text-lg md:text-xl flex items-center gap-2">
+            <Search className="h-5 w-5 text-green-600" />
+            Liste des Praticiens
+          </CardTitle>
+          <CardDescription className="text-xs md:text-sm">
             Recherchez et filtrez vos praticiens
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 <Input
@@ -779,41 +808,87 @@ export default function PractitionersPage() {
                 </SelectContent>
               </Select>
               
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => {
                   setSearchTerm('');
                   setSpecialityFilter('all');
                 }}
+                className="hover:bg-green-50 hover:border-green-300 text-xs md:text-sm"
+                size="sm"
               >
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Réinitialiser
+                <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+                <span className="hidden sm:inline">Réinitialiser</span>
+                <span className="sm:hidden">Reset</span>
               </Button>
             </div>
           </div>
 
           {/* Error message */}
           {error && (
-            <div className="flex items-center gap-2 p-4 border border-red-200 bg-red-50 rounded-md text-red-700">
-              <AlertCircle className="h-4 w-4" />
-              <span>{error}</span>
-              <Button variant="outline" size="sm" onClick={loadPractitioners}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 border-2 border-red-200 bg-red-50 rounded-xl text-red-700 shadow-sm">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                <span className="text-sm md:text-base font-medium">{error}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={loadPractitioners}
+                className="border-red-300 text-red-700 hover:bg-red-100 w-full sm:w-auto text-xs md:text-sm"
+              >
+                <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                 Réessayer
               </Button>
             </div>
           )}
 
-          {/* Practitioners Table */}
-          <div className="rounded-md border">
+          {/* Mobile Card View - Hidden on Desktop */}
+          <div className="block lg:hidden space-y-3">
+            {isLoading ? (
+              <div className="flex flex-col items-center gap-4 py-12">
+                <Loader2 className="h-10 w-10 text-green-600 animate-spin" />
+                <p className="text-gray-500 font-medium">Chargement des praticiens...</p>
+              </div>
+            ) : filteredPractitioners.length === 0 ? (
+              <div className="flex flex-col items-center gap-4 py-12 bg-gray-50 rounded-xl">
+                <Stethoscope className="h-12 w-12 text-gray-400" />
+                <p className="text-gray-500 font-medium">Aucun praticien trouvé</p>
+                {searchTerm && (
+                  <p className="text-sm text-gray-400">
+                    Essayez de modifier vos critères de recherche
+                  </p>
+                )}
+              </div>
+            ) : (
+              filteredPractitioners.map((practitioner) => (
+                <PractitionerCard
+                  key={practitioner.id}
+                  practitioner={practitioner}
+                  onViewDetails={(p) => {
+                    setSelectedPractitioner(p);
+                    setShowDetailModal(true);
+                  }}
+                  onEdit={handleOpenEditModal}
+                  onDelete={handleDeletePractitioner}
+                  specialityLabels={specialityLabels}
+                  dayLabels={dayLabels}
+                />
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View - Hidden on Mobile */}
+          <div className="hidden lg:block rounded-md border shadow-sm overflow-hidden">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-gray-50">
                 <TableRow>
-                  <TableHead>Praticien</TableHead>
-                  <TableHead>Spécialité</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Créneaux</TableHead>
-                  <TableHead>Couleur</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="font-semibold">Praticien</TableHead>
+                  <TableHead className="font-semibold">Spécialité</TableHead>
+                  <TableHead className="font-semibold">Contact</TableHead>
+                  <TableHead className="font-semibold">Créneaux</TableHead>
+                  <TableHead className="font-semibold">Couleur</TableHead>
+                  <TableHead className="text-right font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -842,19 +917,24 @@ export default function PractitionersPage() {
                   </TableRow>
                 ) : (
                   filteredPractitioners.map((practitioner) => (
-                    <TableRow key={practitioner.id}>
+                    <TableRow key={practitioner.id} className="hover:bg-green-50/50 transition-colors">
                       <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            Dr. {practitioner.firstName} {practitioner.lastName}
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg shadow-sm">
+                            <Stethoscope className="h-4 w-4 text-white" />
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {practitioner.email || 'Pas d\'email'}
+                          <div>
+                            <div className="font-semibold text-gray-900">
+                              Dr. {practitioner.firstName} {practitioner.lastName}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {practitioner.email || 'Pas d\'email'}
+                            </div>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="secondary">
+                        <Badge className="text-xs bg-green-100 text-green-700 hover:bg-green-100">
                           {specialityLabels[practitioner.specialty as Speciality] || practitioner.specialty}
                         </Badge>
                       </TableCell>
@@ -864,15 +944,18 @@ export default function PractitionersPage() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="text-sm">
+                        <Badge variant="secondary" className="text-xs">
                           {practitioner.slotDuration || 30} min
-                        </div>
+                        </Badge>
                       </TableCell>
                       <TableCell>
-                        <div 
-                          className="w-6 h-6 rounded-full border"
-                          style={{ backgroundColor: practitioner.color }}
-                        />
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
+                            style={{ backgroundColor: practitioner.color }}
+                          />
+                          <span className="text-xs text-gray-500 font-mono">{practitioner.color}</span>
+                        </div>
                       </TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>

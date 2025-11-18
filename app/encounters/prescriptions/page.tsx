@@ -358,21 +358,28 @@ export default function PrescriptionsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Prescriptions</h1>
-          <p className="text-gray-600 mt-1">
-            Gérez les prescriptions médicales et ordonnances
-          </p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-3 shadow-lg">
+              <ClipboardList className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Prescriptions</h1>
+              <p className="text-gray-600 mt-0.5">
+                Gérez les prescriptions médicales et ordonnances
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={loadPrescriptions} variant="outline" size="sm" disabled={!isAuthenticated}>
             <RefreshCw className="h-4 w-4 mr-2" />
             Actualiser
           </Button>
           <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
             <DialogTrigger asChild>
-              <Button disabled={!isAuthenticated}>
+              <Button disabled={!isAuthenticated} size="sm" className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
                 <Plus className="h-4 w-4 mr-2" />
                 Nouvelle prescription
               </Button>
@@ -591,60 +598,68 @@ export default function PrescriptionsPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Prescriptions</CardTitle>
-            <ClipboardList className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-green-900">Total Prescriptions</CardTitle>
+            <div className="bg-green-500 rounded-full p-2">
+              <ClipboardList className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{prescriptions.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-green-900">{prescriptions.length}</div>
+            <p className="text-xs text-green-700 mt-1">
               {filteredPrescriptions.length} affiché(s)
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prescriptions actives</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-900">Prescriptions actives</CardTitle>
+            <div className="bg-blue-500 rounded-full p-2">
+              <FileText className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-blue-900">
               {prescriptions.filter(p => !isExpired(p.expiresAt)).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-blue-700 mt-1">
               Non expirées
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Prescriptions expirées</CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-orange-900">Prescriptions expirées</CardTitle>
+            <div className="bg-orange-500 rounded-full p-2">
+              <AlertCircle className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-orange-900">
               {prescriptions.filter(p => isExpired(p.expiresAt)).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-orange-700 mt-1">
               À renouveler
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avec QR Code</CardTitle>
-            <QrCode className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-purple-900">Avec QR Code</CardTitle>
+            <div className="bg-purple-500 rounded-full p-2">
+              <QrCode className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-purple-900">
               {prescriptions.filter(p => p.qr).length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-purple-700 mt-1">
               Validation électronique
             </p>
           </CardContent>
@@ -708,46 +723,42 @@ export default function PrescriptionsPage() {
             </div>
           )}
 
-          {/* Prescriptions Table */}
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Consultation</TableHead>
-                  <TableHead>Praticien</TableHead>
-                  <TableHead>Date prescription</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
-                        <p className="text-gray-500">Chargement des prescriptions...</p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : filteredPrescriptions.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <ClipboardList className="h-8 w-8 text-gray-400" />
-                        <p className="text-gray-500">Aucune prescription trouvée</p>
-                        {searchTerm && (
-                          <p className="text-sm text-gray-400">
-                            Essayez de modifier vos critères de recherche
-                          </p>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredPrescriptions.map((prescription) => (
-                    <TableRow key={prescription.id}>
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
+              <p className="text-lg text-gray-600">Chargement des prescriptions...</p>
+            </div>
+          ) : filteredPrescriptions.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="bg-gray-100 rounded-full p-6 mb-4">
+                <ClipboardList className="h-12 w-12 text-gray-400" />
+              </div>
+              <p className="text-xl font-medium text-gray-700 mb-2">Aucune prescription trouvée</p>
+              {searchTerm && (
+                <p className="text-gray-500">
+                  Essayez de modifier vos critères de recherche
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="font-semibold">Patient</TableHead>
+                      <TableHead className="font-semibold">Consultation</TableHead>
+                      <TableHead className="font-semibold">Praticien</TableHead>
+                      <TableHead className="font-semibold">Date prescription</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredPrescriptions.map((prescription) => (
+                      <TableRow key={prescription.id} className="hover:bg-gray-50 transition-colors">
                       <TableCell>
                         <div>
                           <div className="font-medium">
@@ -877,11 +888,178 @@ export default function PrescriptionsPage() {
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                  ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile/Tablet Card View */}
+              <div className="lg:hidden space-y-4">
+                {filteredPrescriptions.map((prescription) => (
+                  <Card 
+                    key={prescription.id} 
+                    className="hover:shadow-lg transition-all duration-200 border-l-4"
+                    style={{
+                      borderLeftColor: isExpired(prescription.expiresAt) ? '#f97316' : '#22c55e'
+                    }}
+                  >
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="bg-blue-100 rounded-full p-2">
+                              <User className="h-4 w-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-lg">
+                                {prescription.encounter?.patient?.firstName} {prescription.encounter?.patient?.lastName}
+                              </CardTitle>
+                              <CardDescription className="text-xs">
+                                MRN: {prescription.encounter?.patient?.mrn}
+                              </CardDescription>
+                            </div>
+                          </div>
+                          <Badge variant={isExpired(prescription.expiresAt) ? "destructive" : "default"} className="mt-2">
+                            {isExpired(prescription.expiresAt) ? 'Expirée' : 'Active'}
+                          </Badge>
+                          {prescription.qr && (
+                            <Badge variant="outline" className="text-xs ml-2 mt-2">
+                              <QrCode className="h-3 w-3 mr-1" />
+                              QR Code
+                            </Badge>
+                          )}
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-56">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setSelectedPrescription(prescription);
+                                setShowDetailModal(true);
+                              }}
+                            >
+                              <Eye className="mr-2 h-4 w-4" />
+                              Voir le détail
+                            </DropdownMenuItem>
+                            
+                            <DropdownMenuItem
+                              onClick={() => handleOpenEditModal(prescription)}
+                            >
+                              <Edit className="mr-2 h-4 w-4" />
+                              Modifier
+                            </DropdownMenuItem>
+                            
+                            {prescription.pdfPath && (
+                              <DropdownMenuItem
+                                onClick={async () => {
+                                  try {
+                                    await downloadFromApi(
+                                      `${process.env.NEXT_PUBLIC_API_URL}/prescriptions/${prescription.id}/download/pdf`,
+                                      `prescription-${prescription.id}.pdf`
+                                    );
+                                  } catch (error) {
+                                    toast.error('Erreur lors du téléchargement du PDF');
+                                  }
+                                }}
+                              >
+                                <Download className="mr-2 h-4 w-4" />
+                                Télécharger PDF
+                              </DropdownMenuItem>
+                            )}
+                            
+                            <DropdownMenuSeparator />
+                            
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <DropdownMenuItem
+                                  onSelect={(e) => e.preventDefault()}
+                                  className="text-red-600 focus:text-red-600"
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Supprimer
+                                </DropdownMenuItem>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Cette action ne peut pas être annulée. Cela supprimera définitivement
+                                    la prescription pour {prescription.encounter?.patient?.firstName} {prescription.encounter?.patient?.lastName}.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleDeletePrescription(prescription.id)}
+                                    className="bg-red-600 hover:bg-red-700"
+                                  >
+                                    Supprimer définitivement
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-3 pt-0">
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className="bg-green-100 rounded-full p-1.5">
+                          <Stethoscope className="h-3.5 w-3.5 text-green-600" />
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Dr. {prescription.practitioner?.firstName} {prescription.practitioner?.lastName}
+                          </span>
+                          <span className="text-gray-500 text-xs block">
+                            {prescription.practitioner?.specialty}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <FileText className="h-4 w-4 text-gray-400" />
+                        <span>{prescription.encounter?.motive}</span>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Calendar className="h-4 w-4 text-gray-400" />
+                        <span>{formatDateTime(prescription.encounter?.startAt || '')}</span>
+                      </div>
+
+                      {prescription.items && prescription.items.length > 0 && (
+                        <div className="pt-2 border-t">
+                          <p className="text-sm font-medium text-gray-700 mb-1">
+                            {prescription.items.length} médicament(s) prescrit(s)
+                          </p>
+                          <div className="text-sm text-gray-600">
+                            {prescription.items.slice(0, 2).map((item, index) => (
+                              <div key={index} className="flex items-center gap-1">
+                                <span className="font-medium">{item.medication}</span>
+                                <span className="text-xs">- {item.dosage}</span>
+                              </div>
+                            ))}
+                            {prescription.items.length > 2 && (
+                              <p className="text-xs text-gray-500 mt-1">
+                                +{prescription.items.length - 2} autre(s)
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
 

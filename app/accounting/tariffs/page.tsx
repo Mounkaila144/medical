@@ -38,8 +38,9 @@ import {
 import { Label } from '@/components/ui/label';
 import { BillingService, TariffSearchParams, TariffForm } from '@/services/billing.service';
 import { Tariff, TariffCategory } from '@/types';
-import { DollarSign, Plus, Search, Edit, Trash2, Check, X } from 'lucide-react';
+import { DollarSign, Plus, Search, Edit, Trash2, Check, X, Tag, Clock, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export default function TariffsPage() {
   const router = useRouter();
@@ -204,11 +205,14 @@ export default function TariffsPage() {
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Tarifs</h1>
-          <p className="text-muted-foreground">
+    <div className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Tarifs
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Gérez les tarifs des services et prestations
           </p>
         </div>
@@ -217,34 +221,41 @@ export default function TariffsPage() {
             resetForm();
             setShowDialog(true);
           }}
+          className="w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-primary/80"
         >
           <Plus className="mr-2 h-4 w-4" />
           Nouveau tarif
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Liste des tarifs</CardTitle>
-          <CardDescription>
-            {pagination.total} tarif(s) au total
-          </CardDescription>
+      {/* Filters and Content */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader className="pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <CardTitle className="text-lg sm:text-xl">Liste des tarifs</CardTitle>
+              <CardDescription className="text-xs sm:text-sm mt-1">
+                <span className="font-semibold text-primary">{pagination.total}</span> tarif(s) au total
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <div className="flex gap-4 mb-6">
+        <CardContent className="space-y-4">
+          {/* Filters Row */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Rechercher un tarif..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
+                  className="pl-10 h-11 border-2 focus:border-primary transition-colors"
                 />
               </div>
             </div>
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px] h-11">
                 <SelectValue placeholder="Catégorie" />
               </SelectTrigger>
               <SelectContent>
@@ -258,7 +269,7 @@ export default function TariffsPage() {
               </SelectContent>
             </Select>
             <Select value={activeFilter} onValueChange={setActiveFilter}>
-              <SelectTrigger className="w-[150px]">
+              <SelectTrigger className="w-full sm:w-[150px] h-11">
                 <SelectValue placeholder="Statut" />
               </SelectTrigger>
               <SelectContent>
@@ -270,18 +281,23 @@ export default function TariffsPage() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="flex justify-center items-center py-16">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="absolute top-0 left-0 animate-ping rounded-full h-12 w-12 border border-primary opacity-20"></div>
+              </div>
             </div>
           ) : tariffs.length === 0 ? (
-            <div className="text-center py-12">
-              <DollarSign className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">Aucun tarif</h3>
-              <p className="text-muted-foreground">
+            <div className="text-center py-16">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
+              </div>
+              <h3 className="mt-4 text-lg sm:text-xl font-semibold">Aucun tarif</h3>
+              <p className="text-sm sm:text-base text-muted-foreground mt-2">
                 Commencez par créer un nouveau tarif
               </p>
               <Button
-                className="mt-4"
+                className="mt-6 shadow-lg hover:shadow-xl transition-all"
                 onClick={() => {
                   resetForm();
                   setShowDialog(true);
@@ -293,89 +309,228 @@ export default function TariffsPage() {
             </div>
           ) : (
             <>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Code</TableHead>
-                    <TableHead>Nom</TableHead>
-                    <TableHead>Catégorie</TableHead>
-                    <TableHead>Durée</TableHead>
-                    <TableHead className="text-right">Prix d'achat</TableHead>
-                    <TableHead className="text-right">Prix de vente</TableHead>
-                    <TableHead className="text-right">Marge</TableHead>
-                    <TableHead>Statut</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {tariffs.map((tariff) => (
-                    <TableRow key={tariff.id}>
-                      <TableCell className="font-medium">
-                        {tariff.code}
-                      </TableCell>
-                      <TableCell>{tariff.name}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">
-                          {getCategoryLabel(tariff.category)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {tariff.duration ? `${tariff.duration} min` : '-'}
-                      </TableCell>
-                      <TableCell className="text-right text-muted-foreground">
-                        {tariff.costPrice ? parseFloat(tariff.costPrice.toString()).toLocaleString('fr-FR') + ' FCFA' : '-'}
-                      </TableCell>
-                      <TableCell className="text-right font-semibold">
-                        {parseFloat(tariff.price.toString()).toLocaleString('fr-FR')} FCFA
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {tariff.costPrice && tariff.costPrice > 0 ? (
-                          <Badge variant={parseFloat(tariff.price.toString()) > parseFloat(tariff.costPrice.toString()) ? 'success' : 'destructive'}>
-                            {((parseFloat(tariff.price.toString()) - parseFloat(tariff.costPrice.toString())) / parseFloat(tariff.costPrice.toString()) * 100).toFixed(0)}%
-                          </Badge>
-                        ) : '-'}
-                      </TableCell>
-                      <TableCell>
-                        {tariff.isActive ? (
-                          <Badge variant="success">
-                            <Check className="mr-1 h-3 w-3" />
-                            Actif
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary">
-                            <X className="mr-1 h-3 w-3" />
-                            Inactif
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEdit(tariff)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(tariff)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+              {/* Desktop Table View - Hidden on mobile */}
+              <div className="hidden lg:block rounded-lg border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="font-semibold">Code</TableHead>
+                      <TableHead className="font-semibold">Nom</TableHead>
+                      <TableHead className="font-semibold">Catégorie</TableHead>
+                      <TableHead className="font-semibold">Durée</TableHead>
+                      <TableHead className="text-right font-semibold">Prix d'achat</TableHead>
+                      <TableHead className="text-right font-semibold">Prix de vente</TableHead>
+                      <TableHead className="text-right font-semibold">Marge</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {tariffs.map((tariff) => (
+                      <TableRow key={tariff.id} className="hover:bg-muted/50 transition-colors">
+                        <TableCell className="font-medium font-mono text-sm">
+                          {tariff.code}
+                        </TableCell>
+                        <TableCell className="font-medium">{tariff.name}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="border-primary/20">
+                            {getCategoryLabel(tariff.category)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2 text-sm">
+                            {tariff.duration ? (
+                              <>
+                                <Clock className="h-4 w-4 text-muted-foreground" />
+                                {tariff.duration} min
+                              </>
+                            ) : '-'}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right text-muted-foreground text-sm">
+                          {tariff.costPrice ? parseFloat(tariff.costPrice.toString()).toLocaleString('fr-FR') + ' FCFA' : '-'}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <span className="font-bold text-primary">
+                            {parseFloat(tariff.price.toString()).toLocaleString('fr-FR')} FCFA
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {tariff.costPrice && tariff.costPrice > 0 ? (
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                'border',
+                                parseFloat(tariff.price.toString()) > parseFloat(tariff.costPrice.toString())
+                                  ? 'bg-green-100 text-green-800 border-green-200'
+                                  : 'bg-red-100 text-red-800 border-red-200'
+                              )}
+                            >
+                              <TrendingUp className="h-3 w-3 mr-1" />
+                              {((parseFloat(tariff.price.toString()) - parseFloat(tariff.costPrice.toString())) / parseFloat(tariff.costPrice.toString()) * 100).toFixed(0)}%
+                            </Badge>
+                          ) : '-'}
+                        </TableCell>
+                        <TableCell>
+                          {tariff.isActive ? (
+                            <Badge variant="outline" className="border bg-green-100 text-green-800 border-green-200">
+                              <Check className="mr-1 h-3 w-3" />
+                              Actif
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="border bg-gray-100 text-gray-600 border-gray-200">
+                              <X className="mr-1 h-3 w-3" />
+                              Inactif
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(tariff)}
+                              className="hover:bg-primary/10"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(tariff)}
+                              className="hover:bg-destructive/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-muted-foreground">
-                  Page {pagination.page} sur {pagination.totalPages}
+              {/* Mobile Card View - Visible only on mobile/tablet */}
+              <div className="lg:hidden space-y-4">
+                {tariffs.map((tariff) => {
+                  const margin = tariff.costPrice && tariff.costPrice > 0
+                    ? ((parseFloat(tariff.price.toString()) - parseFloat(tariff.costPrice.toString())) / parseFloat(tariff.costPrice.toString()) * 100)
+                    : null;
+
+                  return (
+                    <Card
+                      key={tariff.id}
+                      className="relative overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 group"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+                      <CardContent className="p-4 sm:p-6 relative">
+                        {/* Header Row */}
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center gap-3 flex-1">
+                            <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                              <DollarSign className="h-6 w-6 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs text-muted-foreground font-medium">Code: {tariff.code}</p>
+                              <p className="font-bold text-base sm:text-lg truncate">{tariff.name}</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-1 ml-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(tariff)}
+                              className="h-8 w-8 p-0 hover:bg-primary/10"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(tariff)}
+                              className="h-8 w-8 p-0 hover:bg-destructive/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Category and Status */}
+                        <div className="flex flex-wrap items-center gap-2 mb-3 pb-3 border-b">
+                          <Badge variant="outline" className="border-primary/20">
+                            <Tag className="h-3 w-3 mr-1" />
+                            {getCategoryLabel(tariff.category)}
+                          </Badge>
+                          {tariff.isActive ? (
+                            <Badge variant="outline" className="border bg-green-100 text-green-800 border-green-200">
+                              <Check className="mr-1 h-3 w-3" />
+                              Actif
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="border bg-gray-100 text-gray-600 border-gray-200">
+                              <X className="mr-1 h-3 w-3" />
+                              Inactif
+                            </Badge>
+                          )}
+                          {tariff.duration && (
+                            <Badge variant="outline" className="border-muted">
+                              <Clock className="h-3 w-3 mr-1" />
+                              {tariff.duration} min
+                            </Badge>
+                          )}
+                        </div>
+
+                        {/* Pricing Grid */}
+                        <div className="grid grid-cols-2 gap-3 mb-3">
+                          {tariff.costPrice && tariff.costPrice > 0 && (
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Prix d'achat</p>
+                              <p className="text-sm font-semibold text-muted-foreground">
+                                {parseFloat(tariff.costPrice.toString()).toLocaleString('fr-FR')} FCFA
+                              </p>
+                            </div>
+                          )}
+                          <div className={tariff.costPrice && tariff.costPrice > 0 ? '' : 'col-span-2'}>
+                            <p className="text-xs text-muted-foreground mb-1">Prix de vente</p>
+                            <p className="text-lg font-bold text-primary">
+                              {parseFloat(tariff.price.toString()).toLocaleString('fr-FR')} FCFA
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Margin if exists */}
+                        {margin !== null && (
+                          <div className="pt-3 border-t">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground font-medium">Marge bénéficiaire</span>
+                              <Badge
+                                variant="outline"
+                                className={cn(
+                                  'border',
+                                  margin > 0
+                                    ? 'bg-green-100 text-green-800 border-green-200'
+                                    : 'bg-red-100 text-red-800 border-red-200'
+                                )}
+                              >
+                                <TrendingUp className="h-3 w-3 mr-1" />
+                                {margin.toFixed(1)}%
+                              </Badge>
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+
+              {/* Pagination */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
+                <div className="text-sm text-muted-foreground order-2 sm:order-1">
+                  Page <span className="font-semibold text-primary">{pagination.page}</span> sur{' '}
+                  <span className="font-semibold text-primary">{pagination.totalPages}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 order-1 sm:order-2">
                   <Button
                     variant="outline"
                     size="sm"
@@ -386,7 +541,9 @@ export default function TariffsPage() {
                       }))
                     }
                     disabled={pagination.page === 1}
+                    className="shadow-sm hover:shadow-md transition-all"
                   >
+                    <ChevronLeft className="h-4 w-4 mr-1" />
                     Précédent
                   </Button>
                   <Button
@@ -399,8 +556,10 @@ export default function TariffsPage() {
                       }))
                     }
                     disabled={pagination.page === pagination.totalPages}
+                    className="shadow-sm hover:shadow-md transition-all"
                   >
                     Suivant
+                    <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
               </div>

@@ -388,21 +388,28 @@ export default function LabResultsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Résultats de laboratoire</h1>
-          <p className="text-gray-600 mt-1">
-            Gérez les résultats d&apos;analyses et examens de laboratoire
-          </p>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-3 shadow-lg">
+              <TestTube className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Résultats de laboratoire</h1>
+              <p className="text-gray-600 mt-0.5">
+                Gérez les résultats d&apos;analyses et examens de laboratoire
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={loadLabResults} variant="outline" size="sm" disabled={!isAuthenticated}>
             <RefreshCw className="h-4 w-4 mr-2" />
             Actualiser
           </Button>
           <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
             <DialogTrigger asChild>
-              <Button disabled={!isAuthenticated}>
+              <Button disabled={!isAuthenticated} size="sm" className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
                 <Plus className="h-4 w-4 mr-2" />
                 Nouveau résultat
               </Button>
@@ -558,60 +565,68 @@ Ex: {"hémoglobine": "12.5 g/dL", "globules blancs": "7200/μL", "statut": "norm
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Résultats</CardTitle>
-            <TestTube className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-purple-900">Total Résultats</CardTitle>
+            <div className="bg-purple-500 rounded-full p-2">
+              <TestTube className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{labResults.length}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-purple-900">{labResults.length}</div>
+            <p className="text-xs text-purple-700 mt-1">
               {filteredLabResults.length} affiché(s)
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Résultats normaux</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-green-900">Résultats normaux</CardTitle>
+            <div className="bg-green-500 rounded-full p-2">
+              <CheckCircle className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-green-900">
               {labResults.filter(lr => getResultStatus(lr.result).status === 'normal').length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-green-700 mt-1">
               Dans les normes
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Résultats anormaux</CardTitle>
-            <XCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-red-900">Résultats anormaux</CardTitle>
+            <div className="bg-red-500 rounded-full p-2">
+              <XCircle className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-red-900">
               {labResults.filter(lr => getResultStatus(lr.result).status === 'anormal').length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-red-700 mt-1">
               Nécessitent attention
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Laboratoires</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-900">Laboratoires</CardTitle>
+            <div className="bg-blue-500 rounded-full p-2">
+              <Activity className="h-4 w-4 text-white" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-blue-900">
               {uniqueLabNames.length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-blue-700 mt-1">
               Laboratoires différents
             </p>
           </CardContent>
@@ -678,48 +693,44 @@ Ex: {"hémoglobine": "12.5 g/dL", "globules blancs": "7200/μL", "statut": "norm
             </div>
           )}
 
-          {/* Lab Results Table */}
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Laboratoire</TableHead>
-                  <TableHead>Résultats</TableHead>
-                  <TableHead>Date réception</TableHead>
-                  <TableHead>Statut</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
-                        <p className="text-gray-500">Chargement des résultats labo...</p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : filteredLabResults.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2">
-                        <TestTube className="h-8 w-8 text-gray-400" />
-                        <p className="text-gray-500">Aucun résultat trouvé</p>
-                        {searchTerm && (
-                          <p className="text-sm text-gray-400">
-                            Essayez de modifier vos critères de recherche
-                          </p>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredLabResults.map((labResult) => {
-                    const status = getResultStatus(labResult.result);
-                    return (
-                      <TableRow key={labResult.id}>
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
+              <p className="text-lg text-gray-600">Chargement des résultats labo...</p>
+            </div>
+          ) : filteredLabResults.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="bg-gray-100 rounded-full p-6 mb-4">
+                <TestTube className="h-12 w-12 text-gray-400" />
+              </div>
+              <p className="text-xl font-medium text-gray-700 mb-2">Aucun résultat trouvé</p>
+              {searchTerm && (
+                <p className="text-gray-500">
+                  Essayez de modifier vos critères de recherche
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="font-semibold">Patient</TableHead>
+                      <TableHead className="font-semibold">Laboratoire</TableHead>
+                      <TableHead className="font-semibold">Résultats</TableHead>
+                      <TableHead className="font-semibold">Date réception</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredLabResults.map((labResult) => {
+                      const status = getResultStatus(labResult.result);
+                      return (
+                        <TableRow key={labResult.id} className="hover:bg-gray-50 transition-colors">
                         <TableCell>
                           <div>
                             <div className="font-medium">
@@ -839,11 +850,157 @@ Ex: {"hémoglobine": "12.5 g/dL", "globules blancs": "7200/μL", "statut": "norm
                         </TableCell>
                       </TableRow>
                     );
-                  })
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                  })}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile/Tablet Card View */}
+              <div className="lg:hidden space-y-4">
+                {filteredLabResults.map((labResult) => {
+                  const status = getResultStatus(labResult.result);
+                  return (
+                    <Card 
+                      key={labResult.id} 
+                      className="hover:shadow-lg transition-all duration-200 border-l-4"
+                      style={{
+                        borderLeftColor: status.status === 'normal' ? '#22c55e' : status.status === 'anormal' ? '#ef4444' : '#6b7280'
+                      }}
+                    >
+                      <CardHeader className="pb-3">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="bg-blue-100 rounded-full p-2">
+                                <User className="h-4 w-4 text-blue-600" />
+                              </div>
+                              <div>
+                                <CardTitle className="text-lg">
+                                  {labResult.patient?.firstName} {labResult.patient?.lastName}
+                                </CardTitle>
+                                <CardDescription className="text-xs">
+                                  MRN: {labResult.patient?.mrn}
+                                </CardDescription>
+                              </div>
+                            </div>
+                            <Badge variant={status.color as any} className="mt-2">
+                              {status.status}
+                            </Badge>
+                            {labResult.filePath && (
+                              <Badge variant="outline" className="text-xs ml-2 mt-2">
+                                <FileText className="h-3 w-3 mr-1" />
+                                Fichier
+                              </Badge>
+                            )}
+                          </div>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedLabResult(labResult);
+                                  setShowDetailModal(true);
+                                }}
+                              >
+                                <Eye className="mr-2 h-4 w-4" />
+                                Voir le détail
+                              </DropdownMenuItem>
+                              
+                              <DropdownMenuItem
+                                onClick={() => handleOpenEditModal(labResult)}
+                              >
+                                <Edit className="mr-2 h-4 w-4" />
+                                Modifier
+                              </DropdownMenuItem>
+                              
+                              {labResult.filePath && (
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    downloadFile(labResult.filePath!, `lab-result-${labResult.id}.pdf`);
+                                  }}
+                                >
+                                  <Download className="mr-2 h-4 w-4" />
+                                  Télécharger
+                                </DropdownMenuItem>
+                              )}
+                              
+                              <DropdownMenuSeparator />
+                              
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                    className="text-red-600 focus:text-red-600"
+                                  >
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Supprimer
+                                  </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Cette action ne peut pas être annulée. Cela supprimera définitivement
+                                      le résultat de laboratoire pour {labResult.patient?.firstName} {labResult.patient?.lastName}.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                    <AlertDialogAction
+                                      onClick={() => handleDeleteLabResult(labResult.id)}
+                                      className="bg-red-600 hover:bg-red-700"
+                                    >
+                                      Supprimer définitivement
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-3 pt-0">
+                        <div className="flex items-center gap-2 text-sm">
+                          <div className="bg-purple-100 rounded-full p-1.5">
+                            <TestTube className="h-3.5 w-3.5 text-purple-600" />
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-900">
+                              {labResult.labName}
+                            </span>
+                            {labResult.encounter && (
+                              <span className="text-gray-500 text-xs block">
+                                Lié à: {labResult.encounter.motive}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Calendar className="h-4 w-4 text-gray-400" />
+                          <span>{formatDateTime(labResult.receivedAt)}</span>
+                        </div>
+
+                        <div className="pt-2 border-t">
+                          <p className="text-sm font-medium text-gray-700 mb-1">Résultats:</p>
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {formatResult(labResult.result)}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
 

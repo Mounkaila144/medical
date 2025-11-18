@@ -39,10 +39,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ExpenseService, ExpenseForm } from '@/services/expense.service';
 import { Expense, ExpenseCategory, ExpenseStatus, PaymentStatus } from '@/types';
-import { DollarSign, Plus, Search, Edit, Trash2, Check, X, Calendar } from 'lucide-react';
+import { DollarSign, Plus, Search, Edit, Trash2, Check, X, Calendar, Tag, Building2, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 export default function ExpensesPage() {
   const router = useRouter();
@@ -243,20 +244,23 @@ export default function ExpensesPage() {
 
   const getPaymentStatusBadge = (status: PaymentStatus) => {
     const config = {
-      [PaymentStatus.UNPAID]: { label: 'Non payé', variant: 'destructive' as const },
-      [PaymentStatus.PARTIALLY_PAID]: { label: 'Partiellement payé', variant: 'default' as const },
-      [PaymentStatus.PAID]: { label: 'Payé', variant: 'success' as const },
+      [PaymentStatus.UNPAID]: { label: 'Non payé', className: 'bg-red-100 text-red-800 border-red-200' },
+      [PaymentStatus.PARTIALLY_PAID]: { label: 'Partiellement payé', className: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+      [PaymentStatus.PAID]: { label: 'Payé', className: 'bg-green-100 text-green-800 border-green-200' },
     };
-    const cfg = config[status] || { label: status, variant: 'default' as const };
-    return <Badge variant={cfg.variant}>{cfg.label}</Badge>;
+    const cfg = config[status] || { label: status, className: 'bg-gray-100 text-gray-800 border-gray-200' };
+    return <Badge variant="outline" className={cn('border', cfg.className)}>{cfg.label}</Badge>;
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dépenses</h1>
-          <p className="text-muted-foreground">
+    <div className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Dépenses
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Gérez toutes les dépenses de la clinique
           </p>
         </div>
@@ -265,34 +269,41 @@ export default function ExpensesPage() {
             resetForm();
             setShowDialog(true);
           }}
+          className="w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-primary/80"
         >
           <Plus className="mr-2 h-4 w-4" />
           Nouvelle dépense
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Liste des dépenses</CardTitle>
-          <CardDescription>
-            {pagination.total} dépense(s) au total
-          </CardDescription>
+      {/* Filters and Content */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader className="pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <CardTitle className="text-lg sm:text-xl">Liste des dépenses</CardTitle>
+              <CardDescription className="text-xs sm:text-sm mt-1">
+                <span className="font-semibold text-primary">{pagination.total}</span> dépense(s) au total
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <div className="flex gap-4 mb-6">
+        <CardContent className="space-y-4">
+          {/* Filters Row */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Rechercher une dépense..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
+                  className="pl-10 h-11 border-2 focus:border-primary transition-colors"
                 />
               </div>
             </div>
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px] h-11">
                 <SelectValue placeholder="Catégorie" />
               </SelectTrigger>
               <SelectContent>
@@ -311,7 +322,7 @@ export default function ExpensesPage() {
               </SelectContent>
             </Select>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px] h-11">
                 <SelectValue placeholder="Statut paiement" />
               </SelectTrigger>
               <SelectContent>
@@ -324,18 +335,23 @@ export default function ExpensesPage() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="flex justify-center items-center py-16">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="absolute top-0 left-0 animate-ping rounded-full h-12 w-12 border border-primary opacity-20"></div>
+              </div>
             </div>
           ) : expenses.length === 0 ? (
-            <div className="text-center py-12">
-              <DollarSign className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">Aucune dépense</h3>
-              <p className="text-muted-foreground">
+            <div className="text-center py-16">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
+              </div>
+              <h3 className="mt-4 text-lg sm:text-xl font-semibold">Aucune dépense</h3>
+              <p className="text-sm sm:text-base text-muted-foreground mt-2">
                 Commencez par enregistrer une nouvelle dépense
               </p>
               <Button
-                className="mt-4"
+                className="mt-6 shadow-lg hover:shadow-xl transition-all"
                 onClick={() => {
                   resetForm();
                   setShowDialog(true);
@@ -347,47 +363,110 @@ export default function ExpensesPage() {
             </div>
           ) : (
             <>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Référence</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Catégorie</TableHead>
-                    <TableHead>Fournisseur</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Montant</TableHead>
-                    <TableHead>Statut</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {expenses.map((expense) => (
-                    <TableRow key={expense.id}>
-                      <TableCell className="font-medium">
-                        {expense.reference}
-                      </TableCell>
-                      <TableCell>{expense.description}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">
-                          {getCategoryLabel(expense.category)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{expense.supplierName || '-'}</TableCell>
-                      <TableCell>
-                        {format(new Date(expense.expenseDate), 'dd MMM yyyy', {
-                          locale: fr,
-                        })}
-                      </TableCell>
-                      <TableCell className="text-right font-semibold">
-                        {parseFloat(expense.amount.toString()).toLocaleString('fr-FR')} FCFA
-                      </TableCell>
-                      <TableCell>{getPaymentStatusBadge(expense.paymentStatus)}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
+              {/* Desktop Table View - Hidden on mobile */}
+              <div className="hidden lg:block rounded-lg border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="font-semibold">Référence</TableHead>
+                      <TableHead className="font-semibold">Description</TableHead>
+                      <TableHead className="font-semibold">Catégorie</TableHead>
+                      <TableHead className="font-semibold">Fournisseur</TableHead>
+                      <TableHead className="font-semibold">Date</TableHead>
+                      <TableHead className="text-right font-semibold">Montant</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {expenses.map((expense) => (
+                      <TableRow key={expense.id} className="hover:bg-muted/50 transition-colors">
+                        <TableCell className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center">
+                              <FileText className="h-4 w-4 text-white" />
+                            </div>
+                            {expense.reference}
+                          </div>
+                        </TableCell>
+                        <TableCell className="max-w-xs truncate">{expense.description}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="border-primary/20">
+                            {getCategoryLabel(expense.category)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Building2 className="h-4 w-4 text-muted-foreground" />
+                            {expense.supplierName || '-'}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2 text-sm">
+                            <Calendar className="h-4 w-4 text-muted-foreground" />
+                            {format(new Date(expense.expenseDate), 'dd MMM yyyy', {
+                              locale: fr,
+                            })}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <span className="font-bold text-rose-600">
+                            {parseFloat(expense.amount.toString()).toLocaleString('fr-FR')} FCFA
+                          </span>
+                        </TableCell>
+                        <TableCell>{getPaymentStatusBadge(expense.paymentStatus)}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(expense)}
+                              className="hover:bg-primary/10"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(expense)}
+                              className="hover:bg-destructive/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Card View - Visible only on mobile/tablet */}
+              <div className="lg:hidden space-y-4">
+                {expenses.map((expense) => (
+                  <Card
+                    key={expense.id}
+                    className="relative overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 group"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent"></div>
+                    <CardContent className="p-4 sm:p-6 relative">
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                            <FileText className="h-6 w-6 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground font-medium">Dépense</p>
+                            <p className="font-bold text-base sm:text-lg truncate">{expense.reference}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-1 ml-2">
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => handleEdit(expense)}
+                            className="h-8 w-8 p-0 hover:bg-primary/10"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -395,21 +474,68 @@ export default function ExpensesPage() {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleDelete(expense)}
+                            className="h-8 w-8 p-0 hover:bg-destructive/10"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                      </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-muted-foreground">
-                  Page {pagination.page} sur {pagination.totalPages}
+                      {/* Description */}
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                        {expense.description}
+                      </p>
+
+                      {/* Category and Supplier */}
+                      <div className="flex flex-wrap items-center gap-2 mb-3 pb-3 border-b">
+                        <Badge variant="outline" className="border-primary/20">
+                          <Tag className="h-3 w-3 mr-1" />
+                          {getCategoryLabel(expense.category)}
+                        </Badge>
+                        {expense.supplierName && (
+                          <Badge variant="outline" className="border-muted">
+                            <Building2 className="h-3 w-3 mr-1" />
+                            {expense.supplierName}
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Date and Status Row */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Calendar className="h-4 w-4" />
+                          {format(new Date(expense.expenseDate), 'dd MMM yyyy', {
+                            locale: fr,
+                          })}
+                        </div>
+                        {getPaymentStatusBadge(expense.paymentStatus)}
+                      </div>
+
+                      {/* Amount - Prominent */}
+                      <div className="flex items-center justify-between pt-3 border-t">
+                        <div className="flex items-center gap-2">
+                          <DollarSign className="h-5 w-5 text-rose-600" />
+                          <span className="text-sm text-muted-foreground font-medium">Montant</span>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-rose-600 to-red-700 bg-clip-text text-transparent">
+                            {parseFloat(expense.amount.toString()).toLocaleString('fr-FR')}
+                          </p>
+                          <p className="text-xs text-muted-foreground">FCFA</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
+                <div className="text-sm text-muted-foreground order-2 sm:order-1">
+                  Page <span className="font-semibold text-primary">{pagination.page}</span> sur{' '}
+                  <span className="font-semibold text-primary">{pagination.totalPages}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 order-1 sm:order-2">
                   <Button
                     variant="outline"
                     size="sm"
@@ -420,7 +546,9 @@ export default function ExpensesPage() {
                       }))
                     }
                     disabled={pagination.page === 1}
+                    className="shadow-sm hover:shadow-md transition-all"
                   >
+                    <ChevronLeft className="h-4 w-4 mr-1" />
                     Précédent
                   </Button>
                   <Button
@@ -433,8 +561,10 @@ export default function ExpensesPage() {
                       }))
                     }
                     disabled={pagination.page === pagination.totalPages}
+                    className="shadow-sm hover:shadow-md transition-all"
                   >
                     Suivant
+                    <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
               </div>
