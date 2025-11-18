@@ -83,7 +83,7 @@ export default function PatientEditPage() {
         city: '',
         state: '',
         zipCode: '',
-        country: 'France',
+        country: 'Niger',
       },
     },
   });
@@ -123,7 +123,7 @@ export default function PatientEditPage() {
             city: '',
             state: '',
             zipCode: '',
-            country: 'France',
+            country: 'Niger',
           },
         });
       } catch (err: any) {
@@ -439,7 +439,7 @@ export default function PatientEditPage() {
                       <FormItem>
                         <FormLabel>Ville</FormLabel>
                         <FormControl>
-                          <Input placeholder="Paris" {...field} />
+                          <Input placeholder="Niamey" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -467,7 +467,7 @@ export default function PatientEditPage() {
                       <FormItem>
                         <FormLabel>État/Région</FormLabel>
                         <FormControl>
-                          <Input placeholder="Île-de-France" {...field} />
+                          <Input placeholder="Île-de-Niger" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -480,7 +480,7 @@ export default function PatientEditPage() {
                       <FormItem>
                         <FormLabel>Pays</FormLabel>
                         <FormControl>
-                          <Input placeholder="France" {...field} />
+                          <Input placeholder="Niger" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

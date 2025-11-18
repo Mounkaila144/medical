@@ -118,7 +118,7 @@ describe('Patients Module (e2e)', () => {
           dob: '1980-01-01',
           gender: 'M',
           phone: '+33612345678',
-          address: { street: '123 Rue Test', city: 'Paris', postalCode: '75000' }
+          address: { street: '123 Rue Test', city: 'Niamey', postalCode: '75000' }
         });
 
       expect(response.status).toBe(201);
@@ -138,7 +138,7 @@ describe('Patients Module (e2e)', () => {
           dob: new Date('1980-01-01'),
           gender: Gender.MALE,
           phone: '+33612345678',
-          address: { street: '123 Rue Test', city: 'Paris', postalCode: '75000' },
+          address: { street: '123 Rue Test', city: 'Niamey', postalCode: '75000' },
           clinicId: tenant.id
         };
         const patient = await patientsService.create(createDto, tenant.id);
@@ -173,7 +173,7 @@ describe('Patients Module (e2e)', () => {
         dob: new Date('1975-05-15'),
         gender: Gender.MALE,
         phone: '+33612345678',
-        address: { street: '123 Rue Test', city: 'Paris', postalCode: '75000' },
+        address: { street: '123 Rue Test', city: 'Niamey', postalCode: '75000' },
         clinicId: tenant.id
       };
       await patientsService.create(createDto, tenant.id);
@@ -231,7 +231,7 @@ describe('Patients Module (e2e)', () => {
         dob: new Date('1990-05-15'),
         gender: Gender.MALE,
         phone: '+33612345680',
-        address: { street: '123 Rue Test', city: 'Paris', postalCode: '75000' },
+        address: { street: '123 Rue Test', city: 'Niamey', postalCode: '75000' },
         clinicId: tenant.id
       };
       const newPatient = await patientsService.create(createDto, tenant.id);
@@ -284,7 +284,7 @@ describe('Patients Module (e2e)', () => {
         email: 'paul@example.com',
         dob: new Date(),
         gender: Gender.MALE,
-        address: { street: '123 Rue Test', city: 'Paris' },
+        address: { street: '123 Rue Test', city: 'Niamey' },
         clinicId: tenant.id
       };
       const patient1 = await patientsService.create(createDto1, tenant.id);

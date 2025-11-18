@@ -228,7 +228,7 @@ N Postes de gestion : /queue/manage (avec auth)
 ### **Scénario 3: Réseau de cliniques**
 
 ```
-Clinique Paris:
+Clinique Niamey:
 - Toutes les pages avec ?tenant=clinic-paris
 
 Clinique Lyon:

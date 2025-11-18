@@ -193,7 +193,7 @@ export default function PatientsPage() {
         city: '',
         state: '',
         zipCode: '',
-        country: 'France',
+        country: 'Niger',
       },
     },
   });
@@ -240,7 +240,7 @@ export default function PatientsPage() {
         city: '',
         state: '',
         zipCode: '',
-        country: 'France',
+        country: 'Niger',
       },
     },
   });
@@ -481,7 +481,7 @@ export default function PatientsPage() {
         city: '',
         state: '',
         zipCode: '',
-        country: 'France',
+        country: 'Niger',
       },
     });
     
@@ -1097,7 +1097,7 @@ export default function PatientsPage() {
                           <FormItem>
                             <FormLabel>Ville</FormLabel>
                             <FormControl>
-                              <Input placeholder="Paris" {...field} />
+                              <Input placeholder="Niamey" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1125,7 +1125,7 @@ export default function PatientsPage() {
                           <FormItem>
                             <FormLabel>État/Région</FormLabel>
                             <FormControl>
-                              <Input placeholder="Île-de-France" {...field} />
+                              <Input placeholder="Île-de-Niger" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1138,7 +1138,7 @@ export default function PatientsPage() {
                           <FormItem>
                             <FormLabel>Pays</FormLabel>
                             <FormControl>
-                              <Input placeholder="France" {...field} />
+                              <Input placeholder="Niger" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1924,7 +1924,7 @@ export default function PatientsPage() {
                         <FormItem>
                           <FormLabel>Ville</FormLabel>
                           <FormControl>
-                            <Input placeholder="Paris" {...field} />
+                            <Input placeholder="Niamey" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1952,7 +1952,7 @@ export default function PatientsPage() {
                         <FormItem>
                           <FormLabel>État/Région</FormLabel>
                           <FormControl>
-                            <Input placeholder="Île-de-France" {...field} />
+                            <Input placeholder="Île-de-Niger" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1965,7 +1965,7 @@ export default function PatientsPage() {
                         <FormItem>
                           <FormLabel>Pays</FormLabel>
                           <FormControl>
-                            <Input placeholder="France" {...field} />
+                            <Input placeholder="Niger" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
