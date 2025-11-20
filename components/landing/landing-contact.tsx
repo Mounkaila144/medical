@@ -81,7 +81,7 @@ export function LandingContact() {
     {
       icon: <Calendar className="h-8 w-8" />,
       title: "Planifier une démo",
-      description: "Découvrez MedClinic en action",
+      description: "Découvrez Gestion-Medical en action",
       action: "Réserver un créneau",
       gradient: "from-green-500 to-emerald-500"
     },
@@ -240,9 +240,9 @@ export function LandingContact() {
             <div className="space-y-6">
               {supportOptions.map((option, index) => {
                 const whatsappMessages = [
-                  "Bonjour,%20je%20souhaite%20discuter%20avec%20le%20support%20MedClinic",
-                  "Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20MedClinic",
-                  "Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20formation%20MedClinic"
+                  "Bonjour,%20je%20souhaite%20discuter%20avec%20le%20support%20Gestion-Medical",
+                  "Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20Gestion-Medical",
+                  "Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20la%20formation%20Gestion-Medical"
                 ];
 
                 return (
@@ -287,7 +287,7 @@ export function LandingContact() {
                 variant="outline"
                 className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20j'ai%20des%20questions%20sur%20MedClinic" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20j'ai%20des%20questions%20sur%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                   Voir la FAQ
                 </a>
               </Button>
@@ -299,7 +299,7 @@ export function LandingContact() {
         <div className="text-center mt-20">
           <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-8 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Pourquoi choisir MedClinic ?
+              Pourquoi choisir Gestion-Medical ?
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               <div className="text-center">

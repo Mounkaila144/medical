@@ -49,7 +49,7 @@ export function LandingCTA() {
             </h2>
 
             <p className="text-xl md:text-2xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-              Rejoignez des milliers de professionnels de santé qui ont optimisé leurs opérations avec MedClinic.
+              Rejoignez des milliers de professionnels de santé qui ont optimisé leurs opérations avec Gestion-Medical.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export function LandingCTA() {
                     asChild
                     className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 group"
                   >
-                    <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%20MedClinic" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%20Gestion-Medical" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       Commencer Gratuitement
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </a>

@@ -202,7 +202,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
           <div className="flex h-16 shrink-0 items-center justify-between">
             <div className="flex items-center">
               <Stethoscope className="h-8 w-8 text-blue-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">MedClinic</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">Gestion-Medical</span>
             </div>
             <Button
               variant="ghost"

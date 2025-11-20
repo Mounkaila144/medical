@@ -61,7 +61,7 @@ export function Header({ onMenuClick }: HeaderProps) {
 
           {/* Logo for Desktop */}
           <div className="hidden lg:flex items-center mr-4">
-            <span className="text-xl font-bold text-primary">MedClinic</span>
+            <span className="text-xl font-bold text-primary">Gestion-Medical</span>
           </div>
         </div>
 

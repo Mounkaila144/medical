@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MedClinic is a comprehensive medical clinic management system built with Next.js 13 (App Router), TypeScript, and Tailwind CSS. The application handles patient management, appointments, encounters, prescriptions, billing, and multi-tenant clinic administration.
+Gestion-Medical is a comprehensive medical clinic management system built with Next.js 13 (App Router), TypeScript, and Tailwind CSS. The application handles patient management, appointments, encounters, prescriptions, billing, and multi-tenant clinic administration.
 
 **Key characteristics:**
 - Multi-tenant architecture supporting multiple clinics

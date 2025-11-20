@@ -155,7 +155,7 @@ export function LandingPricing() {
                 } transition-all duration-300 group-hover:shadow-lg`}
                 size="lg"
               >
-                <a href={`https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20souscrire%20au%20plan%20${plan.name}%20de%20MedClinic`} target="_blank" rel="noopener noreferrer">
+                <a href={`https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20souscrire%20au%20plan%20${plan.name}%20de%20Gestion-Medical`} target="_blank" rel="noopener noreferrer">
                   {plan.popular ? 'Commencer maintenant' : 'Choisir ce plan'}
                 </a>
               </Button>
@@ -180,7 +180,7 @@ export function LandingPricing() {
                 asChild
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20MedClinic" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                   Demander un devis
                 </a>
               </Button>
@@ -189,7 +189,7 @@ export function LandingPricing() {
                 variant="outline"
                 className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20MedClinic" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                   Planifier une démo
                 </a>
               </Button>

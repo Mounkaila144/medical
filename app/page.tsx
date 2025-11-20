@@ -19,7 +19,7 @@ export default function Home() {
               <Stethoscope className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </div>
             <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">
-              MedClinic
+              Gestion-Medical
             </span>
           </Link>
           
@@ -75,7 +75,7 @@ export default function Home() {
                 <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg">
                   <Stethoscope className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">MedClinic</span>
+                <span className="text-xl font-bold">Gestion-Medical</span>
               </div>
               <p className="text-gray-400 leading-relaxed text-sm md:text-base">
                 La solution complète pour la gestion de votre cabinet médical.
@@ -140,7 +140,7 @@ export default function Home() {
               </div>
               <div className="pt-2 md:pt-4">
                 <Button asChild className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-sm md:text-base">
-                  <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20vous%20contacter%20pour%20MedClinic" target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20vous%20contacter%20pour%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                     Nous Contacter
                   </a>
                 </Button>
@@ -152,7 +152,7 @@ export default function Home() {
           <div className="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
-                © 2024 MedClinic. Tous droits réservés. Système de gestion médicale professionnel.
+                © 2024 Gestion-Medical. Tous droits réservés. Système de gestion médicale professionnel.
               </p>
               <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm text-gray-400">
                 <a href="#" className="hover:text-white transition-colors whitespace-nowrap">Politique de confidentialité</a>

@@ -9,7 +9,7 @@ import { MainLayout } from '@/components/layout/main-layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MedClinic - Système de Gestion Médicale',
+  title: 'Gestion-Medical - Système de Gestion Médicale',
   description: 'Système complet de gestion de clinique médicale avec gestion des patients, rendez-vous, consultations et facturation.',
 };
 

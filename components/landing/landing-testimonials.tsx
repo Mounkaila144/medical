@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export function LandingTestimonials() {
   const testimonials = [
     {
-      quote: "MedClinic a complètement transformé le fonctionnement de notre clinique. Le système de planification seul nous a fait économiser d'innombrables heures.",
+      quote: "Gestion-Medical a complètement transformé le fonctionnement de notre clinique. Le système de planification seul nous a fait économiser d'innombrables heures.",
       author: "Dr. Fatouma Ali",
       role: "Médecine Générale, Clinique Santé Plus",
       rating: 5,
@@ -130,14 +130,14 @@ export function LandingTestimonials() {
               Rejoignez des milliers de professionnels satisfaits
             </h3>
             <p className="text-gray-600 mb-6">
-              Commencez votre essai gratuit dès aujourd'hui et découvrez pourquoi MedClinic est le choix préféré des professionnels de santé.
+              Commencez votre essai gratuit dès aujourd'hui et découvrez pourquoi Gestion-Medical est le choix préféré des professionnels de santé.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 asChild
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%205%20jours%20avec%20MedClinic" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%205%20jours%20avec%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                   Essai Gratuit 5 Jours
                 </a>
               </Button>
@@ -146,7 +146,7 @@ export function LandingTestimonials() {
                 variant="outline"
                 className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:border-blue-300 hover:text-blue-600 transition-all duration-300"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20demander%20une%20démo%20de%20MedClinic" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20demander%20une%20démo%20de%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
                   Demander une Démo
                 </a>
               </Button>

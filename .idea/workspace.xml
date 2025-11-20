@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90ae7e04-aa5e-41c9-b229-d9c3335549d5" name="Changes" comment="init">
+    <list default="true" id="90ae7e04-aa5e-41c9-b229-d9c3335549d5" name="Changes" comment="edit navbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/accounting/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/accounting/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/accounting/expenses/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/accounting/expenses/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/accounting/invoices/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/accounting/invoices/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/accounting/payments/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/accounting/payments/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/encounters/labs/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/encounters/labs/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/encounters/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/encounters/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/encounters/prescriptions/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/encounters/prescriptions/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/practitioners/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/practitioners/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/login/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-contact.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-cta.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-cta.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-hero.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-pricing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-pricing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/landing/landing-testimonials.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/landing/landing-testimonials.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layout/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layout/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout/sidebar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,29 +53,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "js.debugger.nextJs.config.created.client": "true",
-    "js.debugger.nextJs.config.created.server": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/Mounkaila/PhpstormProjects/medical",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\Mounkaila\\PhpstormProjects\\medical\\medicalBackend\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\Mounkaila\\PhpstormProjects\\medical\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mounkaila/PhpstormProjects/medical&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Mounkaila\\PhpstormProjects\\medical\\medicalBackend\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Mounkaila\\PhpstormProjects\\medical\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -130,6 +133,7 @@
       <workItem from="1762352194845" duration="594000" />
       <workItem from="1763451974403" duration="6817000" />
       <workItem from="1763459327906" duration="2562000" />
+      <workItem from="1763619643118" duration="5833000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -259,7 +263,31 @@
       <option name="project" value="LOCAL" />
       <updated>1763458541084</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="init">
+      <option name="closed" value="true" />
+      <created>1763627518228</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1763627518228</updated>
+    </task>
+    <task id="LOCAL-00018" summary="init">
+      <option name="closed" value="true" />
+      <created>1763630816286</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1763630816286</updated>
+    </task>
+    <task id="LOCAL-00019" summary="edit navbar">
+      <option name="closed" value="true" />
+      <created>1763631251436</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1763631251436</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +308,8 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="edit navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit navbar" />
     <option name="NON_MODAL_COMMIT_POSTPONE_SLOW_CHECKS" value="false" />
   </component>
 </project>

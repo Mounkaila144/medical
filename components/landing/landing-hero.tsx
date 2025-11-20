@@ -33,7 +33,7 @@ export default function LandingHero() {
               </h1>
 
               <p className="text-base md:text-xl text-gray-600 leading-relaxed max-w-2xl">
-                MedClinic transforme la gestion de votre cabinet avec une plateforme intelligente, 
+                Gestion-Medical transforme la gestion de votre cabinet avec une plateforme intelligente, 
                 sécurisée et intuitive. Optimisez vos consultations, simplifiez vos processus.
               </p>
             </div>
@@ -61,7 +61,7 @@ export default function LandingHero() {
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20démarrer%20gratuitement%20avec%20MedClinic" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20démarrer%20gratuitement%20avec%20Gestion-Medical" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                   Démarrer Gratuitement
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </a>
@@ -97,7 +97,7 @@ export default function LandingHero() {
                 <div className="relative bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-2xl border border-blue-100 overflow-hidden">
                   <Image
                     src="/images/applicationmedical.png"
-                    alt="Femme médecin tenant un ordinateur portable - Application médicale MedClinic"
+                    alt="Femme médecin tenant un ordinateur portable - Application médicale Gestion-Medical"
                     width={600}
                     height={700}
                     className="w-full h-auto object-cover rounded-2xl"

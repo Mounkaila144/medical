@@ -52,7 +52,7 @@ export default function LoginPage() {
         <CardHeader className="space-y-1 text-center">
           <div className="flex items-center justify-center mb-4">
             <Stethoscope className="h-10 w-10 text-blue-600" />
-            <span className="ml-2 text-2xl font-bold text-gray-900">MedClinic</span>
+            <span className="ml-2 text-2xl font-bold text-gray-900">Gestion-Medical</span>
           </div>
           <CardTitle className="text-2xl">Connexion</CardTitle>
           <CardDescription>
