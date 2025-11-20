@@ -42,7 +42,7 @@ interface NavItem {
   roles?: string[];
 }
 
-const navigation: NavItem[] = [
+export const navigation: NavItem[] = [
   {
     title: 'Tableau de bord',
     href: '/dashboard',
@@ -113,8 +113,8 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const toggleExpanded = (title: string) => {
-    setExpandedItems(prev => 
-      prev.includes(title) 
+    setExpandedItems(prev =>
+      prev.includes(title)
         ? prev.filter(item => item !== title)
         : [...prev, title]
     );
@@ -175,8 +175,8 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         className={cn(
           "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
           level > 0 && "ml-4",
-          isActive(item.href!) 
-            ? "bg-blue-100 text-blue-700 border-r-2 border-blue-700" 
+          isActive(item.href!)
+            ? "bg-blue-100 text-blue-700 border-r-2 border-blue-700"
             : "hover:bg-blue-50 hover:text-blue-700"
         )}
         onClick={() => onOpenChange(false)}
@@ -192,26 +192,6 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-gray-200 px-4 py-6">
-          {/* Logo */}
-          <div className="flex h-16 shrink-0 items-center">
-            <Stethoscope className="h-8 w-8 text-blue-600" />
-            <span className="ml-2 text-xl font-bold text-gray-900">MedClinic</span>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex flex-1 flex-col">
-            <ScrollArea className="flex-1">
-              <div className="space-y-1">
-                {navigation.map(item => renderNavItem(item))}
-              </div>
-            </ScrollArea>
-          </nav>
-        </div>
-      </div>
-
       {/* Mobile Sidebar */}
       <div className={cn(
         "fixed inset-y-0 z-50 flex w-64 flex-col transition-transform duration-300 ease-in-out lg:hidden",
