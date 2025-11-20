@@ -20,7 +20,7 @@ export class PractitionersService {
     private usersService: UsersService,
   ) {}
 
-  async create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<Practitioner> {
+  async create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<{ practitioner: Practitioner; temporaryPassword: string }> {
     // Générer un email basé sur le nom du praticien si pas fourni
     let email = createPractitionerDto.email;
     if (!email) {
@@ -65,8 +65,8 @@ export class PractitionersService {
     // Create availabilities for each working hour
     const availabilities = createPractitionerDto.workingHours.flatMap(workingHour => {
       const weekday = this.mapDayOfWeekToNumber(workingHour.dayOfWeek);
-      
-      return workingHour.slots.map(slot => 
+
+      return workingHour.slots.map(slot =>
         this.availabilityRepository.create({
           practitionerId: savedPractitioner.id,
           weekday,
@@ -85,7 +85,7 @@ export class PractitionersService {
     this.logger.log(`🔑 Mot de passe temporaire: ${temporaryPassword}`);
     this.logger.log(`⚠️  Le praticien doit changer son mot de passe lors de la première connexion`);
 
-    return savedPractitioner;
+    return { practitioner: savedPractitioner, temporaryPassword };
   }
 
   /**

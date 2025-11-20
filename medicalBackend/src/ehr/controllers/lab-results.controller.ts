@@ -12,25 +12,25 @@ export class LabResultsController {
   constructor(private readonly labResultsService: LabResultsService) {}
 
   @Post()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async create(@Body() createLabResultDto: CreateLabResultDto, @Req() req) {
     return this.labResultsService.add(req.user.tenantId, createLabResultDto);
   }
 
   @Get()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findAll(@Req() req) {
     return this.labResultsService.findAll(req.user.tenantId);
   }
 
   @Get('patient/:patientId')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findAllByPatient(@Param('patientId') patientId: string, @Req() req) {
     return this.labResultsService.findAllByPatient(req.user.tenantId, patientId);
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findOne(@Param('id') id: string) {
     return this.labResultsService.findOne(id);
   }

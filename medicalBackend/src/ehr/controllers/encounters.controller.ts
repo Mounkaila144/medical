@@ -15,32 +15,32 @@ export class EncountersController {
   constructor(private readonly encountersService: EncountersService) {}
 
   @Post()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async create(@Body() createEncounterDto: CreateEncounterDto, @Req() req) {
     return this.encountersService.create(req.user.tenantId, createEncounterDto);
   }
 
   @Get()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findAll(@Req() req) {
     return this.encountersService.findAll(req.user.tenantId);
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findOne(@Param('id') id: string) {
     return this.encountersService.findOne(id);
   }
 
   @Patch()
   @UseGuards(EHRSupervisorGuard)
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async update(@Body() updateEncounterDto: UpdateEncounterDto, @Req() req) {
     return this.encountersService.update(req.user.tenantId, updateEncounterDto);
   }
 
   @Post('lock')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async lock(@Body() lockEncounterDto: LockEncounterDto, @Req() req) {
     return this.encountersService.lock(req.user.tenantId, lockEncounterDto);
   }

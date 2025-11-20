@@ -79,7 +79,7 @@ let PractitionersService = PractitionersService_1 = class PractitionersService {
         this.logger.log(`📧 Email de connexion: ${email}`);
         this.logger.log(`🔑 Mot de passe temporaire: ${temporaryPassword}`);
         this.logger.log(`⚠️  Le praticien doit changer son mot de passe lors de la première connexion`);
-        return savedPractitioner;
+        return { practitioner: savedPractitioner, temporaryPassword };
     }
     generateTemporaryPassword() {
         const length = 12;

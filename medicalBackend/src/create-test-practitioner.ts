@@ -1,9 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { UsersService } from './auth/services/users.service';
-import { PractitionerAuthService } from './auth/services/practitioner-auth.service';
 import { PractitionersService } from './scheduling/services/practitioners.service';
-import { AuthUserRole } from './auth/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Tenant } from './auth/entities/tenant.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -11,9 +8,7 @@ import { DayOfWeek, Speciality } from './scheduling/dto/create-practitioner.dto'
 
 async function createTestPractitioner() {
   const app = await NestFactory.createApplicationContext(AppModule);
-  
-  const usersService = app.get(UsersService);
-  const practitionerAuthService = app.get(PractitionerAuthService);
+
   const practitionersService = app.get(PractitionersService);
   const tenantRepository = app.get<Repository<Tenant>>(getRepositoryToken(Tenant));
 
@@ -36,7 +31,8 @@ async function createTestPractitioner() {
     }
 
     // Créer un praticien de test
-    const practitioner = await practitionersService.create(tenant.id, {
+    // Note: Le service create() crée automatiquement l'utilisateur et le lie au praticien
+    const { practitioner, temporaryPassword } = await practitionersService.create(tenant.id, {
       firstName: 'Dr. Sarah',
       lastName: 'Johnson',
       speciality: Speciality.CARDIOLOGY,
@@ -69,27 +65,11 @@ async function createTestPractitioner() {
     });
 
     console.log(`✅ Praticien créé: ${practitioner.firstName} ${practitioner.lastName} (ID: ${practitioner.id})`);
-
-    // Créer un utilisateur pour ce praticien
-    const email = 'sarah.johnson@clinic.com';
-    const user = await usersService.createByRole({
-      email,
-      password: 'practitioner123',
-      firstName: practitioner.firstName,
-      lastName: practitioner.lastName,
-      role: AuthUserRole.PRACTITIONER,
-      tenantId: practitioner.tenantId,
-    });
-
-    console.log(`✅ Utilisateur créé: ${user.email} (ID: ${user.id})`);
-
-    // Lier l'utilisateur au praticien
-    await practitionerAuthService.linkUserToPractitioner(user.id, practitioner.id);
-    console.log(`✅ Utilisateur lié au praticien`);
+    console.log(`✅ Utilisateur automatiquement créé et lié au praticien`);
 
     console.log('\n🎉 Praticien de test créé avec succès !');
-    console.log(`📧 Email: ${email}`);
-    console.log(`🔑 Mot de passe: practitioner123`);
+    console.log(`📧 Email: ${practitioner.email}`);
+    console.log(`🔑 Mot de passe temporaire: ${temporaryPassword}`);
 
   } catch (error) {
     console.error('❌ Erreur:', error.message);

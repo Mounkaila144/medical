@@ -64,7 +64,7 @@ let PatientsController = class PatientsController {
 exports.PatientsController = PatientsController;
 __decorate([
     (0, common_1.Post)(),
-    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
@@ -74,7 +74,7 @@ __decorate([
 ], PatientsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -83,7 +83,7 @@ __decorate([
 ], PatientsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('search'),
-    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -92,7 +92,7 @@ __decorate([
 ], PatientsController.prototype, "search", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -101,7 +101,7 @@ __decorate([
 ], PatientsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_guard_1.Roles)(user_entity_1.AuthUserRole.SUPERADMIN, user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),

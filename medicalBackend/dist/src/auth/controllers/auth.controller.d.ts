@@ -2,11 +2,35 @@ import { AuthService } from '../services/auth.service';
 import { LoginDto } from '../dto/login.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { UsersService } from '../services/users.service';
+import { PractitionerAuthService } from '../services/practitioner-auth.service';
+import { AuthUserRole } from '../entities/user.entity';
 export declare class AuthController {
     private authService;
     private usersService;
-    constructor(authService: AuthService, usersService: UsersService);
+    private practitionerAuthService;
+    constructor(authService: AuthService, usersService: UsersService, practitionerAuthService: PractitionerAuthService);
     login(loginDto: LoginDto, req: any): Promise<{
+        userType: string;
+        practitioner: {
+            id: string;
+            firstName: string;
+            lastName: string;
+            specialty: string;
+            color: string;
+            tenantId: string;
+        };
+        accessToken: string;
+        refreshToken: string;
+        user: {
+            id: any;
+            email: any;
+            role: any;
+            firstName: any;
+            lastName: any;
+            tenantId: any;
+        };
+    } | {
+        userType: string;
         accessToken: string;
         refreshToken: string;
         user: {
@@ -41,7 +65,7 @@ export declare class AuthController {
         tenant: import("../entities/tenant.entity").Tenant;
         tenantId: string;
         email: string;
-        role: import("../entities/user.entity").AuthUserRole;
+        role: AuthUserRole;
         firstName: string;
         lastName: string;
         isActive: boolean;

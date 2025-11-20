@@ -19,25 +19,25 @@ export class PrescriptionsController {
   ) {}
 
   @Post()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async create(@Body() createPrescriptionDto: CreatePrescriptionDto, @Req() req) {
     return this.prescriptionsService.create(req.user.tenantId, createPrescriptionDto);
   }
 
   @Get()
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findAll(@Req() req) {
     return this.prescriptionsService.findAll(req.user.tenantId);
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async findOne(@Param('id') id: string) {
     return this.prescriptionsService.findOne(id);
   }
 
   @Put(':id')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async update(
     @Param('id') id: string,
     @Body() updatePrescriptionDto: Partial<CreatePrescriptionDto>,
@@ -47,14 +47,14 @@ export class PrescriptionsController {
   }
 
   @Post(':id/regenerate-files')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async regenerateFiles(@Param('id') id: string, @Req() req) {
     console.log(`🔄 Demande de régénération manuelle des fichiers pour prescription: ${id}`);
     return this.prescriptionsService.regenerateFiles(id, req.user.tenantId);
   }
 
   @Get(':id/qr-image')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async getQrImage(
     @Param('id') id: string,
     @Req() req,
@@ -112,7 +112,7 @@ export class PrescriptionsController {
   }
 
   @Get(':id/download/:type')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async downloadFile(
     @Param('id') id: string,
     @Param('type') type: string,
@@ -222,7 +222,7 @@ export class PrescriptionsController {
   }
 
   @Delete(':id')
-  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
   async delete(@Param('id') id: string, @Req() req) {
     await this.prescriptionsService.delete(id, req.user.tenantId);
     return { message: 'Prescription supprimée avec succès' };

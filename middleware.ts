@@ -57,14 +57,9 @@ export function middleware(request: NextRequest) {
 
   // Check if practitioner is trying to access practitioner routes without token
   if (practitionerRoutes.some(route => pathname.startsWith(route)) && !accessToken) {
-    const loginUrl = new URL('/auth/practitioner/login', request.url);
+    const loginUrl = new URL('/auth/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
-  }
-
-  // If user has token but tries to access auth pages, redirect to dashboard
-  if (accessToken && pathname.startsWith('/auth/')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return NextResponse.next();

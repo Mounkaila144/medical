@@ -8,12 +8,15 @@ import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { Public } from '../../common/decorators/public.decorator';
 import { UsersService } from '../services/users.service';
+import { PractitionerAuthService } from '../services/practitioner-auth.service';
+import { AuthUserRole } from '../entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private practitionerAuthService: PractitionerAuthService
   ) {}
 
   @Public()
@@ -21,7 +24,34 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   async login(@Body() loginDto: LoginDto, @Request() req) {
-    return this.authService.login(req.user);
+    const authResult = await this.authService.login(req.user);
+
+    // Détection automatique du type d'utilisateur basée sur le rôle
+    if (req.user.role === AuthUserRole.PRACTITIONER) {
+      // Récupérer les informations du praticien
+      const practitioner = await this.practitionerAuthService.validatePractitioner(req.user.id);
+
+      if (practitioner) {
+        return {
+          ...authResult,
+          userType: 'practitioner',
+          practitioner: {
+            id: practitioner.id,
+            firstName: practitioner.firstName,
+            lastName: practitioner.lastName,
+            specialty: practitioner.specialty,
+            color: practitioner.color,
+            tenantId: practitioner.tenantId,
+          },
+        };
+      }
+    }
+
+    // Pour tous les autres utilisateurs (SUPERADMIN, CLINIC_ADMIN, EMPLOYEE)
+    return {
+      ...authResult,
+      userType: 'user',
+    };
   }
 
   @Public()

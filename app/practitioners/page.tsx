@@ -83,6 +83,9 @@ import {
   X,
   Mail,
   Phone,
+  Copy,
+  Check,
+  KeyRound,
 } from 'lucide-react';
 import { 
   practitionersService, 
@@ -161,6 +164,12 @@ export default function PractitionersPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedPractitioner, setSelectedPractitioner] = useState<Practitioner | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showCredentialsModal, setShowCredentialsModal] = useState(false);
+  const [newPractitionerCredentials, setNewPractitionerCredentials] = useState<{
+    email: string;
+    password: string;
+    name: string;
+  } | null>(null);
 
   const form = useForm<PractitionerFormData>({
     resolver: zodResolver(practitionerFormSchema),
@@ -274,10 +283,22 @@ export default function PractitionersPage() {
         color: data.color,
       };
 
-      await practitionersService.createPractitioner(practitionerData);
+      const response = await practitionersService.createPractitioner(practitionerData);
+
+      // Stocker les credentials pour affichage
+      setNewPractitionerCredentials({
+        email: response.practitioner.email || '',
+        password: response.temporaryPassword,
+        name: `Dr. ${response.practitioner.firstName} ${response.practitioner.lastName}`,
+      });
+
       await loadPractitioners();
       setIsCreateModalOpen(false);
       form.reset();
+
+      // Afficher la modal avec les credentials
+      setShowCredentialsModal(true);
+
       toast.success('Praticien créé avec succès');
     } catch (error: any) {
       console.error('Error creating practitioner:', error);
@@ -1404,6 +1425,104 @@ export default function PractitionersPage() {
             >
               {isUpdating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Enregistrer les modifications
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Credentials Modal - Afficher les informations de connexion */}
+      <Dialog open={showCredentialsModal} onOpenChange={setShowCredentialsModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-green-700">
+              <Check className="h-6 w-6" />
+              Praticien créé avec succès
+            </DialogTitle>
+            <DialogDescription>
+              Notez bien ces informations de connexion. Le mot de passe ne sera plus affiché.
+            </DialogDescription>
+          </DialogHeader>
+
+          {newPractitionerCredentials && (
+            <div className="space-y-4 py-4">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                <div>
+                  <Label className="text-xs text-gray-600 font-medium">Nom du praticien</Label>
+                  <p className="text-sm font-semibold text-gray-900 mt-1">
+                    {newPractitionerCredentials.name}
+                  </p>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-600 font-medium flex items-center gap-1">
+                    <Mail className="h-3 w-3" />
+                    Email de connexion
+                  </Label>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-sm font-mono bg-white px-3 py-2 rounded border flex-1">
+                      {newPractitionerCredentials.email}
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.writeText(newPractitionerCredentials.email);
+                        toast.success('Email copié !');
+                      }}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-xs text-gray-600 font-medium flex items-center gap-1">
+                    <KeyRound className="h-3 w-3" />
+                    Mot de passe temporaire
+                  </Label>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-sm font-mono bg-white px-3 py-2 rounded border flex-1">
+                      {newPractitionerCredentials.password}
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.writeText(newPractitionerCredentials.password);
+                        toast.success('Mot de passe copié !');
+                      }}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 shrink-0" />
+                  <div className="text-xs text-amber-800">
+                    <p className="font-semibold mb-1">Important :</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li>Communiquez ces informations au praticien de manière sécurisée</li>
+                      <li>Le praticien devra changer son mot de passe lors de sa première connexion</li>
+                      <li>Le mot de passe ne sera plus affiché après la fermeture de cette fenêtre</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                setShowCredentialsModal(false);
+                setNewPractitionerCredentials(null);
+              }}
+              className="w-full"
+            >
+              J'ai noté les informations
             </Button>
           </DialogFooter>
         </DialogContent>

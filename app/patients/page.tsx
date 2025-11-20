@@ -123,7 +123,7 @@ type PatientFormData = z.infer<typeof patientFormSchema>;
 
 export default function PatientsPage() {
   const router = useRouter();
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated, checkAuth, practitioner, getUserType } = useAuth();
   const [patients, setPatients] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [genderFilter, setGenderFilter] = useState<string>('all');
@@ -675,9 +675,15 @@ export default function PatientsPage() {
     loadPractitioners();
   }, [showAppointmentModal, showConsultationModal]);
 
-  // Reset appointment form when modal closes
+  // Auto-select practitioner for appointments when modal opens, reset when closes
   useEffect(() => {
-    if (!showAppointmentModal) {
+    if (showAppointmentModal) {
+      // Auto-select current practitioner if logged in as practitioner
+      if (getUserType() === 'practitioner' && practitioner?.id) {
+        setAppointmentPractitioner(practitioner.id);
+      }
+    } else {
+      // Reset appointment form when modal closes
       setAppointmentDate('');
       setAppointmentStartTime('');
       setAppointmentEndTime('');
@@ -686,18 +692,24 @@ export default function PatientsPage() {
       setAppointmentUrgency('ROUTINE');
       setAppointmentNotes('');
     }
-  }, [showAppointmentModal]);
+  }, [showAppointmentModal, practitioner, getUserType]);
 
-  // Reset consultation form when modal closes
+  // Auto-select practitioner when modal opens, reset when modal closes
   useEffect(() => {
-    if (!showConsultationModal) {
+    if (showConsultationModal) {
+      // Auto-select current practitioner if logged in as practitioner
+      if (getUserType() === 'practitioner' && practitioner?.id) {
+        setConsultationPractitioner(practitioner.id);
+      }
+    } else {
+      // Reset consultation form when modal closes
       setConsultationPractitioner('');
       setConsultationMotive('');
       setConsultationExam('');
       setConsultationDiagnosis('');
       setConsultationIcd10Codes('');
     }
-  }, [showConsultationModal]);
+  }, [showConsultationModal, practitioner, getUserType]);
 
   // Handle appointment creation
   const handleCreateAppointment = async () => {
@@ -2006,22 +2018,35 @@ export default function PatientsPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            {/* Practitioner Selection */}
-            <div>
-              <Label htmlFor="appointment-practitioner">Praticien *</Label>
-              <Select value={appointmentPractitioner} onValueChange={setAppointmentPractitioner}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un praticien" />
-                </SelectTrigger>
-                <SelectContent>
-                  {practitioners.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.firstName} {p.lastName} - {p.speciality}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Practitioner Selection - Only show for non-practitioners */}
+            {getUserType() !== 'practitioner' && (
+              <div>
+                <Label htmlFor="appointment-practitioner">Praticien *</Label>
+                <Select value={appointmentPractitioner} onValueChange={setAppointmentPractitioner}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner un praticien" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {practitioners.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.firstName} {p.lastName} - {p.speciality}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Show practitioner info for logged-in practitioners */}
+            {getUserType() === 'practitioner' && practitioner && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <Label className="text-sm text-gray-600">Praticien</Label>
+                <p className="font-medium text-gray-900 mt-1">
+                  Dr. {practitioner.firstName} {practitioner.lastName}
+                  {practitioner.specialty && ` - ${practitioner.specialty}`}
+                </p>
+              </div>
+            )}
 
             {/* Date and Time */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2131,22 +2156,35 @@ export default function PatientsPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            {/* Practitioner Selection */}
-            <div>
-              <Label htmlFor="consultation-practitioner">Praticien *</Label>
-              <Select value={consultationPractitioner} onValueChange={setConsultationPractitioner}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un praticien" />
-                </SelectTrigger>
-                <SelectContent>
-                  {practitioners.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      Dr. {p.firstName} {p.lastName} - {p.speciality}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Practitioner Selection - Only show for non-practitioners */}
+            {getUserType() !== 'practitioner' && (
+              <div>
+                <Label htmlFor="consultation-practitioner">Praticien *</Label>
+                <Select value={consultationPractitioner} onValueChange={setConsultationPractitioner}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner un praticien" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {practitioners.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        Dr. {p.firstName} {p.lastName} - {p.speciality}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Show practitioner info for logged-in practitioners */}
+            {getUserType() === 'practitioner' && practitioner && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <Label className="text-sm text-gray-600">Praticien</Label>
+                <p className="font-medium text-gray-900 mt-1">
+                  Dr. {practitioner.firstName} {practitioner.lastName}
+                  {practitioner.specialty && ` - ${practitioner.specialty}`}
+                </p>
+              </div>
+            )}
 
             {/* Motive */}
             <div>

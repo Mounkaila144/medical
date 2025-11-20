@@ -2,22 +2,22 @@ import { apiClient, tokenManager } from '@/lib/api';
 import { AuthResponse, LoginForm, User, Practitioner } from '@/types';
 
 export class AuthService {
-  // Unified login - tries user first, then practitioner
+  // Unified login - détection automatique du rôle par le backend
   static async login(credentials: LoginForm): Promise<AuthResponse & { userType: 'user' | 'practitioner' }> {
-    try {
-      // Try user login first
-      const userResponse = await this.loginUser(credentials);
-      return { ...userResponse, userType: 'user' };
-    } catch (userError) {
-      try {
-        // If user login fails, try practitioner login
-        const practitionerResponse = await this.loginPractitioner(credentials);
-        return { ...practitionerResponse, userType: 'practitioner' };
-      } catch (practitionerError) {
-        // If both fail, throw the original user error
-        throw userError;
+    const response = await apiClient.post<AuthResponse & { userType: 'user' | 'practitioner' }>('/auth/login', credentials);
+
+    if (response.accessToken && response.refreshToken) {
+      tokenManager.setTokens(response.accessToken, response.refreshToken);
+
+      // Stocker les informations selon le type d'utilisateur
+      if (response.userType === 'practitioner' && response.practitioner) {
+        tokenManager.setPractitioner(response.practitioner);
+      } else if (response.user) {
+        tokenManager.setUser(response.user);
       }
     }
+
+    return response;
   }
 
   // User authentication

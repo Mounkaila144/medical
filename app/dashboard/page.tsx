@@ -131,9 +131,9 @@ export default function DashboardPage() {
     monthlyRevenue,
     pendingInvoices,
     appointmentsByStatus = {},
-    alerts,
-    upcomingAppointments,
-    recentAppointments,
+    alerts = [],
+    upcomingAppointments = [],
+    recentAppointments = [],
   } = stats;
 
   const totalToday = Object.values(appointmentsByStatus).reduce((a, b) => (a ?? 0) + (b ?? 0), 0);
@@ -177,7 +177,7 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.totalPatients.toLocaleString()}</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{totalPatients.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1">
               <span className="text-green-600 font-semibold">+12%</span> vs mois dernier
             </p>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.appointmentsToday}</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{appointmentsToday}</div>
             <p className="text-xs text-muted-foreground mt-1">
               {completedToday} terminés, {(appointmentsByStatus.SCHEDULED ?? 0) + (appointmentsByStatus.CONFIRMED ?? 0)} à venir
             </p>
@@ -207,7 +207,7 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.monthlyRevenue.toLocaleString()} CFA</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{monthlyRevenue.toLocaleString()} CFA</div>
             <p className="text-xs text-muted-foreground mt-1">
               <span className="text-green-600 font-semibold">+8%</span> vs mois dernier
             </p>
@@ -222,16 +222,16 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{stats.pendingInvoices}</div>
+            <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{pendingInvoices}</div>
             <p className="text-xs text-muted-foreground mt-1">À traiter rapidement</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Alerts */}
-      {stats.alerts.length > 0 && (
+      {alerts.length > 0 && (
         <div className="space-y-2 md:space-y-3">
-          {stats.alerts.map(alert => (
+          {alerts.map(alert => (
             <Card key={alert.id} className="border-l-4 border-l-orange-500 bg-orange-50/50 hover:shadow-md transition-shadow">
               <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 md:p-4">
                 <div className="flex items-start sm:items-center gap-2 md:gap-3">
@@ -293,7 +293,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 md:space-y-3">
-              {stats.upcomingAppointments.slice(0, 3).map(appt => (
+              {upcomingAppointments.slice(0, 3).map(appt => (
                 <div key={appt.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 md:p-3 rounded-lg bg-gradient-to-r from-cyan-50 to-blue-50 hover:shadow-md transition-shadow border border-cyan-100">
                   <div className="min-w-0">
                     <p className="font-semibold text-xs md:text-sm text-gray-900 truncate">{appt.patient}</p>
@@ -302,7 +302,7 @@ export default function DashboardPage() {
                   <Badge variant="outline" className="shrink-0 bg-white text-xs">{appt.time}</Badge>
                 </div>
               ))}
-              {stats.upcomingAppointments.length === 0 && (
+              {upcomingAppointments.length === 0 && (
                 <div className="text-center py-6 md:py-8 bg-gray-50 rounded-lg">
                   <Clock className="h-8 w-8 md:h-10 md:w-10 text-gray-300 mx-auto mb-2" />
                   <p className="text-xs md:text-sm text-muted-foreground">Aucun rendez-vous programmé aujourd&apos;hui</p>
@@ -330,7 +330,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 md:space-y-3">
-              {stats.recentAppointments.slice(0, 3).map(appt => (
+              {recentAppointments.slice(0, 3).map(appt => (
                 <div key={appt.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 md:p-3 rounded-lg bg-gradient-to-r from-teal-50 to-green-50 hover:shadow-md transition-shadow border border-teal-100">
                   <div className="min-w-0">
                     <p className="font-semibold text-xs md:text-sm text-gray-900 truncate">{appt.patientName}</p>
@@ -341,7 +341,7 @@ export default function DashboardPage() {
                   </Badge>
                 </div>
               ))}
-              {stats.recentAppointments.length === 0 && (
+              {recentAppointments.length === 0 && (
                 <div className="text-center py-6 md:py-8 bg-gray-50 rounded-lg">
                   <Users className="h-8 w-8 md:h-10 md:w-10 text-gray-300 mx-auto mb-2" />
                   <p className="text-xs md:text-sm text-muted-foreground">Aucun rendez-vous récent</p>

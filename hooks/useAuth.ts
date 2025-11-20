@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthService } from '@/services/auth.service';
-import { User, Practitioner, LoginForm } from '@/types';
+import { User, Practitioner, LoginForm, UserRole } from '@/types';
 import { handleApiError, tokenManager } from '@/lib/api';
 import { useTokenRefresh } from './useTokenRefresh';
 
@@ -53,16 +53,17 @@ export const useAuth = (): UseAuthReturn => {
   // Initialize auth state
   useEffect(() => {
     setMounted(true);
-    
+
     const initializeAuth = () => {
       try {
         const token = tokenManager.getAccessToken();
         const userData = tokenManager.getUser();
-        
-        if (token && userData) {
+        const practitionerData = tokenManager.getPractitioner();
+
+        if (token && (userData || practitionerData)) {
           setState({
-            user: userData as User,
-            practitioner: null,
+            user: userData as User | null,
+            practitioner: practitionerData as Practitioner | null,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -234,8 +235,12 @@ export const useAuth = (): UseAuthReturn => {
 
   // Get current user type
   const getUserType = useCallback((): 'user' | 'practitioner' | null => {
-    if (state.user) return 'user';
+    // Check if user has PRACTITIONER role first
+    if (state.user?.role === UserRole.PRACTITIONER) return 'practitioner';
+    // Or if practitioner object exists
     if (state.practitioner) return 'practitioner';
+    // Otherwise if user exists, it's a regular user
+    if (state.user) return 'user';
     return null;
   }, [state.user, state.practitioner]);
 

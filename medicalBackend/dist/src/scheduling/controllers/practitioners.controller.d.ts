@@ -3,7 +3,10 @@ import { CreatePractitionerDto } from '../dto/create-practitioner.dto';
 export declare class PractitionersController {
     private readonly practitionersService;
     constructor(practitionersService: PractitionersService);
-    create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<import("../entities/practitioner.entity").Practitioner>;
+    create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<{
+        practitioner: import("../entities/practitioner.entity").Practitioner;
+        temporaryPassword: string;
+    }>;
     getAll(tenantId: string): Promise<import("../entities/practitioner.entity").Practitioner[]>;
     getOne(tenantId: string, id: string): Promise<import("../entities/practitioner.entity").Practitioner>;
     update(tenantId: string, id: string, updatePractitionerDto: Partial<CreatePractitionerDto>): Promise<import("../entities/practitioner.entity").Practitioner>;

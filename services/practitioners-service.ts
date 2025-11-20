@@ -58,6 +58,11 @@ export interface CreatePractitionerDto {
   color: string;
 }
 
+export interface CreatePractitionerResponse {
+  practitioner: Practitioner;
+  temporaryPassword: string;
+}
+
 class PractitionersService {
   async getPractitioners(): Promise<Practitioner[]> {
     try {
@@ -109,9 +114,9 @@ class PractitionersService {
     }));
   }
 
-  async createPractitioner(data: CreatePractitionerDto): Promise<Practitioner> {
+  async createPractitioner(data: CreatePractitionerDto): Promise<CreatePractitionerResponse> {
     try {
-      const response = await apiClient.post<Practitioner>('/practitioners', data);
+      const response = await apiClient.post<CreatePractitionerResponse>('/practitioners', data);
       return response;
     } catch (error) {
       console.error("Create practitioner error:", error);

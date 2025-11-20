@@ -23,15 +23,40 @@ const refresh_token_dto_1 = require("../dto/refresh-token.dto");
 const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 const public_decorator_1 = require("../../common/decorators/public.decorator");
 const users_service_1 = require("../services/users.service");
+const practitioner_auth_service_1 = require("../services/practitioner-auth.service");
+const user_entity_1 = require("../entities/user.entity");
 let AuthController = class AuthController {
     authService;
     usersService;
-    constructor(authService, usersService) {
+    practitionerAuthService;
+    constructor(authService, usersService, practitionerAuthService) {
         this.authService = authService;
         this.usersService = usersService;
+        this.practitionerAuthService = practitionerAuthService;
     }
     async login(loginDto, req) {
-        return this.authService.login(req.user);
+        const authResult = await this.authService.login(req.user);
+        if (req.user.role === user_entity_1.AuthUserRole.PRACTITIONER) {
+            const practitioner = await this.practitionerAuthService.validatePractitioner(req.user.id);
+            if (practitioner) {
+                return {
+                    ...authResult,
+                    userType: 'practitioner',
+                    practitioner: {
+                        id: practitioner.id,
+                        firstName: practitioner.firstName,
+                        lastName: practitioner.lastName,
+                        specialty: practitioner.specialty,
+                        color: practitioner.color,
+                        tenantId: practitioner.tenantId,
+                    },
+                };
+            }
+        }
+        return {
+            ...authResult,
+            userType: 'user',
+        };
     }
     async refresh(user) {
         return this.authService.refresh(user.id, user.refreshToken);
@@ -97,6 +122,7 @@ __decorate([
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        practitioner_auth_service_1.PractitionerAuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

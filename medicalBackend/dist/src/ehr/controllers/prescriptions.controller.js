@@ -174,7 +174,7 @@ let PrescriptionsController = class PrescriptionsController {
 exports.PrescriptionsController = PrescriptionsController;
 __decorate([
     (0, common_1.Post)(),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -183,7 +183,7 @@ __decorate([
 ], PrescriptionsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -191,7 +191,7 @@ __decorate([
 ], PrescriptionsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -199,7 +199,7 @@ __decorate([
 ], PrescriptionsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
@@ -209,7 +209,7 @@ __decorate([
 ], PrescriptionsController.prototype, "update", null);
 __decorate([
     (0, common_1.Post)(':id/regenerate-files'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -218,7 +218,7 @@ __decorate([
 ], PrescriptionsController.prototype, "regenerateFiles", null);
 __decorate([
     (0, common_1.Get)(':id/qr-image'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
@@ -228,7 +228,7 @@ __decorate([
 ], PrescriptionsController.prototype, "getQrImage", null);
 __decorate([
     (0, common_1.Get)(':id/download/:type'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Param)('type')),
     __param(2, (0, common_1.Req)()),
@@ -239,7 +239,7 @@ __decorate([
 ], PrescriptionsController.prototype, "downloadFile", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE),
+    (0, roles_decorator_1.Roles)(user_entity_1.AuthUserRole.CLINIC_ADMIN, user_entity_1.AuthUserRole.EMPLOYEE, user_entity_1.AuthUserRole.PRACTITIONER),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),

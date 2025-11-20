@@ -9,7 +9,10 @@ export declare class PractitionersService {
     private usersService;
     private readonly logger;
     constructor(practitionerRepository: Repository<Practitioner>, availabilityRepository: Repository<Availability>, usersService: UsersService);
-    create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<Practitioner>;
+    create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<{
+        practitioner: Practitioner;
+        temporaryPassword: string;
+    }>;
     private generateTemporaryPassword;
     findAll(tenantId: string): Promise<Practitioner[]>;
     findOne(tenantId: string, id: string): Promise<Practitioner>;

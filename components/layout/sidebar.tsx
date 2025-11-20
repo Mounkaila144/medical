@@ -58,8 +58,8 @@ const navigation: NavItem[] = [
     icon: Calendar,
     children: [
       { title: 'Calendrier', href: '/appointments', icon: Calendar },
-      { title: 'Gestion file d\'attente', href: '/queue/manage', icon: ClipboardList },
-      { title: 'Liens publics', href: '/queue/public-links', icon: Link2 },
+      { title: 'Gestion file d\'attente', href: '/queue/manage', icon: ClipboardList, roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE'] },
+      { title: 'Liens publics', href: '/queue/public-links', icon: Link2, roles: ['SUPERADMIN', 'CLINIC_ADMIN'] },
     ],
   },
   {
@@ -80,6 +80,7 @@ const navigation: NavItem[] = [
   {
     title: 'Comptabilité',
     icon: DollarSign,
+    roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE'],
     children: [
       { title: 'Tableau de bord', href: '/accounting/dashboard', icon: BarChart3 },
       { title: 'Factures clients', href: '/accounting/invoices', icon: FileText },
