@@ -92,28 +92,24 @@ export const useAuth = (): UseAuthReturn => {
   // Unified login
   const login = useCallback(async (credentials: LoginForm) => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
+
     try {
       const response = await AuthService.login(credentials);
-      
-      if (response.userType === 'user') {
-        setState({
-          user: response.user || null,
-          practitioner: null,
-          isAuthenticated: true,
-          isLoading: false,
-          error: null,
-        });
-        router.push('/dashboard');
-      } else {
-        setState({
-          user: null,
-          practitioner: response.practitioner || null,
-          isAuthenticated: true,
-          isLoading: false,
-          error: null,
-        });
+
+      // Stocker les deux objets s'ils existent dans la réponse
+      setState({
+        user: response.user || null,
+        practitioner: response.practitioner || null,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+
+      // Redirection basée sur le userType retourné par le backend
+      if (response.userType === 'practitioner') {
         router.push('/practitioner/dashboard');
+      } else {
+        router.push('/dashboard');
       }
 
       return response;

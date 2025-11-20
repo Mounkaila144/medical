@@ -4,16 +4,20 @@ import { AuthResponse, LoginForm, User, Practitioner } from '@/types';
 export class AuthService {
   // Unified login - détection automatique du rôle par le backend
   static async login(credentials: LoginForm): Promise<AuthResponse & { userType: 'user' | 'practitioner' }> {
+    // Nettoyer les anciennes données avant la nouvelle connexion
+    tokenManager.clearTokens();
+
     const response = await apiClient.post<AuthResponse & { userType: 'user' | 'practitioner' }>('/auth/login', credentials);
 
     if (response.accessToken && response.refreshToken) {
       tokenManager.setTokens(response.accessToken, response.refreshToken);
 
-      // Stocker les informations selon le type d'utilisateur
-      if (response.userType === 'practitioner' && response.practitioner) {
-        tokenManager.setPractitioner(response.practitioner);
-      } else if (response.user) {
+      // Stocker TOUS les objets disponibles (user ET/OU practitioner)
+      if (response.user) {
         tokenManager.setUser(response.user);
+      }
+      if (response.practitioner) {
+        tokenManager.setPractitioner(response.practitioner);
       }
     }
 
@@ -22,29 +26,35 @@ export class AuthService {
 
   // User authentication
   static async loginUser(credentials: LoginForm): Promise<AuthResponse> {
+    // Nettoyer les anciennes données avant la nouvelle connexion
+    tokenManager.clearTokens();
+
     const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
-    
+
     if (response.accessToken && response.refreshToken) {
       tokenManager.setTokens(response.accessToken, response.refreshToken);
       if (response.user) {
         tokenManager.setUser(response.user);
       }
     }
-    
+
     return response;
   }
 
   // Practitioner authentication
   static async loginPractitioner(credentials: LoginForm): Promise<AuthResponse> {
+    // Nettoyer les anciennes données avant la nouvelle connexion
+    tokenManager.clearTokens();
+
     const response = await apiClient.post<AuthResponse>('/auth/practitioner/login', credentials);
-    
+
     if (response.accessToken && response.refreshToken) {
       tokenManager.setTokens(response.accessToken, response.refreshToken);
       if (response.practitioner) {
         tokenManager.setPractitioner(response.practitioner);
       }
     }
-    
+
     return response;
   }
 
