@@ -1,8 +1,7 @@
 'use client';
 
-import { Bell, Menu, Search, User } from 'lucide-react';
+import { Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,79 +34,33 @@ export function Header({ onMenuClick }: HeaderProps) {
   const userType = getUserType();
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-      <div className="flex h-16 items-center gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Mobile menu button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="lg:hidden"
-          onClick={onMenuClick}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
-
-        {/* Search */}
-        <div className="flex flex-1 items-center gap-4">
-          <div className="relative max-w-md flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder="Rechercher patients, RDV..."
-              className="pl-10"
-            />
-          </div>
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-4">
+          {/* Mobile menu button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="lg:hidden"
+            onClick={onMenuClick}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           {/* Theme toggle */}
           <ModeToggle />
-
-          {/* Notifications */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="h-5 w-5" />
-                <Badge 
-                  variant="destructive" 
-                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs"
-                >
-                  3
-                </Badge>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80">
-              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium">Nouveau patient enregistré</p>
-                  <p className="text-xs text-gray-500">Il y a 5 minutes</p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium">RDV annulé</p>
-                  <p className="text-xs text-gray-500">Il y a 15 minutes</p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium">Facture payée</p>
-                  <p className="text-xs text-gray-500">Il y a 1 heure</p>
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
 
           {/* User menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
+              <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-offset-background transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                <Avatar className="h-9 w-9 border border-border">
                   <AvatarImage src="" alt={displayName} />
-                  <AvatarFallback className="bg-blue-100 text-blue-700">
-                    {getInitials(displayName)}
+                  <AvatarFallback className="bg-primary/10 text-primary font-medium">
+                    <User className="h-5 w-5" />
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -120,28 +73,28 @@ export function Header({ onMenuClick }: HeaderProps) {
                     {user?.email || practitioner?.email}
                   </p>
                   {userType && (
-                    <Badge variant="secondary" className="w-fit text-xs">
+                    <Badge variant="secondary" className="w-fit text-xs mt-1">
                       {userType === 'practitioner' ? 'Praticien' : 'Administrateur'}
                     </Badge>
                   )}
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Profil</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <span>Paramètres</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout}>
+              <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 focus:text-red-600">
                 <span>Se déconnecter</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-      </div>
-    </header>
+        </div >
+      </div >
+    </header >
   );
-} 
+}
