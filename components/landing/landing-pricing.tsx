@@ -3,69 +3,132 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export function LandingPricing() {
-  const plans = [
-    {
-      name: "Starter",
-      description: "Parfait pour les praticiens individuels",
-      price: "10.000",
-      period: "mois",
-      currency: "FCFA",
-      icon: <Zap className="h-6 w-6" />,
-      gradient: "from-green-500 to-emerald-500",
-      bgGradient: "from-green-50 to-emerald-50",
-      popular: false,
-      features: [
-        "Jusqu'à 100 patients",
-        "Gestion des rendez-vous",
-        "Dossiers médicaux de base",
-        "Facturation simple",
-        "Support email",
-        "1 utilisateur"
-      ]
-    },
-    {
-      name: "Professional",
-      description: "Idéal pour les cabinets en croissance",
-      price: "25.000",
-      period: "mois",
-      currency: "FCFA",
-      icon: <Star className="h-6 w-6" />,
-      gradient: "from-blue-500 to-indigo-500",
-      bgGradient: "from-blue-50 to-indigo-50",
-      popular: true,
-      features: [
-        "Patients illimités",
-        "Gestion avancée des RDV",
-        "Dossiers médicaux complets",
-        "Facturation automatisée",
-        "Analyses et rapports",
-        "Support prioritaire",
-        "Jusqu'à 5 utilisateurs",
-        "Intégrations tierces"
-      ]
-    },
-    {
-      name: "Enterprise",
-      description: "Pour les grandes structures médicales",
-      price: "80.000",
-      period: "mois",
-      currency: "FCFA",
-      icon: <Crown className="h-6 w-6" />,
-      gradient: "from-purple-500 to-pink-500",
-      bgGradient: "from-purple-50 to-pink-50",
-      popular: false,
-      features: [
-        "Tout du plan Professional",
-        "Utilisateurs illimités",
-        "API complète",
-        "Personnalisation avancée",
-        "Formation dédiée",
-        "Support 24/7",
-        "Gestionnaire de compte",
-        "Conformité renforcée"
-      ]
-    }
-  ];
+    const plans = [
+        {
+            name: "Starter",
+            description: "Parfait pour les praticiens individuels",
+            price: "10 000",
+            period: "mois",
+            currency: "FCFA",
+            icon: <Zap className="h-6 w-6" />,
+            gradient: "from-green-500 to-emerald-500",
+            bgGradient: "from-green-50 to-emerald-50",
+            popular: false,
+            features: [
+                // Patients & consultations
+                "Jusqu'à 100 patients",
+                "Fiches patients complètes (ajout, modification, historique)",
+                "Gestion des rendez-vous avec calendrier simple",
+                "Enregistrement des consultations",
+                "Création de factures pour les consultations",
+                "Historique des consultations par patient",
+
+                // Recherche & filtres
+                "Recherche et filtrage des patients (nom, âge, genre)",
+                "Filtrage des patients par date de création ou de consultation",
+
+                // Praticiens / utilisateurs
+                "1 praticien / 1 utilisateur",
+
+                // Comptabilité basique
+                "Suivi des revenus de base",
+                "Facturation simple",
+
+                // Support
+                "Support email"
+            ]
+        },
+        {
+            name: "Professional",
+            description: "Idéal pour les cabinets en croissance",
+            price: "25 000",
+            period: "mois",
+            currency: "FCFA",
+            icon: <Star className="h-6 w-6" />,
+            gradient: "from-blue-500 to-indigo-500",
+            bgGradient: "from-blue-50 to-indigo-50",
+            popular: true,
+            features: [
+                // Tout Starter amélioré
+                "Patients illimités",
+                "Toutes les fonctionnalités du plan Starter",
+
+                // Praticiens / utilisateurs
+                "Gestion des praticiens (médecins, infirmiers, etc.)",
+                "Chaque praticien dispose de son propre compte",
+                "Jusqu'à 5 utilisateurs / praticiens",
+
+                // Consultations avancées
+                "Gestion avancée des consultations par praticien",
+                "Prescriptions et ordonnances",
+                "Enregistrement et consultation des résultats de laboratoire et analyses",
+
+                // Rendez-vous & calendrier
+                "Gestion avancée des rendez-vous",
+                "Calendrier clair et partagé pour tous les praticiens",
+
+                // File d'attente
+                "Gestion de la file d'attente avec système de tickets",
+                "Affichage des tickets et des numéros appelés sur écran",
+                "Gestion de l’imprimante de tickets pour les patients",
+
+                // Comptabilité
+                "Gestion complète de la comptabilité (revenus et dépenses)",
+                "Enregistrement des salaires du personnel",
+                "Gestion des achats de médicaments, sérums et consommables",
+                "Prix d'achat et prix de vente patient pour chaque produit",
+                "Dashboard financier : revenus, dépenses et statistiques clés",
+
+                // Site web
+                "Site web personnalisé pour la clinique (logo, couleurs et pages de base)",
+
+                // Analyses et support
+                "Analyses et rapports d’activité",
+                "Intégrations tierces essentielles",
+                "Support prioritaire"
+            ]
+        },
+        {
+            name: "Enterprise",
+            description: "Pour les grandes structures médicales",
+            price: "80 000",
+            period: "mois",
+            currency: "FCFA",
+            icon: <Crown className="h-6 w-6" />,
+            gradient: "from-purple-500 to-pink-500",
+            bgGradient: "from-purple-50 to-pink-50",
+            popular: false,
+            features: [
+                // Base
+                "Tout du plan Professional",
+
+                // Échelle & organisation
+                "Utilisateurs et praticiens illimités",
+                "Gestion multi-services ou multi-départements",
+                "File d'attente multi-postes / multi-guichets",
+
+                // API & intégrations
+                "API complète pour intégration avec d'autres systèmes",
+                "Intégrations avancées (laboratoires, pharmacies, etc.)",
+
+                // Site web & image de marque
+                "Personnalisation avancée du site de la clinique",
+                "Nom de domaine personnalisé pour la clinique",
+                "Pages supplémentaires (services, équipe, blog, etc.)",
+
+                // Pilotage & conformité
+                "Tableaux de bord financiers avancés",
+                "Rapports détaillés par praticien / service",
+                "Conformité renforcée et meilleures pratiques de sécurité",
+
+                // Accompagnement
+                "Formation dédiée à l’équipe",
+                "Support 24/7",
+                "Gestionnaire de compte dédié"
+            ]
+        }
+    ];
+
 
   return (
     <section id="pricing" className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
