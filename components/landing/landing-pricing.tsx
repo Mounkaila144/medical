@@ -7,7 +7,7 @@ export function LandingPricing() {
         {
             name: "Starter",
             description: "Parfait pour les praticiens individuels",
-            price: "10 000",
+            price: "30 000",
             period: "mois",
             currency: "FCFA",
             icon: <Zap className="h-6 w-6" />,
@@ -41,7 +41,7 @@ export function LandingPricing() {
         {
             name: "Professional",
             description: "Idéal pour les cabinets en croissance",
-            price: "25 000",
+            price: "70 000",
             period: "mois",
             currency: "FCFA",
             icon: <Star className="h-6 w-6" />,
@@ -91,7 +91,7 @@ export function LandingPricing() {
         {
             name: "Enterprise",
             description: "Pour les grandes structures médicales",
-            price: "80 000",
+            price: "200 000",
             period: "mois",
             currency: "FCFA",
             icon: <Crown className="h-6 w-6" />,
