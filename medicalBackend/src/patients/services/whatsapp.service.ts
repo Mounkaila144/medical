@@ -9,7 +9,7 @@ export class WhatsappService {
    * @param phoneNumber Le numéro WhatsApp de destination
    * @returns L'URL de redirection WhatsApp
    */
-  generateWhatsappLink(patient: Patient, phoneNumber: string = '22797977199'): string {
+  generateWhatsappLink(patient: Patient, phoneNumber: string = '22770212112'): string {
     // Formater la date de naissance de manière sécurisée
     let formattedDate = 'Non spécifié';
     if (patient.dob) {

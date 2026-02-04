@@ -23,6 +23,7 @@ const publicRoutes = [
   '/auth/login',
   '/auth/register',
   '/',
+  '/legal',
 ];
 
 // Routes publiques avec tenant dynamique (patterns regex)

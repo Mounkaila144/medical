@@ -96,8 +96,8 @@ export default function DashboardPage() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center space-y-4">
           <div className="relative">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600 mx-auto" />
-            <div className="absolute inset-0 animate-ping rounded-full h-12 w-12 border-2 border-blue-400 opacity-20 mx-auto" />
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary/20 border-t-primary mx-auto" />
+            <div className="absolute inset-0 animate-ping rounded-full h-12 w-12 border-2 border-primary/40 opacity-20 mx-auto" />
           </div>
           <p className="text-gray-600 font-medium">Chargement de votre tableau de bord...</p>
         </div>
@@ -143,14 +143,14 @@ export default function DashboardPage() {
   return (
     <div className="space-y-4 md:space-y-6 w-full overflow-x-hidden pb-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 md:p-8 text-white shadow-xl">
+      <div className="bg-gradient-to-r from-brand-blue to-brand-cyan rounded-2xl p-4 md:p-8 text-white shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="space-y-2">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">Bonjour, {displayName} 👋</h1>
-            <p className="text-blue-100 text-sm md:text-base">Voici un aperçu de votre activité aujourd&apos;hui</p>
+            <p className="text-white/80 text-sm md:text-base">Voici un aperçu de votre activité aujourd&apos;hui</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
-            <Button asChild className="bg-white text-blue-600 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all">
+            <Button asChild className="bg-white text-brand-blue hover:bg-white/90 shadow-lg hover:shadow-xl transition-all">
               <Link href="/patients" className="inline-flex items-center justify-center">
                 <Plus className="h-4 w-4 mr-2" />
                 <span className="whitespace-nowrap">Nouveau patient</span>
@@ -169,11 +169,11 @@ export default function DashboardPage() {
 
       {/* Stat Cards */}
       <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-blue-500 hover:scale-105">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-brand-blue hover:scale-105">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Total Patients</CardTitle>
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Users className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+            <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Total Patients</CardTitle>
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Users className="h-4 w-4 md:h-5 md:w-5 text-brand-blue" />
             </div>
           </CardHeader>
           <CardContent>
@@ -184,11 +184,11 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-purple-500 hover:scale-105">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-brand-cyan hover:scale-105">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">RDV Aujourd&apos;hui</CardTitle>
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Calendar className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+            <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">RDV Aujourd&apos;hui</CardTitle>
+            <div className="p-2 bg-brand-cyan/10 rounded-lg">
+              <Calendar className="h-4 w-4 md:h-5 md:w-5 text-brand-cyan" />
             </div>
           </CardHeader>
           <CardContent>
@@ -199,11 +199,11 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-green-500 hover:scale-105">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-brand-green hover:scale-105">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Revenus du Mois</CardTitle>
-            <div className="p-2 bg-green-100 rounded-lg">
-              <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+            <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Revenus du Mois</CardTitle>
+            <div className="p-2 bg-brand-green/10 rounded-lg">
+              <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-brand-green" />
             </div>
           </CardHeader>
           <CardContent>
@@ -214,9 +214,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-orange-500 hover:scale-105">
+        <Card className="hover:shadow-lg transition-all duration-300 border-t-4 border-t-brand-teal hover:scale-105">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-xs md:text-sm font-medium text-gray-600">Factures Attente</CardTitle>
+            <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Factures Attente</CardTitle>
             <div className="p-2 bg-orange-100 rounded-lg">
               <FileText className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
             </div>
@@ -250,11 +250,11 @@ export default function DashboardPage() {
 
       {/* Progress + Appointments */}
       <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-indigo-500">
+        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-brand-blue">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-              <div className="p-2 bg-indigo-100 rounded-lg">
-                <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-brand-blue" />
               </div>
               Progression du Jour
             </CardTitle>
@@ -263,15 +263,15 @@ export default function DashboardPage() {
             <div>
               <div className="flex justify-between text-xs md:text-sm mb-2 font-medium">
                 <span className="text-gray-600">Consultations terminées</span>
-                <span className="text-indigo-600 font-bold">{completedToday}/{totalToday}</span>
+                <span className="text-brand-blue font-bold">{completedToday}/{totalToday}</span>
               </div>
               <Progress value={completionRate} className="h-3 bg-gray-200" />
               <p className="text-xs text-muted-foreground mt-1.5">{Math.round(completionRate)}% complété</p>
             </div>
             <div className="grid grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm pt-2 border-t">
-              <div className="bg-blue-50 p-3 rounded-lg">
+              <div className="bg-primary/5 p-3 rounded-lg">
                 <p className="text-muted-foreground text-xs">En cours</p>
-                <p className="font-bold text-lg text-blue-600">{appointmentsByStatus.IN_PROGRESS ?? 0}</p>
+                <p className="font-bold text-lg text-brand-blue">{appointmentsByStatus.IN_PROGRESS ?? 0}</p>
               </div>
               <div className="bg-red-50 p-3 rounded-lg">
                 <p className="text-muted-foreground text-xs">Annulés</p>
@@ -281,11 +281,11 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-cyan-500">
+        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-brand-cyan">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-              <div className="p-2 bg-cyan-100 rounded-lg">
-                <Clock className="h-4 w-4 md:h-5 md:w-5 text-cyan-600" />
+              <div className="p-2 bg-brand-cyan/10 rounded-lg">
+                <Clock className="h-4 w-4 md:h-5 md:w-5 text-brand-cyan" />
               </div>
               Prochains RDV
             </CardTitle>
@@ -318,11 +318,11 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-teal-500">
+        <Card className="hover:shadow-lg transition-shadow border-t-4 border-t-brand-teal">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-              <div className="p-2 bg-teal-100 rounded-lg">
-                <Users className="h-4 w-4 md:h-5 md:w-5 text-teal-600" />
+              <div className="p-2 bg-brand-teal/10 rounded-lg">
+                <Users className="h-4 w-4 md:h-5 md:w-5 text-brand-teal" />
               </div>
               RDV Récents
             </CardTitle>
@@ -359,8 +359,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <Card className="border-t-4 border-t-violet-500 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-violet-50 to-purple-50">
+      <Card className="border-t-4 border-t-brand-blue shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-primary/5 to-brand-cyan/5">
           <CardTitle className="text-lg md:text-xl">Actions Rapides</CardTitle>
           <CardDescription className="text-xs md:text-sm">Accès rapide aux fonctionnalités principales</CardDescription>
         </CardHeader>
@@ -368,48 +368,48 @@ export default function DashboardPage() {
           <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
             <Button
               variant="outline"
-              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all group"
+              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-primary/5 hover:border-primary/30 hover:shadow-md transition-all group"
               asChild
             >
               <Link href="/patients">
-                <div className="p-2 bg-blue-100 rounded-lg group-hover:scale-110 transition-transform">
-                  <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
+                <div className="p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform">
+                  <Users className="h-5 w-5 md:h-6 md:w-6 text-brand-blue" />
                 </div>
                 <span className="text-xs md:text-sm font-medium">Nouveau Patient</span>
               </Link>
             </Button>
             <Button
               variant="outline"
-              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all group"
+              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-brand-cyan/5 hover:border-brand-cyan/30 hover:shadow-md transition-all group"
               asChild
             >
               <Link href="/appointments">
-                <div className="p-2 bg-purple-100 rounded-lg group-hover:scale-110 transition-transform">
-                  <Calendar className="h-5 w-5 md:h-6 md:w-6 text-purple-600" />
+                <div className="p-2 bg-brand-cyan/10 rounded-lg group-hover:scale-110 transition-transform">
+                  <Calendar className="h-5 w-5 md:h-6 md:w-6 text-brand-cyan" />
                 </div>
                 <span className="text-xs md:text-sm font-medium">Planifier RDV</span>
               </Link>
             </Button>
             <Button
               variant="outline"
-              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-green-50 hover:border-green-300 hover:shadow-md transition-all group"
+              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-brand-green/5 hover:border-brand-green/30 hover:shadow-md transition-all group"
               asChild
             >
               <Link href="/encounters">
-                <div className="p-2 bg-green-100 rounded-lg group-hover:scale-110 transition-transform">
-                  <FileText className="h-5 w-5 md:h-6 md:w-6 text-green-600" />
+                <div className="p-2 bg-brand-green/10 rounded-lg group-hover:scale-110 transition-transform">
+                  <FileText className="h-5 w-5 md:h-6 md:w-6 text-brand-green" />
                 </div>
                 <span className="text-xs md:text-sm font-medium">Nouvelle Consultation</span>
               </Link>
             </Button>
             <Button
               variant="outline"
-              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-emerald-50 hover:border-emerald-300 hover:shadow-md transition-all group"
+              className="w-full h-20 md:h-24 flex-col gap-2 hover:bg-brand-teal/5 hover:border-brand-teal/30 hover:shadow-md transition-all group"
               asChild
             >
               <Link href="/billing/invoices">
-                <div className="p-2 bg-emerald-100 rounded-lg group-hover:scale-110 transition-transform">
-                  <DollarSign className="h-5 w-5 md:h-6 md:w-6 text-emerald-600" />
+                <div className="p-2 bg-brand-teal/10 rounded-lg group-hover:scale-110 transition-transform">
+                  <DollarSign className="h-5 w-5 md:h-6 md:w-6 text-brand-teal" />
                 </div>
                 <span className="text-xs md:text-sm font-medium">Créer Facture</span>
               </Link>

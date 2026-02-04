@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 export function LandingTestimonials() {
   const testimonials = [
     {
-      quote: "Gestion-Medical a complètement transformé le fonctionnement de notre clinique. Le système de planification seul nous a fait économiser d'innombrables heures.",
+      quote: "Clinoo+ a complètement transformé le fonctionnement de notre clinique. Le système de planification seul nous a fait économiser d'innombrables heures.",
       author: "Dr. Fatouma Ali",
       role: "Médecine Générale, Clinique Santé Plus",
       rating: 5,
       avatar: "SD",
       specialty: "15 ans d'expérience",
-      gradient: "from-blue-500 to-cyan-500",
+      gradient: "from-brand-blue to-brand-cyan",
     },
     {
       quote: "Les modules de gestion des patients et des dossiers médicaux sont intuitifs et complets. Notre équipe s'est adaptée au système en quelques jours.",
@@ -19,7 +19,7 @@ export function LandingTestimonials() {
       rating: 5,
       avatar: "MT",
       specialty: "Spécialiste pédiatrie",
-      gradient: "from-emerald-500 to-teal-500",
+      gradient: "from-brand-green to-brand-teal",
     },
     {
       quote: "En tant que gestionnaire de cabinet, le tableau de bord analytique me donne des insights précieux sur nos opérations que nous n'avions jamais eus auparavant.",
@@ -28,33 +28,33 @@ export function LandingTestimonials() {
       rating: 5,
       avatar: "RM",
       specialty: "Gestion médicale",
-      gradient: "from-purple-500 to-indigo-500",
+      gradient: "from-brand-teal to-brand-cyan",
     }
   ];
 
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden">
+    <section className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 via-primary/5 to-brand-cyan/5 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyan-200/10 to-blue-200/10 rounded-full blur-3xl" />
+        <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-brand-blue/15 to-brand-teal/15 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-brand-teal/10 to-brand-green/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-brand-cyan/5 to-brand-blue/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-primary/20 shadow-sm mb-6">
             <Star className="h-4 w-4 text-yellow-500 fill-current" />
-            <span className="text-sm font-medium text-gray-700">Témoignages Clients</span>
+            <span className="text-sm font-medium text-foreground/80">Témoignages Clients</span>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Approuvé par les
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Professionnels de Santé</span>
+            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent"> Professionnels de Santé</span>
             </h2>
-          
-          <p className="text-xl text-gray-600 leading-relaxed">
+
+          <p className="text-xl text-muted-foreground leading-relaxed">
             Découvrez ce que les professionnels médicaux disent de notre plateforme
           </p>
         </div>
@@ -62,29 +62,29 @@ export function LandingTestimonials() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">1000+</div>
-            <div className="text-gray-600 font-medium">Praticiens Actifs</div>
+            <div className="text-4xl md:text-5xl font-bold text-brand-blue mb-2">1000+</div>
+            <div className="text-muted-foreground font-medium">Praticiens Actifs</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">98%</div>
-            <div className="text-gray-600 font-medium">Satisfaction Client</div>
+            <div className="text-4xl md:text-5xl font-bold text-brand-green mb-2">98%</div>
+            <div className="text-muted-foreground font-medium">Satisfaction Client</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">24/7</div>
-            <div className="text-gray-600 font-medium">Support Technique</div>
+            <div className="text-4xl md:text-5xl font-bold text-brand-teal mb-2">24/7</div>
+            <div className="text-muted-foreground font-medium">Support Technique</div>
           </div>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:-translate-y-2"
             >
               {/* Quote Icon */}
               <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="h-12 w-12 text-gray-400" />
+                <Quote className="h-12 w-12 text-muted-foreground" />
               </div>
 
               {/* Rating */}
@@ -95,8 +95,8 @@ export function LandingTestimonials() {
               </div>
 
               {/* Quote */}
-              <blockquote className="text-gray-700 text-lg leading-relaxed mb-8 relative z-10">
-                "{testimonial.quote}"
+              <blockquote className="text-foreground/80 text-lg leading-relaxed mb-8 relative z-10">
+                &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 
               {/* Author */}
@@ -105,20 +105,20 @@ export function LandingTestimonials() {
                 <div className={`w-14 h-14 rounded-full bg-gradient-to-r ${testimonial.gradient} flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
                   {testimonial.avatar}
                 </div>
-                
+
                 {/* Author Info */}
                 <div>
-                  <div className="font-bold text-gray-900 text-lg">{testimonial.author}</div>
-                  <div className="text-gray-600 text-sm">{testimonial.role}</div>
-                  <div className="text-blue-600 text-xs font-medium">{testimonial.specialty}</div>
+                  <div className="font-bold text-foreground text-lg">{testimonial.author}</div>
+                  <div className="text-muted-foreground text-sm">{testimonial.role}</div>
+                  <div className="text-primary text-xs font-medium">{testimonial.specialty}</div>
                 </div>
               </div>
 
               {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-blue-50/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-primary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               {/* Decorative Elements */}
-              <div className="absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-primary/10 to-brand-cyan/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}
         </div>
@@ -126,27 +126,27 @@ export function LandingTestimonials() {
         {/* Bottom Section */}
         <div className="text-center mt-20">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
               Rejoignez des milliers de professionnels satisfaits
             </h3>
-            <p className="text-gray-600 mb-6">
-              Commencez votre essai gratuit dès aujourd'hui et découvrez pourquoi Gestion-Medical est le choix préféré des professionnels de santé.
+            <p className="text-muted-foreground mb-6">
+              Commencez votre essai gratuit dès aujourd&apos;hui et découvrez pourquoi Clinoo+ est le choix préféré des professionnels de santé.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 asChild
-                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                className="px-8 py-3 bg-gradient-to-r from-brand-blue to-brand-cyan text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%205%20jours%20avec%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20commencer%20mon%20essai%20gratuit%20de%205%20jours%20avec%20Clinoo+" target="_blank" rel="noopener noreferrer">
                   Essai Gratuit 5 Jours
                 </a>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:border-blue-300 hover:text-blue-600 transition-all duration-300"
+                className="px-8 py-3 border-2 border-border text-foreground/80 rounded-full font-semibold hover:border-primary/30 hover:text-primary transition-all duration-300"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20demander%20une%20démo%20de%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20demander%20une%20démo%20de%20Clinoo+" target="_blank" rel="noopener noreferrer">
                   Demander une Démo
                 </a>
               </Button>

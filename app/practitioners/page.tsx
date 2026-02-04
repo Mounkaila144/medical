@@ -86,6 +86,7 @@ import {
   Copy,
   Check,
   KeyRound,
+  Download,
 } from 'lucide-react';
 import { 
   practitionersService, 
@@ -98,6 +99,7 @@ import {
 } from '@/services/practitioners-service';
 import { useAuth } from '@/hooks/useAuth';
 import { PractitionerCard } from '@/components/practitioners/practitioner-card';
+import { exportPractitionersToPDF } from '@/lib/pdf-export';
 
 // Specialty labels in French
 const specialityLabels: Record<Speciality, string> = {
@@ -365,6 +367,21 @@ export default function PractitionersPage() {
     }
   };
 
+  const handleExportPractitioners = () => {
+    try {
+      if (practitioners.length === 0) {
+        toast.error('Aucun praticien à exporter');
+        return;
+      }
+
+      exportPractitionersToPDF(practitioners);
+      toast.success('Export PDF terminé avec succès');
+    } catch (error) {
+      console.error('Error exporting practitioners:', error);
+      toast.error('Erreur lors de l\'export PDF des praticiens');
+    }
+  };
+
   const handleOpenEditModal = (practitioner: Practitioner) => {
     setSelectedPractitioner(practitioner);
     editForm.reset({
@@ -450,6 +467,16 @@ export default function PractitionersPage() {
             >
               <RefreshCw className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
               Actualiser
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPractitioners}
+              disabled={!isAuthenticated}
+              className="bg-white/10 border-white text-white hover:bg-white/20 backdrop-blur-sm text-xs md:text-sm"
+              size="sm"
+            >
+              <Download className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
+              Exporter
             </Button>
             <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
               <DialogTrigger asChild>

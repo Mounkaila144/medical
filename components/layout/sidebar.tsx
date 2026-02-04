@@ -14,7 +14,6 @@ import {
   DollarSign,
   BarChart3,
   Settings,
-  Stethoscope,
   ClipboardList,
   Clock,
   X,
@@ -24,7 +23,9 @@ import {
   UserPlus,
   Shield,
   Link2,
+  Stethoscope,
 } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -53,6 +54,21 @@ export const navigation: NavItem[] = [
     icon: Users,
     href: '/patients'
   },
+    {
+        title: 'Praticiens',
+        href: '/practitioners',
+        icon: UserCheck,
+        roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'ADMIN'],
+    },
+    {
+        title: 'Consultations',
+        icon: Stethoscope,
+        children: [
+            { title: 'Rencontres', href: '/encounters', icon: FileText },
+            { title: 'Prescriptions', href: '/encounters/prescriptions', icon: ClipboardList },
+            { title: 'Résultats labo', href: '/encounters/labs', icon: FileText },
+        ],
+    },
   {
     title: 'Planification',
     icon: Calendar,
@@ -62,21 +78,7 @@ export const navigation: NavItem[] = [
       { title: 'Liens publics', href: '/queue/public-links', icon: Link2, roles: ['SUPERADMIN', 'CLINIC_ADMIN'] },
     ],
   },
-  {
-    title: 'Praticiens',
-    href: '/practitioners',
-    icon: UserCheck,
-    roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'ADMIN'],
-  },
-  {
-    title: 'Consultations',
-    icon: Stethoscope,
-    children: [
-      { title: 'Rencontres', href: '/encounters', icon: FileText },
-      { title: 'Prescriptions', href: '/encounters/prescriptions', icon: ClipboardList },
-      { title: 'Résultats labo', href: '/encounters/labs', icon: FileText },
-    ],
-  },
+
   {
     title: 'Comptabilité',
     icon: DollarSign,
@@ -149,7 +151,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
               className={cn(
                 "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
                 level > 0 && "ml-4",
-                "hover:bg-blue-50 hover:text-blue-700"
+                "hover:bg-primary/10 hover:text-primary"
               )}
             >
               <Icon className="h-5 w-5 shrink-0" />
@@ -176,8 +178,8 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
           "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
           level > 0 && "ml-4",
           isActive(item.href!)
-            ? "bg-blue-100 text-blue-700 border-r-2 border-blue-700"
-            : "hover:bg-blue-50 hover:text-blue-700"
+            ? "bg-primary/15 text-primary border-r-2 border-primary"
+            : "hover:bg-primary/10 hover:text-primary"
         )}
         onClick={() => onOpenChange(false)}
         asChild
@@ -192,18 +194,38 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
 
   return (
     <>
+      {/* Desktop Sidebar - Always visible */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-card border-r border-border px-4 py-6">
+          {/* Header */}
+          <div className="flex h-16 shrink-0 items-center">
+            <Link href="/dashboard" className="flex items-center">
+              <Image src="/images/logo.png" alt="Clinoo+" width={150} height={45} className="h-10 w-auto" />
+            </Link>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex flex-1 flex-col">
+            <ScrollArea className="flex-1">
+              <div className="space-y-1">
+                {navigation.map(item => renderNavItem(item))}
+              </div>
+            </ScrollArea>
+          </nav>
+        </div>
+      </div>
+
       {/* Mobile Sidebar */}
       <div className={cn(
         "fixed inset-y-0 z-50 flex w-64 flex-col transition-transform duration-300 ease-in-out lg:hidden",
         open ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-gray-200 px-4 py-6">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-card border-r border-border px-4 py-6">
           {/* Header with close button */}
           <div className="flex h-16 shrink-0 items-center justify-between">
-            <div className="flex items-center">
-              <Stethoscope className="h-8 w-8 text-blue-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">Gestion-Medical</span>
-            </div>
+            <Link href="/dashboard" className="flex items-center">
+              <Image src="/images/logo.png" alt="Clinoo+" width={150} height={45} className="h-10 w-auto" />
+            </Link>
             <Button
               variant="ghost"
               size="sm"

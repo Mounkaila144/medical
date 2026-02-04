@@ -1,6 +1,7 @@
 'use client';
 
 import { Menu, User } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,21 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { ModeToggle } from '@/components/theme-toggle';
-import { navigation } from './sidebar';
-import { cn } from '@/lib/utils';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -59,71 +49,16 @@ export function Header({ onMenuClick }: HeaderProps) {
             <Menu className="h-5 w-5" />
           </Button>
 
-          {/* Logo for Desktop */}
-          <div className="hidden lg:flex items-center mr-4">
-            <span className="text-xl font-bold text-primary">Gestion-Medical</span>
+          {/* Page title or breadcrumb can go here */}
+          <div className="lg:hidden">
+            <Link href="/dashboard">
+              <Image src="/images/logo.png" alt="Clinoo+" width={120} height={36} className="h-8 w-auto" />
+            </Link>
           </div>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex flex-1 justify-center">
-          <NavigationMenu>
-            <NavigationMenuList>
-              {navigation.map((item) => {
-                if (item.roles && !hasAnyRole(item.roles)) return null;
-
-                if (item.children) {
-                  return (
-                    <NavigationMenuItem key={item.title}>
-                      <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                          {item.children.map((child) => {
-                            if (child.roles && !hasAnyRole(child.roles)) return null;
-                            const Icon = child.icon;
-                            return (
-                              <li key={child.title}>
-                                <NavigationMenuLink asChild>
-                                  <Link
-                                    href={child.href || '#'}
-                                    className={cn(
-                                      "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                    )}
-                                  >
-                                    <div className="flex items-center gap-2 text-sm font-medium leading-none">
-                                      <Icon className="h-4 w-4" />
-                                      {child.title}
-                                    </div>
-                                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground mt-1">
-                                      {/* Description could go here if added to nav items */}
-                                    </p>
-                                  </Link>
-                                </NavigationMenuLink>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  );
-                }
-
-                return (
-                  <NavigationMenuItem key={item.title}>
-                    <Link href={item.href || '#'} legacyBehavior passHref>
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        {item.title}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
         {/* Right side */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ml-auto">
           {/* Theme toggle */}
           <ModeToggle />
 

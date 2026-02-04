@@ -5,8 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Stethoscope, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,12 +48,11 @@ function LoginFormContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-brand-cyan/10 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex items-center justify-center mb-4">
-            <Stethoscope className="h-10 w-10 text-blue-600" />
-            <span className="ml-2 text-2xl font-bold text-gray-900">Gestion-Medical</span>
+            <Image src="/images/logo.png" alt="Clinoo+" width={180} height={54} className="h-14 w-auto" />
           </div>
           <CardTitle className="text-2xl">Connexion</CardTitle>
           <CardDescription>
@@ -117,21 +117,21 @@ function LoginFormContent() {
               </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               Pas encore de compte ?{" "}
-              <Link href="/auth/register" className="text-blue-600 hover:underline">
+              <Link href="/auth/register" className="text-primary hover:underline">
                 S'inscrire
               </Link>
             </p>
                 </div>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
+          <div className="mt-6 text-center text-sm text-muted-foreground">
             <p className="mb-2">Comptes de démonstration :</p>
-            <div className="space-y-1 text-xs bg-gray-50 p-3 rounded-lg">
+            <div className="space-y-1 text-xs bg-muted p-3 rounded-lg">
               <p><strong>Admin :</strong> admin@example.com / password123</p>
               <p><strong>Praticien :</strong> sarah.johnson@clinic.com / practitioner123</p>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-muted-foreground">
               Le système déterminera automatiquement votre rôle et vous redirigera vers la bonne interface.
             </p>
           </div>

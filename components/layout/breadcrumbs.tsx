@@ -71,21 +71,21 @@ export function Breadcrumbs() {
         {breadcrumbs.map((item, index) => (
           <li key={index} className="flex items-center">
             {index > 0 && (
-              <ChevronRight className="h-4 w-4 text-gray-400 mx-2" />
+              <ChevronRight className="h-4 w-4 text-muted-foreground mx-2" />
             )}
             {item.href ? (
               <Link
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-blue-600",
-                  index === 0 ? "text-gray-500" : "text-gray-700"
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  index === 0 ? "text-muted-foreground" : "text-foreground/80"
                 )}
               >
                 {index === 0 && <Home className="h-4 w-4 mr-1 inline" />}
                 {item.label}
               </Link>
             ) : (
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm font-medium text-foreground">
                 {item.label}
               </span>
             )}

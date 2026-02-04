@@ -11,30 +11,21 @@ export function LandingPricing() {
             period: "mois",
             currency: "FCFA",
             icon: <Zap className="h-6 w-6" />,
-            gradient: "from-green-500 to-emerald-500",
-            bgGradient: "from-green-50 to-emerald-50",
+            gradient: "from-brand-green to-brand-teal",
+            bgGradient: "from-brand-green/5 to-brand-teal/5",
             popular: false,
             features: [
-                // Patients & consultations
                 "Jusqu'à 100 patients",
                 "Fiches patients complètes (ajout, modification, historique)",
                 "Gestion des rendez-vous avec calendrier simple",
                 "Enregistrement des consultations",
                 "Création de factures pour les consultations",
                 "Historique des consultations par patient",
-
-                // Recherche & filtres
                 "Recherche et filtrage des patients (nom, âge, genre)",
                 "Filtrage des patients par date de création ou de consultation",
-
-                // Praticiens / utilisateurs
                 "1 praticien / 1 utilisateur",
-
-                // Comptabilité basique
                 "Suivi des revenus de base",
                 "Facturation simple",
-
-                // Support
                 "Support email"
             ]
         },
@@ -45,45 +36,30 @@ export function LandingPricing() {
             period: "mois",
             currency: "FCFA",
             icon: <Star className="h-6 w-6" />,
-            gradient: "from-blue-500 to-indigo-500",
-            bgGradient: "from-blue-50 to-indigo-50",
+            gradient: "from-brand-blue to-brand-cyan",
+            bgGradient: "from-primary/5 to-brand-cyan/5",
             popular: true,
             features: [
-                // Tout Starter amélioré
                 "Patients illimités",
                 "Toutes les fonctionnalités du plan Starter",
-
-                // Praticiens / utilisateurs
                 "Gestion des praticiens (médecins, infirmiers, etc.)",
                 "Chaque praticien dispose de son propre compte",
                 "Jusqu'à 5 utilisateurs / praticiens",
-
-                // Consultations avancées
                 "Gestion avancée des consultations par praticien",
                 "Prescriptions et ordonnances",
                 "Enregistrement et consultation des résultats de laboratoire et analyses",
-
-                // Rendez-vous & calendrier
                 "Gestion avancée des rendez-vous",
                 "Calendrier clair et partagé pour tous les praticiens",
-
-                // File d'attente
                 "Gestion de la file d'attente avec système de tickets",
                 "Affichage des tickets et des numéros appelés sur écran",
-                "Gestion de l’imprimante de tickets pour les patients",
-
-                // Comptabilité
+                "Gestion de l'imprimante de tickets pour les patients",
                 "Gestion complète de la comptabilité (revenus et dépenses)",
                 "Enregistrement des salaires du personnel",
                 "Gestion des achats de médicaments, sérums et consommables",
                 "Prix d'achat et prix de vente patient pour chaque produit",
                 "Dashboard financier : revenus, dépenses et statistiques clés",
-
-                // Site web
                 "Site web personnalisé pour la clinique (logo, couleurs et pages de base)",
-
-                // Analyses et support
-                "Analyses et rapports d’activité",
+                "Analyses et rapports d'activité",
                 "Intégrations tierces essentielles",
                 "Support prioritaire"
             ]
@@ -95,34 +71,23 @@ export function LandingPricing() {
             period: "mois",
             currency: "FCFA",
             icon: <Crown className="h-6 w-6" />,
-            gradient: "from-purple-500 to-pink-500",
-            bgGradient: "from-purple-50 to-pink-50",
+            gradient: "from-brand-teal to-brand-blue",
+            bgGradient: "from-brand-teal/5 to-primary/5",
             popular: false,
             features: [
-                // Base
                 "Tout du plan Professional",
-
-                // Échelle & organisation
                 "Utilisateurs et praticiens illimités",
                 "Gestion multi-services ou multi-départements",
                 "File d'attente multi-postes / multi-guichets",
-
-                // API & intégrations
                 "API complète pour intégration avec d'autres systèmes",
                 "Intégrations avancées (laboratoires, pharmacies, etc.)",
-
-                // Site web & image de marque
                 "Personnalisation avancée du site de la clinique",
                 "Nom de domaine personnalisé pour la clinique",
                 "Pages supplémentaires (services, équipe, blog, etc.)",
-
-                // Pilotage & conformité
                 "Tableaux de bord financiers avancés",
                 "Rapports détaillés par praticien / service",
                 "Conformité renforcée et meilleures pratiques de sécurité",
-
-                // Accompagnement
-                "Formation dédiée à l’équipe",
+                "Formation dédiée à l'équipe",
                 "Support 24/7",
                 "Gestionnaire de compte dédié"
             ]
@@ -131,27 +96,27 @@ export function LandingPricing() {
 
 
   return (
-    <section id="pricing" className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
+    <section id="pricing" className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 to-primary/5 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-blue-200/20 to-indigo-200/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-200/15 to-pink-200/15 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-brand-blue/10 to-brand-cyan/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-brand-teal/10 to-brand-green/10 rounded-full blur-3xl" />
       </div>
 
       <div className="relative container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-sm mb-6">
-            <Shield className="h-4 w-4 text-blue-600" />
-            <span className="text-sm font-medium text-blue-700">Tarification Transparente</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-primary/20 shadow-sm mb-6">
+            <Shield className="h-4 w-4 text-brand-blue" />
+            <span className="text-sm font-medium text-brand-blue">Tarification Transparente</span>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Choisissez le Plan
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Parfait pour Vous</span>
+            <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent"> Parfait pour Vous</span>
           </h2>
-          
-          <p className="text-xl text-gray-600 leading-relaxed">
+
+          <p className="text-xl text-muted-foreground leading-relaxed">
             Des tarifs adaptés à chaque taille de cabinet. Commencez gratuitement, évoluez selon vos besoins.
           </p>
         </div>
@@ -159,18 +124,18 @@ export function LandingPricing() {
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
-            <div 
+            <div
               key={index}
               className={`relative group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border ${
-                plan.popular 
-                  ? 'border-blue-200 ring-2 ring-blue-500/20 scale-105' 
-                  : 'border-gray-200 hover:border-gray-300'
+                plan.popular
+                  ? 'border-primary/20 ring-2 ring-primary/20 scale-105'
+                  : 'border-border hover:border-border/80'
               } hover:-translate-y-2`}
             >
               {/* Popular Badge */}
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                  <div className="bg-gradient-to-r from-brand-blue to-brand-cyan text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
                     Le plus populaire
                   </div>
                 </div>
@@ -181,29 +146,29 @@ export function LandingPricing() {
                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${plan.gradient} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   {plan.icon}
                 </div>
-                
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <p className="text-gray-600">{plan.description}</p>
+
+                <h3 className="text-2xl font-bold text-foreground mb-2">{plan.name}</h3>
+                <p className="text-muted-foreground">{plan.description}</p>
               </div>
 
               {/* Price */}
               <div className="text-center mb-8">
                 <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-4xl md:text-5xl font-bold text-gray-900">{plan.price}</span>
+                  <span className="text-4xl md:text-5xl font-bold text-foreground">{plan.price}</span>
                   <div className="flex flex-col items-start">
-                    <span className="text-lg font-semibold text-gray-700">{plan.currency}</span>
-                    <span className="text-sm text-gray-600">/{plan.period}</span>
+                    <span className="text-lg font-semibold text-foreground/80">{plan.currency}</span>
+                    <span className="text-sm text-muted-foreground">/{plan.period}</span>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500 mt-2">Facturation mensuelle</p>
+                <p className="text-sm text-muted-foreground mt-2">Facturation mensuelle</p>
               </div>
 
               {/* Features */}
               <div className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-center gap-3">
-                    <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <Check className="h-5 w-5 text-brand-green flex-shrink-0" />
+                    <span className="text-foreground/80">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -213,12 +178,12 @@ export function LandingPricing() {
                 asChild
                 className={`w-full ${
                   plan.popular
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                    ? 'bg-gradient-to-r from-brand-blue to-brand-cyan hover:from-brand-blue/90 hover:to-brand-cyan/90 text-white'
+                    : 'bg-muted hover:bg-muted/80 text-foreground'
                 } transition-all duration-300 group-hover:shadow-lg`}
                 size="lg"
               >
-                <a href={`https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20souscrire%20au%20plan%20${plan.name}%20de%20Gestion-Medical`} target="_blank" rel="noopener noreferrer">
+                <a href={`https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20souscrire%20au%20plan%20${plan.name}%20de%20Clinoo+`} target="_blank" rel="noopener noreferrer">
                   {plan.popular ? 'Commencer maintenant' : 'Choisir ce plan'}
                 </a>
               </Button>
@@ -232,27 +197,27 @@ export function LandingPricing() {
         {/* Bottom Section */}
         <div className="text-center mt-20">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Besoin d'une solution sur mesure ?
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              Besoin d&apos;une solution sur mesure ?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               Contactez notre équipe pour discuter de vos besoins spécifiques et obtenir un devis personnalisé.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 asChild
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                className="bg-gradient-to-r from-brand-blue to-brand-cyan hover:from-brand-blue/90 hover:to-brand-cyan/90 text-white"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20pour%20Clinoo+" target="_blank" rel="noopener noreferrer">
                   Demander un devis
                 </a>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="border-2 border-gray-300 hover:border-blue-300 hover:text-blue-600"
+                className="border-2 border-border hover:border-primary/30 hover:text-primary"
               >
-                <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20planifier%20une%20démo%20de%20Clinoo+" target="_blank" rel="noopener noreferrer">
                   Planifier une démo
                 </a>
               </Button>
@@ -263,30 +228,30 @@ export function LandingPricing() {
         {/* Trust Indicators */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
           <div className="text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="h-6 w-6 text-green-600" />
+            <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="h-6 w-6 text-brand-green" />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Essai gratuit 5 jours</h4>
-            <p className="text-gray-600 text-sm">Testez toutes les fonctionnalités sans engagement</p>
+            <h4 className="font-semibold text-foreground mb-2">Essai gratuit 5 jours</h4>
+            <p className="text-muted-foreground text-sm">Testez toutes les fonctionnalités sans engagement</p>
           </div>
-          
+
           <div className="text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Shield className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="h-6 w-6 text-brand-blue" />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Sécurité garantie</h4>
-            <p className="text-gray-600 text-sm">Conformité RGPD et chiffrement de bout en bout</p>
+            <h4 className="font-semibold text-foreground mb-2">Sécurité garantie</h4>
+            <p className="text-muted-foreground text-sm">Conformité RGPD et chiffrement de bout en bout</p>
           </div>
-          
+
           <div className="text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Star className="h-6 w-6 text-purple-600" />
+            <div className="w-12 h-12 bg-brand-teal/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star className="h-6 w-6 text-brand-teal" />
             </div>
-            <h4 className="font-semibold text-gray-900 mb-2">Support expert</h4>
-            <p className="text-gray-600 text-sm">Équipe dédiée aux professionnels de santé</p>
+            <h4 className="font-semibold text-foreground mb-2">Support expert</h4>
+            <p className="text-muted-foreground text-sm">Équipe dédiée aux professionnels de santé</p>
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}

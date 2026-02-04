@@ -22,18 +22,19 @@ export function MainLayout({ children }: MainLayoutProps) {
     /^\/[^/]+\/queue\/display$/.test(pathname || '') ||
     /^\/[^/]+\/queue\/take-number$/.test(pathname || '');
 
-  if (pathname?.startsWith('/auth/') || pathname === '/' || isPublicQueuePage) {
+  if (pathname?.startsWith('/auth/') || pathname === '/' || pathname?.startsWith('/legal') || isPublicQueuePage) {
     return <>{children}</>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted">
       {/* Sidebar */}
       <Sidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
 
-      {/* Main content */}
+      {/* Main content - add left margin on desktop for sidebar */}
       <div className={cn(
-        "transition-all duration-300 ease-in-out"
+        "transition-all duration-300 ease-in-out",
+        "lg:pl-64" // Add padding for desktop sidebar (256px = w-64)
       )}>
         {/* Header */}
         <Header onMenuClick={() => setSidebarOpen(true)} />

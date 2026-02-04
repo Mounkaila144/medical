@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Stethoscope, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 import LandingHero from '@/components/landing/landing-hero';
 import { LandingFeatures } from '@/components/landing/landing-features';
 import { LandingTestimonials } from '@/components/landing/landing-testimonials';
@@ -12,35 +13,30 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Enhanced Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg supports-[backdrop-filter]:bg-white/90 border-b border-gray-200/50 shadow-sm">
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg supports-[backdrop-filter]:bg-white/90 border-b border-border/50 shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6 max-w-full">
-          <Link href="/" className="flex items-center gap-1.5 md:gap-2 group shrink-0">
-            <div className="p-1.5 md:p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg group-hover:scale-105 transition-transform">
-              <Stethoscope className="h-4 w-4 md:h-5 md:w-5 text-white" />
-            </div>
-            <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">
-              Gestion-Medical
-            </span>
+          <Link href="/" className="flex items-center group shrink-0">
+            <Image src="/images/logo.png" alt="Clinoo+" width={140} height={42} className="h-9 w-auto group-hover:scale-105 transition-transform" />
           </Link>
-          
+
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
-            <Link href="#features" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+            <Link href="#features" className="text-muted-foreground hover:text-primary transition-colors font-medium">
               Fonctionnalités
             </Link>
-            <Link href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+            <Link href="#testimonials" className="text-muted-foreground hover:text-primary transition-colors font-medium">
               Témoignages
             </Link>
-            <Link href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+            <Link href="#pricing" className="text-muted-foreground hover:text-primary transition-colors font-medium">
               Tarifs
             </Link>
-            <Link href="#contact" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+            <Link href="#contact" className="text-muted-foreground hover:text-primary transition-colors font-medium">
               Contact
             </Link>
           </div>
-          
+
           <div className="flex items-center gap-2 md:gap-4">
-            <Button asChild className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all text-sm md:text-base px-3 md:px-4">
+            <Button asChild className="bg-gradient-to-r from-brand-blue to-brand-cyan hover:from-brand-blue/90 hover:to-brand-cyan/90 shadow-lg hover:shadow-xl transition-all text-sm md:text-base px-3 md:px-4">
                 <Link href="/auth/login">Se Connecter</Link>
             </Button>
           </div>
@@ -72,26 +68,23 @@ export default function Home() {
             {/* Company Info */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg">
-                  <Stethoscope className="h-5 w-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">Gestion-Medical</span>
+                <Image src="/images/logo.png" alt="Clinoo+" width={140} height={42} className="h-9 w-auto brightness-0 invert" />
               </div>
               <p className="text-gray-400 leading-relaxed text-sm md:text-base">
                 La solution complète pour la gestion de votre cabinet médical.
                 Moderne, sécurisée et intuitive.
               </p>
               <div className="flex flex-wrap gap-3 md:gap-4">
-                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shrink-0">
+                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-blue transition-colors shrink-0">
                   <Facebook className="h-4 w-4" />
                 </a>
-                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shrink-0">
+                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-blue transition-colors shrink-0">
                   <Twitter className="h-4 w-4" />
                 </a>
-                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shrink-0">
+                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-blue transition-colors shrink-0">
                   <Linkedin className="h-4 w-4" />
                 </a>
-                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shrink-0">
+                <a href="#" className="w-9 h-9 md:w-10 md:h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-blue transition-colors shrink-0">
                   <Instagram className="h-4 w-4" />
                 </a>
               </div>
@@ -126,21 +119,21 @@ export default function Home() {
               <h3 className="text-base md:text-lg font-semibold">Contact</h3>
               <div className="space-y-3 text-gray-400 text-sm md:text-base">
                 <div className="flex items-center gap-2 md:gap-3">
-                  <Mail className="h-4 w-4 text-blue-400 shrink-0" />
+                  <Mail className="h-4 w-4 text-brand-cyan shrink-0" />
                   <span className="break-all">mail@ptrniger.com</span>
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
-                  <Phone className="h-4 w-4 text-blue-400 shrink-0" />
-                  <span className="whitespace-nowrap">+227 97 97 71 99</span>
+                  <Phone className="h-4 w-4 text-brand-cyan shrink-0" />
+                  <span className="whitespace-nowrap">+227 70 21 21 12</span>
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
-                  <MapPin className="h-4 w-4 text-blue-400 shrink-0" />
+                  <MapPin className="h-4 w-4 text-brand-cyan shrink-0" />
                   <span>Niamey, Niger</span>
                 </div>
               </div>
               <div className="pt-2 md:pt-4">
-                <Button asChild className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-sm md:text-base">
-                  <a href="https://wa.me/22797977199?text=Bonjour,%20je%20souhaite%20vous%20contacter%20pour%20Gestion-Medical" target="_blank" rel="noopener noreferrer">
+                <Button asChild className="w-full bg-gradient-to-r from-brand-blue to-brand-cyan hover:from-brand-blue/90 hover:to-brand-cyan/90 text-sm md:text-base">
+                  <a href="https://wa.me/22770212112?text=Bonjour,%20je%20souhaite%20vous%20contacter%20pour%20Clinoo+" target="_blank" rel="noopener noreferrer">
                     Nous Contacter
                   </a>
                 </Button>
@@ -152,12 +145,15 @@ export default function Home() {
           <div className="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
-                © 2024 Gestion-Medical. Tous droits réservés. Système de gestion médicale professionnel.
+                © 2024 Clinoo+. Tous droits réservés. Fait par{' '}
+                <a href="https://ptrniger.com" target="_blank" rel="noopener noreferrer" className="text-brand-cyan hover:text-white transition-colors font-medium">
+                  PTR Niger
+                </a>
               </p>
               <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition-colors whitespace-nowrap">Politique de confidentialité</a>
-                <a href="#" className="hover:text-white transition-colors whitespace-nowrap">Conditions d'utilisation</a>
-                <a href="#" className="hover:text-white transition-colors whitespace-nowrap">Mentions légales</a>
+                <a href="/legal/conditions-utilisation" className="hover:text-white transition-colors whitespace-nowrap">Politique de confidentialité</a>
+                <a href="/legal/conditions-utilisation" className="hover:text-white transition-colors whitespace-nowrap">Conditions d&apos;utilisation</a>
+                <a href="/legal/conditions-utilisation" className="hover:text-white transition-colors whitespace-nowrap">Mentions légales</a>
               </div>
             </div>
           </div>

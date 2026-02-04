@@ -90,6 +90,7 @@ import { Patient, Gender, BloodType, PatientForm } from '@/types';
 import { PatientService } from '@/services/patient.service';
 import { useAuth } from '@/hooks/useAuth';
 import { downloadBlob } from '@/lib/download-utils';
+import { exportPatientsToPDF } from '@/lib/pdf-export';
 import { AuthService } from '@/services/auth-service';
 import { ClinicService } from '@/services/clinic-service';
 import { AppointmentService } from '@/services/appointment.service';
@@ -647,15 +648,23 @@ export default function PatientsPage() {
     }
   };
 
-  const handleExportPatients = async () => {
+  const handleExportPatients = () => {
     try {
-      const blob = await PatientService.exportPatients('csv');
-      const filename = `patients_${new Date().toISOString().split('T')[0]}.csv`;
-      downloadBlob(blob, filename);
-      toast.success('Export terminé avec succès');
+      if (patients.length === 0) {
+        toast.error('Aucun patient à exporter');
+        return;
+      }
+
+      // Get clinic name from available clinics if selected
+      const clinicName = selectedClinicId
+        ? availableClinics.find(c => c.id === selectedClinicId)?.name
+        : undefined;
+
+      exportPatientsToPDF(patients, clinicName);
+      toast.success('Export PDF terminé avec succès');
     } catch (error) {
       console.error('Error exporting patients:', error);
-      toast.error('Erreur lors de l\'export des patients');
+      toast.error('Erreur lors de l\'export PDF des patients');
     }
   };
 
