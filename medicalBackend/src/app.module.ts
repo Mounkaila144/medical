@@ -71,9 +71,10 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
             ],
             synchronize: configService.get<string>('NODE_ENV') !== 'production',
             logging: configService.get<string>('NODE_ENV') !== 'production',
+            ssl: configService.get<string>('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
           } as TypeOrmModuleOptions;
         }
-        
+
         // Configuration PostgreSQL par défaut
         return {
           type: 'postgres',

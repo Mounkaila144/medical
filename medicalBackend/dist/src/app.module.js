@@ -80,6 +80,7 @@ exports.AppModule = AppModule = __decorate([
                             ],
                             synchronize: configService.get('NODE_ENV') !== 'production',
                             logging: configService.get('NODE_ENV') !== 'production',
+                            ssl: configService.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
                         };
                     }
                     return {
