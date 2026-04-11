@@ -1,10 +1,13 @@
-import { Body, Controller, Post, Get, UseGuards, Request, HttpCode } from '@nestjs/common';
+import { Body, Controller, Post, Get, Patch, UseGuards, Request, HttpCode } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from '../services/auth.service';
 import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
 import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { LoginDto } from '../dto/login.dto';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
+import { UpdateProfileDto } from '../dto/update-profile.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { Public } from '../../common/decorators/public.decorator';
 import { UsersService } from '../services/users.service';
@@ -21,6 +24,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalAuthGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('login')
   @HttpCode(200)
   async login(@Body() loginDto: LoginDto, @Request() req) {
@@ -56,6 +60,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(JwtRefreshGuard)
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('refresh')
   @HttpCode(200)
   async refresh(@CurrentUser() user) {
@@ -86,10 +91,24 @@ export class AuthController {
   async getProfile(@CurrentUser() currentUser) {
     // Récupérer l'utilisateur avec ses relations
     const user = await this.usersService.findById(currentUser.id);
-    
+
     // Retourner les informations utilisateur sans le mot de passe
     const { passwordHash, ...userProfile } = user;
     return userProfile;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('profile')
+  @HttpCode(200)
+  async updateProfile(@CurrentUser() currentUser, @Body() updateProfileDto: UpdateProfileDto) {
+    return this.authService.updateProfile(currentUser.id, updateProfileDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('change-password')
+  @HttpCode(200)
+  async changePassword(@CurrentUser() currentUser, @Body() changePasswordDto: ChangePasswordDto) {
+    return this.authService.changePassword(currentUser.id, changePasswordDto);
   }
 
 } 

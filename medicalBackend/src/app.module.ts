@@ -13,6 +13,7 @@ import { EhrModule } from './ehr/ehr.module';
 import { BillingModule } from './billing/billing.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { HrModule } from './hr/hr.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core';
@@ -25,6 +26,10 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
       envFilePath: ['.env', '.env.test'],
     }),
     EventEmitterModule.forRoot(),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 60,
+    }]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

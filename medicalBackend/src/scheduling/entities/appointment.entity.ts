@@ -25,18 +25,18 @@ export class Appointment {
 
   @Field(() => AppointmentStatus)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: AppointmentStatus,
     default: AppointmentStatus.BOOKED,
   })
   status: AppointmentStatus;
 
   @Field()
-  @Column({ name: 'start_at', type: 'timestamp' })
+  @Column({ name: 'start_at', type: 'datetime' })
   startAt: Date;
 
   @Field()
-  @Column({ name: 'end_at', type: 'timestamp' })
+  @Column({ name: 'end_at', type: 'datetime' })
   endAt: Date;
 
   @Field({ nullable: true })
@@ -49,7 +49,7 @@ export class Appointment {
 
   @Field(() => UrgencyLevel)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: UrgencyLevel,
     default: UrgencyLevel.ROUTINE,
   })

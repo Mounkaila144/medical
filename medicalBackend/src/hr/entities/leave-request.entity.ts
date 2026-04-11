@@ -28,7 +28,7 @@ export class LeaveRequest {
   end: Date;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: LeaveStatus,
     default: LeaveStatus.PENDING
   })

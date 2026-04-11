@@ -95,7 +95,7 @@ const userFormSchema = z.object({
   firstName: z.string().min(1, 'Le prénom est requis'),
   lastName: z.string().min(1, 'Le nom est requis'),
   email: z.string().email('Email invalide'),
-  role: z.enum(['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE', 'PRACTITIONER'], {
+  role: z.enum(['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE', 'PRACTITIONER', 'ACCOUNTANT'], {
     errorMap: () => ({ message: 'Le rôle doit être valide' })
   }),
   tenantId: z.string().uuid('Le tenant doit être un UUID valide').optional(),
@@ -340,6 +340,8 @@ export default function UsersPage() {
         return 'Praticien';
       case 'EMPLOYEE':
         return 'Employé';
+      case 'ACCOUNTANT':
+        return 'Comptable';
       default:
         return role;
     }
@@ -353,6 +355,8 @@ export default function UsersPage() {
         return 'bg-orange-100 text-orange-800';
       case 'PRACTITIONER':
         return 'bg-blue-100 text-blue-800';
+      case 'ACCOUNTANT':
+        return 'bg-emerald-100 text-emerald-800';
       case 'EMPLOYEE':
         return 'bg-gray-100 text-gray-800';
       default:
@@ -474,6 +478,7 @@ export default function UsersPage() {
                                                           <SelectContent>
                                 <SelectItem value="EMPLOYEE">Employé</SelectItem>
                                 <SelectItem value="PRACTITIONER">Praticien</SelectItem>
+                                <SelectItem value="ACCOUNTANT">Comptable</SelectItem>
                                 <SelectItem value="CLINIC_ADMIN">Admin Clinique</SelectItem>
                                 <SelectItem value="SUPERADMIN">Super Admin</SelectItem>
                               </SelectContent>
@@ -640,6 +645,7 @@ export default function UsersPage() {
                   <SelectItem value="CLINIC_ADMIN">Admin Clinique</SelectItem>
                   <SelectItem value="PRACTITIONER">Praticien</SelectItem>
                   <SelectItem value="EMPLOYEE">Employé</SelectItem>
+                  <SelectItem value="ACCOUNTANT">Comptable</SelectItem>
                 </SelectContent>
             </Select>
             <Select value={tenantFilter} onValueChange={setTenantFilter}>

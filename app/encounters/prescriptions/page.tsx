@@ -81,7 +81,9 @@ import {
   Filter,
   User,
   Stethoscope,
+  Printer,
 } from 'lucide-react';
+import { PrintHeader } from '@/components/print/print-header';
 import { 
   prescriptionsService, 
   Prescription, 
@@ -1066,12 +1068,13 @@ export default function PrescriptionsPage() {
       {/* Detail Modal */}
       <Dialog open={showDetailModal} onOpenChange={setShowDetailModal}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
+          <DialogHeader className="no-print">
             <DialogTitle>Détails de la prescription</DialogTitle>
             <DialogDescription>
               Informations complètes de la prescription
             </DialogDescription>
           </DialogHeader>
+          <PrintHeader />
           {selectedPrescription && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -1216,9 +1219,16 @@ export default function PrescriptionsPage() {
               )}
             </div>
           )}
-          <DialogFooter>
+          <DialogFooter className="no-print">
             <Button variant="outline" onClick={() => setShowDetailModal(false)}>
               Fermer
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => window.print()}
+            >
+              <Printer className="h-4 w-4 mr-2" />
+              Imprimer
             </Button>
             <Button onClick={() => {
               setShowDetailModal(false);

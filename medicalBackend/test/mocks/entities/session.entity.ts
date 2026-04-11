@@ -15,7 +15,7 @@ export class Session {
   @Column({ name: 'expires_at' })
   expiresAt: Date;
 
-  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @Column({ name: 'ip_address', nullable: true })

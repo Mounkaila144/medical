@@ -27,7 +27,7 @@ export class TariffsController {
   }
 
   @Get()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findAll(
     @Req() req,
     @Query('category') category?: TariffCategory,
@@ -58,7 +58,7 @@ export class TariffsController {
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findOne(@Param('id') id: string, @Req() req) {
     return this.tariffRepository.findOne({
       where: { id, tenantId: req.user.tenantId },
@@ -66,7 +66,7 @@ export class TariffsController {
   }
 
   @Get('category/:category')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findByCategory(@Param('category') category: TariffCategory, @Req() req) {
     return this.tariffRepository.find({
       where: {

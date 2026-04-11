@@ -31,7 +31,7 @@ export class Staff {
 
   @Field(() => StaffRole)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: StaffRole,
     default: StaffRole.NURSE
   })

@@ -19,16 +19,16 @@ export class Availability {
   weekday: number;
 
   @Field()
-  @Column({ type: 'time' })
+  @Column({ type: 'varchar' })
   start: string;
 
   @Field()
-  @Column({ type: 'time' })
+  @Column({ type: 'varchar' })
   end: string;
 
   @Field(() => RepeatType)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: RepeatType,
     default: RepeatType.WEEKLY,
   })

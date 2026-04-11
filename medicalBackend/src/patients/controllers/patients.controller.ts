@@ -1,4 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Query, UseGuards, Req, Res } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { PatientsService } from '../services/patients.service';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
@@ -15,7 +17,9 @@ import { WhatsappService } from '../services/whatsapp.service';
 export class PatientsController {
   constructor(
     private readonly patientsService: PatientsService,
-    private readonly whatsappService: WhatsappService
+    private readonly whatsappService: WhatsappService,
+    @InjectRepository(Patient)
+    private readonly patientRepository: Repository<Patient>,
   ) {}
 
   @Post()
@@ -45,6 +49,30 @@ export class PatientsController {
     // Handle pagination and filtering parameters
     const { page, limit, search, sortBy, sortOrder, gender, ...otherParams } = query;
     return this.patientsService.findAll(tenantId);
+  }
+
+  @Get('check-duplicate')
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
+  async checkDuplicate(
+    @Query('firstName') firstName: string,
+    @Query('lastName') lastName: string,
+    @Query('dob') dob: string,
+    @Req() req,
+  ): Promise<{ duplicates: Patient[]; hasDuplicates: boolean }> {
+    const tenantId = req.user.tenantId;
+
+    const qb = this.patientRepository
+      .createQueryBuilder('patient')
+      .where('patient.clinicId = :tenantId', { tenantId })
+      .andWhere('LOWER(patient.firstName) LIKE LOWER(:firstName)', { firstName: `%${firstName}%` })
+      .andWhere('LOWER(patient.lastName) LIKE LOWER(:lastName)', { lastName: `%${lastName}%` });
+
+    if (dob) {
+      qb.andWhere('patient.dob = :dob', { dob });
+    }
+
+    const duplicates = await qb.getMany();
+    return { duplicates, hasDuplicates: duplicates.length > 0 };
   }
 
   @Get('search')

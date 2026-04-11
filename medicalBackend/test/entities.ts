@@ -79,7 +79,7 @@ export class TestUser {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   lastLogin: Date;
 
   @CreateDateColumn()
@@ -107,7 +107,7 @@ export class TestSession {
   @Column({ type: 'varchar', length: 255 })
   refreshTokenHash: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   expiresAt: Date;
 
   @CreateDateColumn()

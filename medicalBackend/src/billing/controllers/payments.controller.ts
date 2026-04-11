@@ -19,13 +19,13 @@ export class PaymentsController {
   ) {}
 
   @Post()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async recordPayment(@Body() createPaymentDto: CreatePaymentDto, @Req() req) {
     return this.paymentsService.recordPayment(req.user.tenantId, createPaymentDto);
   }
 
   @Get()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async getPayments(
     @Req() req,
     @Query('invoiceId') invoiceId?: string,
@@ -50,7 +50,7 @@ export class PaymentsController {
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async getPayment(@Param('id') id: string, @Req() req) {
     return this.paymentRepository
       .createQueryBuilder('payment')
@@ -62,7 +62,7 @@ export class PaymentsController {
   }
 
   @Patch(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async update(@Param('id') id: string, @Body() updatePaymentDto: Partial<CreatePaymentDto>, @Req() req) {
     const payment = await this.paymentRepository
       .createQueryBuilder('payment')

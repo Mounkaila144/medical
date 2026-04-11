@@ -18,6 +18,7 @@ import { Session } from './mocks/entities/session.entity';
 import { PatientsService } from '../src/patients/services/patients.service';
 import { MedicalHistoryService } from '../src/patients/services/medical-history.service';
 import { DocumentsService } from '../src/patients/services/documents.service';
+import { WhatsappService } from '../src/patients/services/whatsapp.service';
 import { PatientsMockService } from './patients-mock.service';
 
 // Contrôleurs
@@ -144,6 +145,10 @@ class MockTenantGuard {
     },
     MedicalHistoryService,
     DocumentsService,
+    {
+      provide: WhatsappService,
+      useValue: { generateWhatsappLink: jest.fn().mockReturnValue('https://wa.me/test') },
+    },
     MockJwtStrategy,
     {
       provide: 'RABBITMQ_SERVICE',

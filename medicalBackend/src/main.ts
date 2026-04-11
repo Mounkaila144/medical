@@ -6,9 +6,11 @@ import { DatabaseExceptionFilter } from './common/filters/database-exception.fil
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  // Configurer CORS pour permettre les appels API depuis n'importe quelle origine
+  // Configurer CORS dynamiquement via CORS_ORIGINS env var
   app.enableCors({
-    origin: '*', 
+    origin: process.env.CORS_ORIGINS
+      ? process.env.CORS_ORIGINS.split(',').map(s => s.trim())
+      : '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Accept,Authorization',
     exposedHeaders: 'X-Redirect-WhatsApp',

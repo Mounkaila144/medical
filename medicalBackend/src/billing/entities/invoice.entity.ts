@@ -40,7 +40,7 @@ export class Invoice {
   number: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: InvoiceStatus,
     default: InvoiceStatus.DRAFT,
   })

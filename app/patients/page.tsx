@@ -91,8 +91,8 @@ import { PatientService } from '@/services/patient.service';
 import { useAuth } from '@/hooks/useAuth';
 import { downloadBlob } from '@/lib/download-utils';
 import { exportPatientsToPDF } from '@/lib/pdf-export';
-import { AuthService } from '@/services/auth-service';
-import { ClinicService } from '@/services/clinic-service';
+import { apiClient } from '@/lib/api';
+import { TenantService } from '@/services/tenant.service';
 import { AppointmentService } from '@/services/appointment.service';
 import { practitionersService } from '@/services/practitioners-service';
 import { encountersService } from '@/services/encounters-service';
@@ -151,6 +151,11 @@ export default function PatientsPage() {
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [isUpdatingPatient, setIsUpdatingPatient] = useState(false);
+
+  // Duplicate detection states
+  const [duplicatePatients, setDuplicatePatients] = useState<Patient[]>([]);
+  const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
+  const [isCheckingDuplicates, setIsCheckingDuplicates] = useState(false);
 
   // Appointment form states
   const [practitioners, setPractitioners] = useState<any[]>([]);
@@ -246,16 +251,50 @@ export default function PatientsPage() {
     },
   });
 
+  // Duplicate detection: debounced check when firstName and lastName have >= 2 chars
+  const watchedFirstName = form.watch('firstName');
+  const watchedLastName = form.watch('lastName');
+
+  useEffect(() => {
+    if (!isCreateModalOpen) return;
+    if (!watchedFirstName || watchedFirstName.length < 2) return;
+    if (!watchedLastName || watchedLastName.length < 2) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        setIsCheckingDuplicates(true);
+        const params = new URLSearchParams({
+          firstName: watchedFirstName,
+          lastName: watchedLastName,
+        });
+        const result = await apiClient.get<{ duplicates: Patient[]; hasDuplicates: boolean }>(
+          `/patients/check-duplicate?${params.toString()}`
+        );
+        if (result.hasDuplicates) {
+          setDuplicatePatients(result.duplicates);
+          setShowDuplicateDialog(true);
+        } else {
+          setDuplicatePatients([]);
+        }
+      } catch (err) {
+        console.error('Error checking duplicates:', err);
+      } finally {
+        setIsCheckingDuplicates(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [watchedFirstName, watchedLastName, isCreateModalOpen]);
+
   // Load available clinics for SUPERADMIN
   const loadClinics = async () => {
     try {
       // Try to get clinics first, fallback to tenants for SUPERADMIN
       let clinics = [];
       try {
-        clinics = await ClinicService.getClinics();
+        clinics = await TenantService.getTenants({ limit: 100 });
       } catch (error) {
-        console.log('Clinics endpoint not available, trying tenants...');
-        clinics = await ClinicService.getTenants();
+        console.log('Error loading tenants:', error);
       }
       
       console.log('🏥 Available Clinics:', clinics);
@@ -374,7 +413,7 @@ export default function PatientsPage() {
   // Function to update user profile with tenantId
   const updateUserProfile = async () => {
     try {
-      const profileData = await AuthService.getProfile();
+      const profileData = await apiClient.get<any>('/auth/profile');
       console.log('✅ Updated user profile from API:', profileData);
       return profileData;
     } catch (error) {
@@ -572,7 +611,7 @@ export default function PatientsPage() {
         } else {
           console.log('🔍 tenantId not found in localStorage, fetching from API...');
           try {
-            const profileData = await AuthService.getProfile();
+            const profileData = await apiClient.get<any>('/auth/profile');
             console.log('🔍 Fresh user profile from API:', profileData);
             
             clinicId = profileData.tenantId;
@@ -765,7 +804,11 @@ export default function PatientsPage() {
       setShowAppointmentModal(false);
     } catch (error: any) {
       console.error('Error creating appointment:', error);
-      toast.error(error.message || 'Erreur lors de la création du rendez-vous');
+      if (error.status === 409) {
+        toast.error('Ce praticien a déjà un rendez-vous sur ce créneau');
+      } else {
+        toast.error(error.message || 'Erreur lors de la création du rendez-vous');
+      }
     } finally {
       setIsCreatingAppointment(false);
     }
@@ -1184,6 +1227,54 @@ export default function PatientsPage() {
                   </DialogFooter>
                 </form>
               </Form>
+            </DialogContent>
+          </Dialog>
+
+          {/* Duplicate Detection Dialog */}
+          <Dialog open={showDuplicateDialog} onOpenChange={setShowDuplicateDialog}>
+            <DialogContent className="max-w-lg">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5 text-orange-500" />
+                  Doublons potentiels détectés
+                </DialogTitle>
+                <DialogDescription>
+                  Des patients similaires existent déjà dans le système. Vérifiez avant de continuer.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-3 max-h-60 overflow-y-auto">
+                {duplicatePatients.map((dup) => (
+                  <div key={dup.id} className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
+                    <div>
+                      <p className="font-medium text-sm">{dup.firstName} {dup.lastName}</p>
+                      <p className="text-xs text-gray-500">
+                        {dup.dob ? `Né(e) le ${new Date(dup.dob).toLocaleDateString('fr-FR')}` : 'Date de naissance non renseignée'}
+                      </p>
+                      <p className="text-xs text-gray-500">MRN: {dup.mrn}</p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setShowDuplicateDialog(false);
+                        setIsCreateModalOpen(false);
+                        router.push(`/patients/${dup.id}`);
+                      }}
+                    >
+                      <Eye className="h-3.5 w-3.5 mr-1" />
+                      Voir le dossier
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDuplicateDialog(false)}
+                >
+                  C&apos;est un nouveau patient
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
           </div>

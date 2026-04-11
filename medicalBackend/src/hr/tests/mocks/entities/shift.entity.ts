@@ -19,11 +19,11 @@ export class Shift {
   staff: Staff;
 
   @Field()
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   startAt: Date;
 
   @Field()
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   endAt: Date;
 
   @Field()

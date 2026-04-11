@@ -21,7 +21,7 @@ export class Session {
   refreshTokenHash: string;
 
   @Field()
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   expiresAt: Date;
 
   @Field()

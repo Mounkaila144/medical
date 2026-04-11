@@ -57,7 +57,7 @@ describe('Analytics Module (e2e)', () => {
       passwordHash: await require('bcrypt').hash('password123', 10),
       firstName: 'Admin',
       lastName: 'Test',
-      role: 'ADMIN',
+      role: 'SUPERADMIN',
       tenantId: tenant.id,
       isActive: true,
     });
@@ -69,7 +69,7 @@ describe('Analytics Module (e2e)', () => {
       { 
         email: admin.email,
         sub: admin.id,
-        role: 'ADMIN',
+        role: 'SUPERADMIN',
         tenantId: admin.tenantId
       },
       'test-jwt-secret',

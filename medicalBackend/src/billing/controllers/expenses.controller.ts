@@ -17,7 +17,7 @@ export class ExpensesController {
   ) {}
 
   @Post()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.ACCOUNTANT)
   async create(@Body() createExpenseDto: CreateExpenseDto, @Req() req) {
     const expense = this.expenseRepository.create({
       ...createExpenseDto,
@@ -27,7 +27,7 @@ export class ExpensesController {
   }
 
   @Get()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findAll(
     @Req() req,
     @Query('category') category?: ExpenseCategory,
@@ -65,7 +65,7 @@ export class ExpensesController {
   }
 
   @Get('stats')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.ACCOUNTANT)
   async getStats(@Req() req) {
     const totalExpenses = await this.expenseRepository
       .createQueryBuilder('expense')
@@ -106,7 +106,7 @@ export class ExpensesController {
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findOne(@Param('id') id: string, @Req() req) {
     return this.expenseRepository.findOne({
       where: { id, tenantId: req.user.tenantId },
@@ -114,7 +114,7 @@ export class ExpensesController {
   }
 
   @Patch(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.ACCOUNTANT)
   async update(@Param('id') id: string, @Body() updateExpenseDto: Partial<CreateExpenseDto>, @Req() req) {
     await this.expenseRepository.update(
       { id, tenantId: req.user.tenantId },

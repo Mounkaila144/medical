@@ -26,6 +26,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { dashboardService } from '@/services/dashboard-service';
 
@@ -63,10 +64,25 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { user, practitioner, getDisplayName, isLoading } = useAuth();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Redirect role-specific dashboards
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.role === 'SUPERADMIN') {
+        router.push('/admin/dashboard');
+        return;
+      }
+      if (user.role === 'ACCOUNTANT') {
+        router.push('/accounting/dashboard');
+        return;
+      }
+    }
+  }, [user, isLoading, router]);
 
   const displayName = getDisplayName();
   const isPractitioner = Boolean(practitioner);

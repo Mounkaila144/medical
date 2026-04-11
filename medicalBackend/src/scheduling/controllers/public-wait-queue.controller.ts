@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, BadRequestException } from '@nestjs/common';
 import { WaitQueueService } from '../services/wait-queue.service';
 import { WaitQueueEntry } from '../entities/wait-queue-entry.entity';
 import { Priority } from '../entities/wait-queue-entry.entity';
 import { Public } from '../../common/decorators/public.decorator';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Tenant } from '../../auth/entities/tenant.entity';
 
 interface TakeNumberDto {
   reason?: string;
@@ -16,7 +19,21 @@ interface TakeNumberDto {
 @Controller('public/wait-queue')
 @Public()
 export class PublicWaitQueueController {
-  constructor(private readonly waitQueueService: WaitQueueService) {}
+  constructor(
+    private readonly waitQueueService: WaitQueueService,
+    @InjectRepository(Tenant)
+    private readonly tenantRepository: Repository<Tenant>,
+  ) {}
+
+  private async validateTenant(tenantId: string): Promise<void> {
+    const tenant = await this.tenantRepository.findOne({ where: { id: tenantId } });
+    if (!tenant) {
+      throw new BadRequestException('Tenant non trouvé');
+    }
+    if (!tenant.isActive) {
+      throw new BadRequestException('Ce tenant est désactivé');
+    }
+  }
 
   /**
    * Prendre un numéro (PUBLIC - sans auth)
@@ -31,8 +48,10 @@ export class PublicWaitQueueController {
     const tenant = tenantId || process.env.DEFAULT_TENANT_ID || '';
 
     if (!tenant) {
-      throw new Error('Tenant ID is required. Please provide ?tenant=xxx or set DEFAULT_TENANT_ID env variable');
+      throw new BadRequestException('Tenant ID is required. Please provide ?tenant=xxx');
     }
+
+    await this.validateTenant(tenant);
 
     return this.waitQueueService.enqueue(tenant, {
       patientId: undefined, // Patient anonyme
@@ -53,8 +72,10 @@ export class PublicWaitQueueController {
     const tenant = tenantId || process.env.DEFAULT_TENANT_ID || '';
 
     if (!tenant) {
-      throw new Error('Tenant ID is required. Please provide ?tenant=xxx or set DEFAULT_TENANT_ID env variable');
+      throw new BadRequestException('Tenant ID is required. Please provide ?tenant=xxx');
     }
+
+    await this.validateTenant(tenant);
 
     return this.waitQueueService.getQueue(tenant);
   }
@@ -70,8 +91,10 @@ export class PublicWaitQueueController {
     const tenant = tenantId || process.env.DEFAULT_TENANT_ID || '';
 
     if (!tenant) {
-      throw new Error('Tenant ID is required. Please provide ?tenant=xxx or set DEFAULT_TENANT_ID env variable');
+      throw new BadRequestException('Tenant ID is required. Please provide ?tenant=xxx');
     }
+
+    await this.validateTenant(tenant);
 
     return this.waitQueueService.getCurrentlyServing(tenant);
   }

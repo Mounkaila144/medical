@@ -32,8 +32,8 @@ export class PrescriptionsController {
 
   @Get(':id')
   @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
-  async findOne(@Param('id') id: string) {
-    return this.prescriptionsService.findOne(id);
+  async findOne(@Param('id') id: string, @Req() req) {
+    return this.prescriptionsService.findOne(id, req.user.tenantId);
   }
 
   @Put(':id')

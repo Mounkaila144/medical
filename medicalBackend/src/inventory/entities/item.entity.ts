@@ -45,14 +45,14 @@ export class Item {
 
   @Field(() => ItemCategory)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ItemCategory,
   })
   category: ItemCategory;
 
   @Field(() => ItemUnit)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ItemUnit,
   })
   unit: ItemUnit;

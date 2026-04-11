@@ -83,7 +83,7 @@ class MockUsersService {
       passwordHash: 'hash',
       firstName: 'Test',
       lastName: 'User',
-      role: 'ADMIN',
+      role: 'SUPERADMIN',
       tenantId: '123',
       createdAt: new Date(),
       updatedAt: new Date(),

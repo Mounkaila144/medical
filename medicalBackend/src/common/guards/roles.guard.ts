@@ -21,10 +21,6 @@ export class RolesGuard implements CanActivate {
       throw new ForbiddenException('Utilisateur non authentifié');
     }
     
-    // Gestion de debug pour comprendre ce qui ne va pas
-    console.log('Required roles:', requiredRoles);
-    console.log('User role:', user.role);
-    
     // Comparaison en tant que string pour être compatible avec les types varchar et enum
     const hasRole = requiredRoles.some((role) => {
       // Si user.roles est un tableau, vérifier l'inclusion

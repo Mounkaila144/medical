@@ -9,6 +9,7 @@ import { memoryStorage } from 'multer';
 import { Patient } from './entities/patient.entity';
 import { MedicalHistoryItem } from './entities/medical-history-item.entity';
 import { ScannedDocument } from './entities/scanned-document.entity';
+import { Tenant } from '../auth/entities/tenant.entity';
 
 import { PatientsService } from './services/patients.service';
 import { MedicalHistoryService } from './services/medical-history.service';
@@ -29,7 +30,7 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Patient, MedicalHistoryItem, ScannedDocument]),
+    TypeOrmModule.forFeature([Patient, MedicalHistoryItem, ScannedDocument, Tenant]),
     MulterModule.register({
       storage: memoryStorage(),
       limits: {

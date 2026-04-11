@@ -50,6 +50,7 @@ input ApproveLeaveRequestInput {
 }
 
 enum AuthUserRole {
+  ACCOUNTANT
   CLINIC_ADMIN
   EMPLOYEE
   PRACTITIONER

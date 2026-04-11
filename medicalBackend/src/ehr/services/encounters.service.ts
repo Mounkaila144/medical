@@ -39,9 +39,13 @@ export class EncountersService {
     });
   }
 
-  async findOne(id: string): Promise<Encounter> {
+  async findOne(id: string, tenantId?: string): Promise<Encounter> {
+    const where: any = { id };
+    if (tenantId) {
+      where.tenantId = tenantId;
+    }
     const encounter = await this.encountersRepository.findOne({
-      where: { id },
+      where,
       relations: ['patient', 'practitioner', 'prescriptions', 'labResults'],
     });
 

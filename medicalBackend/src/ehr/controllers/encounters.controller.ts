@@ -28,8 +28,8 @@ export class EncountersController {
 
   @Get(':id')
   @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
-  async findOne(@Param('id') id: string) {
-    return this.encountersService.findOne(id);
+  async findOne(@Param('id') id: string, @Req() req) {
+    return this.encountersService.findOne(id, req.user.tenantId);
   }
 
   @Patch()

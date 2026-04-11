@@ -1,16 +1,21 @@
-import { Controller, Post, Body, Res, Param, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Body, Res, Param, UseInterceptors, BadRequestException } from '@nestjs/common';
 import { PatientsService } from '../services/patients.service';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { WhatsappService } from '../services/whatsapp.service';
 import { Public } from '../../common/decorators/public.decorator';
 import { WhatsappRedirectInterceptor } from '../../common/interceptors/whatsapp-redirect.interceptor';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Tenant } from '../../auth/entities/tenant.entity';
 
 @Controller('public/patients')
 @UseInterceptors(WhatsappRedirectInterceptor)
 export class PublicPatientsController {
   constructor(
     private readonly patientsService: PatientsService,
-    private readonly whatsappService: WhatsappService
+    private readonly whatsappService: WhatsappService,
+    @InjectRepository(Tenant)
+    private readonly tenantRepository: Repository<Tenant>,
   ) {}
 
   @Public()
@@ -20,6 +25,15 @@ export class PublicPatientsController {
     @Param('tenantId') tenantId: string,
     @Res() res
   ): Promise<void> {
+    // Valider que le tenant existe et est actif
+    const tenant = await this.tenantRepository.findOne({ where: { id: tenantId } });
+    if (!tenant) {
+      throw new BadRequestException('Tenant non trouvé');
+    }
+    if (!tenant.isActive) {
+      throw new BadRequestException('Ce tenant est désactivé');
+    }
+
     // S'assurer que le tenantId est utilisé (sécurité)
     createPatientDto.clinicId = tenantId;
     

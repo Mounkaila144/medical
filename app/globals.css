@@ -91,3 +91,29 @@
     max-width: 100vw;
   }
 }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+  .no-print,
+  nav,
+  header,
+  .sidebar,
+  [data-sidebar],
+  .breadcrumbs {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+}

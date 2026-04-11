@@ -86,12 +86,12 @@ describe('TenantGuard', () => {
     expect(guard.canActivate(context)).toBe(true);
   });
 
-  it('should allow access when user is admin', () => {
+  it('should allow access when user is SUPERADMIN', () => {
     const context = {
       getType: () => 'http',
       switchToHttp: () => ({
         getRequest: () => ({
-          user: { id: 'admin1', isAdmin: true },
+          user: { id: 'admin1', role: 'SUPERADMIN' },
           params: { tenantId: 'tenant1' },
         }),
       }),

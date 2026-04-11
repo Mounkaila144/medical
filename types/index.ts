@@ -211,10 +211,11 @@ export interface InvoiceLine {
 
 // Enums
 export enum UserRole {
-  SUPER_ADMIN = 'SUPER_ADMIN',
+  SUPERADMIN = 'SUPERADMIN',
   CLINIC_ADMIN = 'CLINIC_ADMIN',
+  EMPLOYEE = 'EMPLOYEE',
   PRACTITIONER = 'PRACTITIONER',
-  STAFF = 'STAFF'
+  ACCOUNTANT = 'ACCOUNTANT',
 }
 
 export enum Speciality {
@@ -473,7 +474,7 @@ export interface UserManagement {
   email: string;
   firstName: string;
   lastName: string;
-  role: 'SUPERADMIN' | 'CLINIC_ADMIN' | 'EMPLOYEE' | 'PRACTITIONER';
+  role: 'SUPERADMIN' | 'CLINIC_ADMIN' | 'EMPLOYEE' | 'PRACTITIONER' | 'ACCOUNTANT';
   tenantId?: string;
   tenant?: {
     id: string;

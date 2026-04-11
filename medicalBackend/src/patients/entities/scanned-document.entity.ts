@@ -26,7 +26,7 @@ export class ScannedDocument {
   @Field()
   @Column({
     name: 'doc_type',
-    type: 'enum',
+    type: 'simple-enum',
     enum: DocumentType,
   })
   docType: DocumentType;
@@ -40,7 +40,7 @@ export class ScannedDocument {
   uploadedBy: string;
 
   @Field()
-  @Column({ name: 'uploaded_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'uploaded_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   uploadedAt: Date;
 
   @ManyToOne(() => Patient, (patient) => patient.documents, {

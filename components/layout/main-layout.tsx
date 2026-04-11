@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 import { Breadcrumbs } from './breadcrumbs';
+import { ErrorBoundary } from './error-boundary';
+import { useAuth } from '@/hooks/useAuth';
+import { ROLE_ROUTES, ROLE_DASHBOARD } from '@/lib/role-routes';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -14,6 +17,9 @@ interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, practitioner, isLoading } = useAuth();
+  const [roleChecked, setRoleChecked] = useState(false);
 
   // Don't show layout on auth pages, home page, and public queue pages
   const isPublicQueuePage =
@@ -22,8 +28,50 @@ export function MainLayout({ children }: MainLayoutProps) {
     /^\/[^/]+\/queue\/display$/.test(pathname || '') ||
     /^\/[^/]+\/queue\/take-number$/.test(pathname || '');
 
-  if (pathname?.startsWith('/auth/') || pathname === '/' || pathname?.startsWith('/legal') || isPublicQueuePage) {
+  const isPublicRoute =
+    pathname?.startsWith('/auth/') ||
+    pathname === '/' ||
+    pathname?.startsWith('/legal') ||
+    isPublicQueuePage;
+
+  // Role-based route guard
+  useEffect(() => {
+    if (isPublicRoute || isLoading) {
+      setRoleChecked(true);
+      return;
+    }
+
+    const role = user?.role || (practitioner ? 'PRACTITIONER' : null);
+
+    if (!role) {
+      // Not authenticated yet, let middleware handle redirection
+      setRoleChecked(true);
+      return;
+    }
+
+    const allowedRoutes = ROLE_ROUTES[role] || [];
+    const isAllowed = allowedRoutes.some(route => pathname?.startsWith(route));
+
+    if (!isAllowed) {
+      const dashboard = ROLE_DASHBOARD[role] || '/dashboard';
+      router.push(dashboard);
+    } else {
+      setRoleChecked(true);
+    }
+  }, [user, practitioner, pathname, isLoading, isPublicRoute, router]);
+
+  // Reset roleChecked when pathname changes
+  useEffect(() => {
+    setRoleChecked(false);
+  }, [pathname]);
+
+  if (isPublicRoute) {
     return <>{children}</>;
+  }
+
+  // Show nothing while checking role authorization (prevents flash of unauthorized content)
+  if (!roleChecked && !isLoading) {
+    return null;
   }
 
   return (
@@ -46,7 +94,9 @@ export function MainLayout({ children }: MainLayoutProps) {
 
         {/* Page content */}
         <main className="px-4 sm:px-6 lg:px-8 pb-8">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </main>
       </div>
 

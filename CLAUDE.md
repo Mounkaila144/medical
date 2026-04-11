@@ -227,3 +227,36 @@ if (hasAnyRole(['CLINIC_ADMIN', 'SUPER_ADMIN'])) {
 - **Images**: Unoptimized for static export compatibility
 - **Hydration**: Components handle SSR/CSR mismatch with `mounted` state
 - **Token Refresh**: Both proactive (scheduled) and reactive (on 401) refresh strategies implemented
+
+## BMAD Method
+
+Ce projet utilise la methode BMAD v4.44.3 pour la gestion de projet et le developpement.
+
+### Structure BMAD
+- `.bmad-core/` : Core BMAD (agents, templates, workflows, checklists, tasks)
+- `docs/prd.md` : Product Requirements Document
+- `docs/architecture.md` : Architecture technique
+- `docs/stories/` : User stories
+- `docs/qa/` : Quality Assurance
+- `.ai/debug-log.md` : Debug log
+
+### Commandes BMAD (slash commands)
+- `/bmad-orchestrator` : Coordinateur de workflow
+- `/bmad-master` : Executeur de taches maitre
+- `/analyst` : Recherche et decouverte
+- `/architect` : Architecture technique
+- `/po` : Product Owner
+- `/pm` : Project Manager
+- `/dev` : Developpement
+- `/sm` : Scrum Master
+- `/qa` : Quality Assurance
+- `/ux-expert` : UI/UX Design
+
+### Workflow recommande (brownfield)
+Ce projet etant existant, utiliser le workflow brownfield :
+1. `/analyst` pour analyser l'existant
+2. `/po` pour definir les requirements
+3. `/architect` pour la conception technique
+4. `/sm` pour creer les stories
+5. `/dev` pour implementer
+6. `/qa` pour valider

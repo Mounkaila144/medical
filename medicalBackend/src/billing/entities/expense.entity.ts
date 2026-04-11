@@ -59,7 +59,7 @@ export class Expense {
   description: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ExpenseCategory,
   })
   @Field(() => ExpenseCategory)
@@ -82,7 +82,7 @@ export class Expense {
   supplierContact: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ExpenseStatus,
     default: ExpenseStatus.PENDING,
   })
@@ -90,7 +90,7 @@ export class Expense {
   status: ExpenseStatus;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: PaymentStatus,
     default: PaymentStatus.UNPAID,
   })

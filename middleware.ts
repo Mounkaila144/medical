@@ -13,6 +13,7 @@ const protectedRoutes = [
   '/reports',
   '/admin',
   '/queue/manage',  // Gestion de la file d'attente (protégé)
+  '/profile',
 ];
 
 const practitionerRoutes = [

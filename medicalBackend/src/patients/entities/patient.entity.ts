@@ -39,7 +39,7 @@ export class Patient {
 
   @Field()
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: Gender,
   })
   gender: Gender;

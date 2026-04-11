@@ -35,7 +35,7 @@ export class MedicalHistoryItem {
   note: string;
 
   @Field()
-  @Column({ name: 'recorded_at', type: 'timestamp' })  // Utiliser datetime au lieu de timestamp pour SQLite
+  @Column({ name: 'recorded_at', type: 'datetime' })  // Utiliser datetime au lieu de timestamp pour SQLite
   recordedAt: Date;
 
   @ManyToOne(() => Patient, (patient) => patient.medicalHistory, {

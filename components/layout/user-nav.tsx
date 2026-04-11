@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User } from "@/types/user";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { UserCircle, Settings, LifeBuoy, LogOut } from "lucide-react";
 
 interface UserNavProps {
@@ -21,6 +22,7 @@ interface UserNavProps {
 
 export function UserNav({ user }: UserNavProps) {
   const { logout } = useAuth();
+  const router = useRouter();
   
   const initials = user?.name
     ? user.name
@@ -51,9 +53,9 @@ export function UserNav({ user }: UserNavProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/profile')}>
             <UserCircle className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <span>Mon Profil</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />

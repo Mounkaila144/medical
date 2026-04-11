@@ -35,14 +35,14 @@ export class Report {
   generatedPath: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: ReportFormat,
     default: ReportFormat.PDF,
   })
   @Field(() => ReportFormat)
   format: ReportFormat;
 
-  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   @Field()
   createdAt: Date;
 } 

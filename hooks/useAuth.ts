@@ -105,9 +105,13 @@ export const useAuth = (): UseAuthReturn => {
         error: null,
       });
 
-      // Redirection basée sur le userType retourné par le backend
+      // Redirection basée sur le role/userType
       if (response.userType === 'practitioner') {
         router.push('/practitioner/dashboard');
+      } else if (response.user?.role === 'SUPERADMIN') {
+        router.push('/admin/dashboard');
+      } else if (response.user?.role === 'ACCOUNTANT') {
+        router.push('/accounting/dashboard');
       } else {
         router.push('/dashboard');
       }

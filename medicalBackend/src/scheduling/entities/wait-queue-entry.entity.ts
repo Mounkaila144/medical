@@ -39,7 +39,7 @@ export class WaitQueueEntry {
   practitionerId?: string;
 
   @Field({ nullable: true })
-  @Column({ type: 'enum', enum: Priority, nullable: true, default: Priority.NORMAL })
+  @Column({ type: 'simple-enum', enum: Priority, nullable: true, default: Priority.NORMAL })
   priority?: Priority;
 
   @Field({ nullable: true })
@@ -55,11 +55,11 @@ export class WaitQueueEntry {
   ticketNumber: string;
 
   @Field({ nullable: true })
-  @Column({ type: 'enum', enum: QueueStatus, default: QueueStatus.WAITING })
+  @Column({ type: 'simple-enum', enum: QueueStatus, default: QueueStatus.WAITING })
   status: QueueStatus;
 
   @Field({ nullable: true })
-  @Column({ name: 'called_at', type: 'timestamp', nullable: true })
+  @Column({ name: 'called_at', type: 'datetime', nullable: true })
   calledAt: Date;
 
   @Field()
@@ -67,7 +67,7 @@ export class WaitQueueEntry {
   createdAt: Date;
 
   @Field({ nullable: true })
-  @Column({ name: 'served_at', type: 'timestamp', nullable: true })
+  @Column({ name: 'served_at', type: 'datetime', nullable: true })
   servedAt: Date;
 
   // TODO: Relations temporairement commentées pour debug

@@ -43,76 +43,86 @@ interface NavItem {
   roles?: string[];
 }
 
+// Dashboard par role
+const ROLE_DASHBOARD: Record<string, string> = {
+  SUPERADMIN: '/admin/dashboard',
+  CLINIC_ADMIN: '/dashboard',
+  EMPLOYEE: '/dashboard',
+  PRACTITIONER: '/practitioner/dashboard',
+  ACCOUNTANT: '/accounting/dashboard',
+};
+
 export const navigation: NavItem[] = [
+  // SUPERADMIN
+  { title: 'Dashboard Admin', href: '/admin/dashboard', icon: Home, roles: ['SUPERADMIN'] },
+  { title: 'Tenants & Cliniques', href: '/admin/tenants', icon: Building, roles: ['SUPERADMIN'] },
+  { title: 'Utilisateurs', href: '/admin/users', icon: UserPlus, roles: ['SUPERADMIN'] },
+  { title: 'Permissions', href: '/admin/permissions', icon: Shield, roles: ['SUPERADMIN'] },
+
+  // CLINIC_ADMIN + EMPLOYEE
+  { title: 'Tableau de bord', href: '/dashboard', icon: Home, roles: ['CLINIC_ADMIN', 'EMPLOYEE'] },
+
+  // PRACTITIONER
+  { title: 'Mon Dashboard', href: '/practitioner/dashboard', icon: Home, roles: ['PRACTITIONER'] },
+
+  // ACCOUNTANT
+  { title: 'Dashboard', href: '/accounting/dashboard', icon: Home, roles: ['ACCOUNTANT'] },
+
+  // Patients - CLINIC_ADMIN, EMPLOYEE, PRACTITIONER
+  { title: 'Patients', icon: Users, href: '/patients', roles: ['CLINIC_ADMIN', 'EMPLOYEE', 'PRACTITIONER'] },
+
+  // Praticiens - CLINIC_ADMIN only
+  { title: 'Praticiens', href: '/practitioners', icon: UserCheck, roles: ['CLINIC_ADMIN'] },
+
+  // Consultations - CLINIC_ADMIN, PRACTITIONER
   {
-    title: 'Tableau de bord',
-    href: '/dashboard',
-    icon: Home,
-  },
-  {
-    title: 'Patients',
-    icon: Users,
-    href: '/patients'
-  },
-    {
-        title: 'Praticiens',
-        href: '/practitioners',
-        icon: UserCheck,
-        roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'ADMIN'],
-    },
-    {
-        title: 'Consultations',
-        icon: Stethoscope,
-        children: [
-            { title: 'Rencontres', href: '/encounters', icon: FileText },
-            { title: 'Prescriptions', href: '/encounters/prescriptions', icon: ClipboardList },
-            { title: 'Résultats labo', href: '/encounters/labs', icon: FileText },
-        ],
-    },
-  {
-    title: 'Planification',
-    icon: Calendar,
+    title: 'Consultations',
+    icon: Stethoscope,
+    roles: ['CLINIC_ADMIN', 'PRACTITIONER'],
     children: [
-      { title: 'Calendrier', href: '/appointments', icon: Calendar },
-      { title: 'Gestion file d\'attente', href: '/queue/manage', icon: ClipboardList, roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE'] },
-      { title: 'Liens publics', href: '/queue/public-links', icon: Link2, roles: ['SUPERADMIN', 'CLINIC_ADMIN'] },
+      { title: 'Rencontres', href: '/encounters', icon: FileText },
+      { title: 'Prescriptions', href: '/encounters/prescriptions', icon: ClipboardList },
+      { title: 'Résultats labo', href: '/encounters/labs', icon: FileText },
     ],
   },
 
+  // Planification - CLINIC_ADMIN, EMPLOYEE, PRACTITIONER
+  {
+    title: 'Planification',
+    icon: Calendar,
+    roles: ['CLINIC_ADMIN', 'EMPLOYEE', 'PRACTITIONER'],
+    children: [
+      { title: 'Calendrier', href: '/appointments', icon: Calendar },
+      { title: 'File d\'attente', href: '/queue/manage', icon: ClipboardList, roles: ['CLINIC_ADMIN', 'EMPLOYEE'] },
+      { title: 'Liens publics', href: '/queue/public-links', icon: Link2, roles: ['CLINIC_ADMIN'] },
+    ],
+  },
+
+  // Comptabilite - CLINIC_ADMIN, EMPLOYEE, ACCOUNTANT
   {
     title: 'Comptabilité',
     icon: DollarSign,
-    roles: ['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE'],
+    roles: ['CLINIC_ADMIN', 'EMPLOYEE', 'ACCOUNTANT'],
     children: [
-      { title: 'Tableau de bord', href: '/accounting/dashboard', icon: BarChart3 },
-      { title: 'Factures clients', href: '/accounting/invoices', icon: FileText },
-      { title: 'Revenus', href: '/accounting/payments', icon: DollarSign },
-      { title: 'Dépenses', href: '/accounting/expenses', icon: DollarSign },
-      { title: 'Tarifs & Prix', href: '/accounting/tariffs', icon: DollarSign },
+      { title: 'Tableau de bord', href: '/accounting/dashboard', icon: BarChart3, roles: ['CLINIC_ADMIN', 'ACCOUNTANT'] },
+      { title: 'Factures', href: '/accounting/invoices', icon: FileText },
+      { title: 'Paiements', href: '/accounting/payments', icon: DollarSign, roles: ['CLINIC_ADMIN', 'ACCOUNTANT'] },
+      { title: 'Dépenses', href: '/accounting/expenses', icon: DollarSign, roles: ['CLINIC_ADMIN', 'ACCOUNTANT'] },
+      { title: 'Tarifs & Prix', href: '/accounting/tariffs', icon: DollarSign, roles: ['CLINIC_ADMIN', 'ACCOUNTANT'] },
     ],
   },
-  {
-    title: 'Gestion Utilisateurs',
-    icon: Shield,
-    roles: ['SUPERADMIN'],
-    children: [
-      { title: 'Tenants & Cliniques', href: '/admin/tenants', icon: Building },
-      { title: 'Utilisateurs', href: '/admin/users', icon: UserPlus },
-      { title: 'Permissions', href: '/admin/permissions', icon: Shield },
-    ],
-  },
-  {
-    title: 'Administration',
-    href: '/admin',
-    icon: Settings,
-    roles: ['SUPERADMIN'],
-  },
+
+  // Gestion Utilisateurs - CLINIC_ADMIN
+  { title: 'Utilisateurs', href: '/admin/users', icon: UserPlus, roles: ['CLINIC_ADMIN'] },
 ];
 
 export function Sidebar({ open, onOpenChange }: SidebarProps) {
   const pathname = usePathname();
-  const { hasAnyRole, getUserType } = useAuth();
+  const { hasAnyRole, getUserType, user, practitioner } = useAuth();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  const role = user?.role || (practitioner ? 'PRACTITIONER' : 'EMPLOYEE');
+  const dashboardHref = ROLE_DASHBOARD[role] || '/dashboard';
 
   const toggleExpanded = (title: string) => {
     setExpandedItems(prev =>
@@ -199,7 +209,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-card border-r border-border px-4 py-6">
           {/* Header */}
           <div className="flex h-16 shrink-0 items-center">
-            <Link href="/dashboard" className="flex items-center">
+            <Link href={dashboardHref} className="flex items-center">
               <Image src="/images/logo.png" alt="Clinoo+" width={150} height={45} className="h-10 w-auto" />
             </Link>
           </div>
@@ -223,7 +233,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-card border-r border-border px-4 py-6">
           {/* Header with close button */}
           <div className="flex h-16 shrink-0 items-center justify-between">
-            <Link href="/dashboard" className="flex items-center">
+            <Link href={dashboardHref} className="flex items-center">
               <Image src="/images/logo.png" alt="Clinoo+" width={150} height={45} className="h-10 w-auto" />
             </Link>
             <Button

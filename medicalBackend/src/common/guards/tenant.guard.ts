@@ -1,6 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
+import { AuthUserRole } from '../../auth/entities/user.entity';
 
 @Injectable()
 export class TenantGuard implements CanActivate {
@@ -37,8 +38,8 @@ export class TenantGuard implements CanActivate {
     // Ajouter le tenantId à l'objet request pour une utilisation ultérieure
     request['tenantId'] = requestedTenantId;
     
-    // Les administrateurs ont accès à tous les tenants
-    if (user.isAdmin) {
+    // Les SUPERADMIN ont accès à tous les tenants
+    if (user.role === AuthUserRole.SUPERADMIN) {
       return true;
     }
     

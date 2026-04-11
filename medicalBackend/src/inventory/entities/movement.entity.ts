@@ -25,7 +25,7 @@ export class Movement {
 
   @Field(() => MovementType)
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: MovementType,
   })
   type: MovementType;
@@ -43,6 +43,6 @@ export class Movement {
   reference: string;
 
   @Field(() => Date)
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   movedAt: Date;
 } 

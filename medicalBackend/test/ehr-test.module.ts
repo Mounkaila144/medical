@@ -6,19 +6,23 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { PassportModule } from '@nestjs/passport';
 
-// Entités adaptées pour SQLite
-import { Encounter } from './mocks/entities/encounter.entity';
-import { Prescription } from './mocks/entities/prescription.entity';
-import { LabResult } from './mocks/entities/lab-result.entity';
-import { AuditLog } from './mocks/entities/audit-log.entity';
-import { Patient } from './mocks/entities/patient.entity';
-import { Practitioner } from './mocks/entities/practitioner.entity';
-import { User } from './mocks/entities/user.entity';
-import { Availability } from './mocks/entities/availability.entity';
-import { Appointment } from './mocks/entities/appointment.entity';
-import { WaitQueueEntry } from './mocks/entities/wait-queue-entry.entity';
-import { MedicalHistoryItem } from './mocks/entities/medical-history-item.entity';
-import { ScannedDocument } from './mocks/entities/scanned-document.entity';
+// Entités - utiliser les vraies entités (compatibles SQLite après correction)
+import { Encounter } from '../src/ehr/entities/encounter.entity';
+import { Prescription } from '../src/ehr/entities/prescription.entity';
+import { PrescriptionItem } from '../src/ehr/entities/prescription-item.entity';
+import { LabResult } from '../src/ehr/entities/lab-result.entity';
+import { AuditLog } from '../src/ehr/entities/audit-log.entity';
+import { Patient } from '../src/patients/entities/patient.entity';
+import { Practitioner } from '../src/scheduling/entities/practitioner.entity';
+import { User } from '../src/auth/entities/user.entity';
+import { Tenant } from '../src/auth/entities/tenant.entity';
+import { Availability } from '../src/scheduling/entities/availability.entity';
+import { Appointment } from '../src/scheduling/entities/appointment.entity';
+import { WaitQueueEntry } from '../src/scheduling/entities/wait-queue-entry.entity';
+import { MedicalHistoryItem } from '../src/patients/entities/medical-history-item.entity';
+import { ScannedDocument } from '../src/patients/entities/scanned-document.entity';
+import { Session } from '../src/auth/entities/session.entity';
+import { MinioService } from '../src/common/services/minio.service';
 
 // Services
 import { EncountersService } from '../src/ehr/services/encounters.service';
@@ -103,36 +107,18 @@ class MockEHRSupervisorGuard {
         type: 'sqlite',
         database: ':memory:',
         entities: [
-          Encounter, 
-          Prescription, 
-          LabResult, 
-          AuditLog, 
-          Patient, 
-          Practitioner, 
-          User,
-          Availability,
-          Appointment,
-          WaitQueueEntry,
-          MedicalHistoryItem,
-          ScannedDocument
+          Encounter, Prescription, PrescriptionItem, LabResult, AuditLog,
+          Patient, Practitioner, User, Tenant, Session, Availability, Appointment,
+          WaitQueueEntry, MedicalHistoryItem, ScannedDocument,
         ],
         synchronize: true,
         logging: false,
       }),
     }),
     TypeOrmModule.forFeature([
-      Encounter, 
-      Prescription, 
-      LabResult, 
-      AuditLog, 
-      Patient, 
-      Practitioner, 
-      User,
-      Availability,
-      Appointment,
-      WaitQueueEntry,
-      MedicalHistoryItem,
-      ScannedDocument
+      Encounter, Prescription, PrescriptionItem, LabResult, AuditLog,
+      Patient, Practitioner, User, Tenant, Session, Availability, Appointment,
+      WaitQueueEntry, MedicalHistoryItem, ScannedDocument,
     ]),
     EventEmitterModule.forRoot(),
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -154,6 +140,15 @@ class MockEHRSupervisorGuard {
     EncountersService,
     PrescriptionsService,
     LabResultsService,
+    {
+      provide: MinioService,
+      useValue: {
+        uploadBuffer: jest.fn().mockResolvedValue(undefined),
+        getObject: jest.fn().mockResolvedValue(null),
+        objectExists: jest.fn().mockResolvedValue(false),
+        removeObject: jest.fn().mockResolvedValue(undefined),
+      },
+    },
     EncountersResolver,
     PrescriptionsResolver,
     LabResultsResolver,

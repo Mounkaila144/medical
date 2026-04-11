@@ -84,7 +84,25 @@ export class PrescriptionsService {
       .getMany();
   }
 
-  async findOne(id: string): Promise<Prescription> {
+  async findOne(id: string, tenantId?: string): Promise<Prescription> {
+    if (tenantId) {
+      const prescription = await this.prescriptionsRepository
+        .createQueryBuilder('prescription')
+        .innerJoin('prescription.encounter', 'encounter')
+        .leftJoinAndSelect('prescription.encounter', 'encounterData')
+        .leftJoinAndSelect('encounterData.patient', 'patient')
+        .leftJoinAndSelect('prescription.practitioner', 'practitioner')
+        .leftJoinAndSelect('prescription.items', 'items')
+        .where('prescription.id = :id', { id })
+        .andWhere('encounter.tenantId = :tenantId', { tenantId })
+        .getOne();
+
+      if (!prescription) {
+        throw new NotFoundException(`Prescription avec ID ${id} non trouvée`);
+      }
+      return prescription;
+    }
+
     const prescription = await this.prescriptionsRepository.findOne({
       where: { id },
       relations: ['encounter', 'practitioner', 'encounter.patient', 'items'],

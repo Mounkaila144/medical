@@ -21,7 +21,7 @@ export class MedicalHistoryItem {
 
   @Field()
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: MedicalHistoryType,
   })
   type: MedicalHistoryType;
@@ -35,7 +35,7 @@ export class MedicalHistoryItem {
   note: string;
 
   @Field()
-  @Column({ name: 'recorded_at', type: 'timestamp' })
+  @Column({ name: 'recorded_at', type: 'datetime' })
   recordedAt: Date;
 
   @ManyToOne(() => Patient, (patient) => patient.medicalHistory, {

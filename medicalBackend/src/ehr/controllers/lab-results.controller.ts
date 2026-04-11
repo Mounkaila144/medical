@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { LabResultsService } from '../services/lab-results.service';
 import { CreateLabResultDto } from '../dto/create-lab-result.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -31,7 +31,7 @@ export class LabResultsController {
 
   @Get(':id')
   @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
-  async findOne(@Param('id') id: string) {
-    return this.labResultsService.findOne(id);
+  async findOne(@Param('id') id: string, @Req() req) {
+    return this.labResultsService.findOne(id, req.user.tenantId);
   }
 } 

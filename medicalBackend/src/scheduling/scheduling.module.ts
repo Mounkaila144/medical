@@ -7,6 +7,7 @@ import { Practitioner } from './entities/practitioner.entity';
 import { Availability } from './entities/availability.entity';
 import { Appointment } from './entities/appointment.entity';
 import { WaitQueueEntry } from './entities/wait-queue-entry.entity';
+import { Tenant } from '../auth/entities/tenant.entity';
 
 import { SchedulingService } from './services/scheduling.service';
 import { WaitQueueService } from './services/wait-queue.service';
@@ -31,6 +32,7 @@ import { AuthModule } from '../auth/auth.module';
       Availability,
       Appointment,
       WaitQueueEntry,
+      Tenant,
     ]),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),

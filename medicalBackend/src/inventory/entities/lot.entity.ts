@@ -18,7 +18,7 @@ export class Lot {
   lotNumber: string;
 
   @Field(() => Date)
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   expiry: Date;
 
   @Field(() => Number)

@@ -34,7 +34,7 @@ export class Payment {
   amount: number;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: PaymentMethod,
     default: PaymentMethod.CASH,
   })

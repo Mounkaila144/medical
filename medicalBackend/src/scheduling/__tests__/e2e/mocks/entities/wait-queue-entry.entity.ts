@@ -17,6 +17,6 @@ export class WaitQueueEntry {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'served_at', type: 'timestamp', nullable: true })
+  @Column({ name: 'served_at', type: 'datetime', nullable: true })
   servedAt: Date;
 } 

@@ -33,15 +33,24 @@ export class SchedulingService {
       throw new HttpException(`Praticien avec l'ID ${createAppointmentDto.practitionerId} non trouvé`, HttpStatus.NOT_FOUND);
     }
 
-    // Vérifier la disponibilité du praticien
-    const isAvailable = await this.checkAvailability(
+    // Vérifier la disponibilité du praticien (conflit de créneau)
+    const conflicting = await this.getConflictingAppointments(
       createAppointmentDto.practitionerId,
       createAppointmentDto.startAt,
       createAppointmentDto.endAt,
     );
 
-    if (!isAvailable) {
-      throw new HttpException(`Le praticien ${practitioner.firstName} ${practitioner.lastName} n'est pas disponible sur ce créneau`, HttpStatus.CONFLICT);
+    if (conflicting.length > 0) {
+      const existing = conflicting[0];
+      throw new ConflictException({
+        message: 'Conflit de créneau détecté',
+        existingAppointment: {
+          id: existing.id,
+          startAt: existing.startAt,
+          endAt: existing.endAt,
+          patientId: existing.patientId,
+        },
+      });
     }
 
     console.log('Practitioner found and available, creating appointment...');
@@ -83,7 +92,16 @@ export class SchedulingService {
     );
 
     if (conflictingAppointments.length > 0) {
-      throw new ConflictException('Le praticien n\'est pas disponible sur ce créneau');
+      const existing = conflictingAppointments[0];
+      throw new ConflictException({
+        message: 'Conflit de créneau détecté',
+        existingAppointment: {
+          id: existing.id,
+          startAt: existing.startAt,
+          endAt: existing.endAt,
+          patientId: existing.patientId,
+        },
+      });
     }
 
     // Mettre à jour le rendez-vous
@@ -211,7 +229,16 @@ export class SchedulingService {
       );
 
       if (conflictingAppointments.length > 0) {
-        throw new ConflictException('Le praticien n\'est pas disponible sur ce créneau');
+        const existing = conflictingAppointments[0];
+        throw new ConflictException({
+          message: 'Conflit de créneau détecté',
+          existingAppointment: {
+            id: existing.id,
+            startAt: existing.startAt,
+            endAt: existing.endAt,
+            patientId: existing.patientId,
+          },
+        });
       }
     }
 

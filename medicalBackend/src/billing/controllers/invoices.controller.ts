@@ -20,19 +20,19 @@ export class InvoicesController {
   ) {}
 
   @Post()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async createDraft(@Body() createInvoiceDto: CreateInvoiceDto, @Req() req) {
     return this.invoicingService.createDraft(req.user.tenantId, createInvoiceDto);
   }
 
   @Post('line')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async addLine(@Body() addLineDto: AddInvoiceLineDto, @Req() req) {
     return this.invoicingService.addLine(req.user.tenantId, addLineDto);
   }
 
   @Post(':id/send')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async sendInvoice(@Param('id') id: string, @Body() data: any, @Req() req) {
     return this.invoicingService.send(req.user.tenantId, {
       invoiceId: id,
@@ -41,25 +41,25 @@ export class InvoicesController {
   }
 
   @Post('send')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async send(@Body() updateStatusDto: UpdateInvoiceStatusDto, @Req() req) {
     return this.invoicingService.send(req.user.tenantId, updateStatusDto);
   }
 
   @Post('mark-paid')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async markPaid(@Body() updateStatusDto: UpdateInvoiceStatusDto, @Req() req) {
     return this.invoicingService.markPaid(req.user.tenantId, updateStatusDto);
   }
 
   @Post('remind-overdue')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async remindOverdue(@Req() req) {
     return this.invoicingService.remindOverdue(req.user.tenantId);
   }
 
   @Get()
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findAll(
     @Req() req,
     @Query('patientId') patientId?: string,
@@ -83,7 +83,7 @@ export class InvoicesController {
   }
 
   @Get(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async findOne(@Param('id') id: string, @Req() req) {
     return this.invoiceRepository.findOne({
       where: { id, tenantId: req.user.tenantId },
@@ -92,7 +92,7 @@ export class InvoicesController {
   }
 
   @Patch(':id')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async update(@Param('id') id: string, @Body() updateInvoiceDto: Partial<CreateInvoiceDto>, @Req() req) {
     await this.invoiceRepository.update(
       { id, tenantId: req.user.tenantId },
@@ -115,7 +115,7 @@ export class InvoicesController {
   }
 
   @Get(':id/download/pdf')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async downloadPdf(
     @Param('id') id: string,
     @Req() req,
@@ -151,7 +151,7 @@ export class InvoicesController {
   }
 
   @Post(':id/regenerate-pdf')
-  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE)
+  @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.ACCOUNTANT)
   async regeneratePdf(@Param('id') id: string, @Req() req) {
     const invoice = await this.invoiceRepository.findOne({
       where: { id, tenantId: req.user.tenantId },

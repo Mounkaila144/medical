@@ -8,6 +8,7 @@ export enum AuthUserRole {
   CLINIC_ADMIN = 'CLINIC_ADMIN',
   EMPLOYEE = 'EMPLOYEE',
   PRACTITIONER = 'PRACTITIONER',
+  ACCOUNTANT = 'ACCOUNTANT',
 }
 
 registerEnumType(AuthUserRole, {
@@ -53,7 +54,7 @@ export class User {
   isActive: boolean;
 
   @Field({ nullable: true })
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   lastLogin: Date;
 
   @Field()

@@ -38,7 +38,7 @@ export class Tariff {
   description: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: TariffCategory,
     default: TariffCategory.CONSULTATION,
   })

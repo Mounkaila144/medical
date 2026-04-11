@@ -6,9 +6,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from '../src/auth/entities/user.entity';
 import { Tenant } from '../src/auth/entities/tenant.entity';
 import { Session } from '../src/auth/entities/session.entity';
+import { Practitioner } from '../src/scheduling/entities/practitioner.entity';
+import { Availability } from '../src/scheduling/entities/availability.entity';
+import { Appointment } from '../src/scheduling/entities/appointment.entity';
 import { AuthService } from '../src/auth/services/auth.service';
 import { UsersService } from '../src/auth/services/users.service';
 import { SuperadminService } from '../src/auth/services/superadmin.service';
+import { PractitionerAuthService } from '../src/auth/services/practitioner-auth.service';
 import { AuthController } from '../src/auth/controllers/auth.controller';
 import { AdminController } from '../src/auth/controllers/admin.controller';
 import { UsersController } from '../src/auth/controllers/users.controller';
@@ -27,12 +31,12 @@ import { JwtRefreshStrategy } from '../src/auth/strategies/jwt-refresh.strategy'
       useFactory: (configService: ConfigService) => ({
         type: 'sqlite',
         database: ':memory:',
-        entities: [User, Tenant, Session],
+        entities: [User, Tenant, Session, Practitioner, Availability, Appointment],
         synchronize: true,
         logging: false,
       }),
     }),
-    TypeOrmModule.forFeature([User, Tenant, Session]),
+    TypeOrmModule.forFeature([User, Tenant, Session, Practitioner, Availability, Appointment]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -48,6 +52,7 @@ import { JwtRefreshStrategy } from '../src/auth/strategies/jwt-refresh.strategy'
     AuthService,
     UsersService,
     SuperadminService,
+    PractitionerAuthService,
     LocalStrategy,
     JwtAccessStrategy,
     JwtRefreshStrategy,

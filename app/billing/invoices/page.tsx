@@ -21,7 +21,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BillingService, InvoiceSearchParams } from '@/services/billing.service';
 import { Invoice } from '@/types';
-import { FileText, Plus, Search, Download, MoreHorizontal, Edit } from 'lucide-react';
+import { FileText, Plus, Search, Download, MoreHorizontal, Edit, Printer } from 'lucide-react';
+import { PrintHeader } from '@/components/print/print-header';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
@@ -102,7 +103,8 @@ export default function InvoicesPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="flex justify-between items-center">
+      <PrintHeader />
+      <div className="flex justify-between items-center no-print">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Factures</h1>
           <p className="text-muted-foreground">
@@ -209,6 +211,13 @@ export default function InvoicesPage() {
                             >
                               <Download className="mr-2 h-4 w-4" />
                               Télécharger PDF
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem
+                              onClick={() => window.print()}
+                            >
+                              <Printer className="mr-2 h-4 w-4" />
+                              Imprimer
                             </DropdownMenuItem>
 
                             <DropdownMenuItem

@@ -203,7 +203,10 @@ export default function AppointmentForm({
       
       let errorMessage = "Une erreur s'est produite. Veuillez réessayer.";
       
-      if (error.status === 401) {
+      if (error.status === 409) {
+        errorMessage = "Ce praticien a déjà un rendez-vous sur ce créneau";
+        toast.error(errorMessage);
+      } else if (error.status === 401) {
         setAuthError(true);
         errorMessage = "Session expirée. Veuillez vous reconnecter.";
         toast.error("Session expirée. Redirection vers la page de connexion...");

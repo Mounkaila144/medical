@@ -3,6 +3,7 @@
 import { Menu, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,12 +17,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { ModeToggle } from '@/components/theme-toggle';
+import { NotificationCenter } from '@/components/notifications/notification-center';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
   const { user, practitioner, logout, getDisplayName, getUserType, hasAnyRole } = useAuth();
 
   const getInitials = (name: string) => {
@@ -59,6 +62,9 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         {/* Right side */}
         <div className="flex items-center gap-4 ml-auto">
+          {/* Notification Center */}
+          <NotificationCenter />
+
           {/* Theme toggle */}
           <ModeToggle />
 
@@ -89,9 +95,9 @@ export function Header({ onMenuClick }: HeaderProps) {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/profile')}>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profil</span>
+                <span>Mon Profil</span>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
                 <span>Paramètres</span>

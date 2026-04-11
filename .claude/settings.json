@@ -1,0 +1,22 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash",
+            "Read",
+            "Write",
+            "Edit",
+            "Glob",
+            "Grep",
+            "WebFetch",
+            "WebSearch",
+            "Task",
+            "NotebookEdit",
+            "mcp__laravel-boost__tinker"
+        ],
+        "deny": []
+    },
+    "enableAllProjectMcpServers": true,
+    "enabledMcpjsonServers": [
+        "laravel-boost"
+    ]
+}

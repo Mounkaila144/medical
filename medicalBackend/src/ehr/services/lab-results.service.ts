@@ -40,9 +40,13 @@ export class LabResultsService {
     });
   }
 
-  async findOne(id: string): Promise<LabResult> {
+  async findOne(id: string, tenantId?: string): Promise<LabResult> {
+    const where: any = { id };
+    if (tenantId) {
+      where.tenantId = tenantId;
+    }
     const labResult = await this.labResultsRepository.findOne({
-      where: { id },
+      where,
       relations: ['patient', 'encounter'],
     });
 

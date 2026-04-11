@@ -19,7 +19,7 @@ export class PayrollExport {
   @Column({ type: 'varchar', length: 255 })
   filePath: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   generatedAt: Date;
 
   @CreateDateColumn()
