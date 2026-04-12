@@ -32,9 +32,13 @@ export class EncountersService {
     return this.encountersRepository.save(encounter);
   }
 
-  async findAll(tenantId: string): Promise<Encounter[]> {
+  async findAll(tenantId: string, practitionerId?: string): Promise<Encounter[]> {
+    const where: any = { tenantId };
+    if (practitionerId) {
+      where.practitionerId = practitionerId;
+    }
     return this.encountersRepository.find({
-      where: { tenantId },
+      where,
       relations: ['patient', 'practitioner', 'prescriptions', 'labResults'],
     });
   }

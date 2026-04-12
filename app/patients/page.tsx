@@ -1083,7 +1083,7 @@ export default function PatientsPage() {
                           <FormItem>
                             <FormLabel>Téléphone</FormLabel>
                             <FormControl>
-                              <Input placeholder="+33123456789" {...field} />
+                              <Input placeholder="90000000" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1986,7 +1986,7 @@ export default function PatientsPage() {
                         <FormItem>
                           <FormLabel>Téléphone</FormLabel>
                           <FormControl>
-                            <Input placeholder="+33123456789" {...field} />
+                            <Input placeholder="90000000" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

@@ -23,6 +23,10 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Le nom est requis' })
   lastName: string;
 
+  @IsString({ message: 'Le numéro de téléphone doit être une chaîne de caractères' })
+  @IsOptional()
+  phoneNumber?: string;
+
   @IsUUID('4', { message: 'L\'ID du tenant doit être un UUID valide' })
   @IsOptional()
   tenantId?: string;

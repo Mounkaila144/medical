@@ -7,6 +7,7 @@ import { CreatePractitionerDto } from '../dto/create-practitioner.dto';
 import { DayOfWeek } from '../dto/create-practitioner.dto';
 import { UsersService } from '../../auth/services/users.service';
 import { AuthUserRole } from '../../auth/entities/user.entity';
+import { WhatsappNotificationService } from '../../common/services/whatsapp-notification.service';
 
 @Injectable()
 export class PractitionersService {
@@ -18,9 +19,10 @@ export class PractitionersService {
     @InjectRepository(Availability)
     private availabilityRepository: Repository<Availability>,
     private usersService: UsersService,
+    private whatsappService: WhatsappNotificationService,
   ) {}
 
-  async create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<{ practitioner: Practitioner; temporaryPassword: string }> {
+  async create(tenantId: string, createPractitionerDto: CreatePractitionerDto): Promise<{ practitioner: Practitioner }> {
     // Générer un email basé sur le nom du praticien si pas fourni
     let email = createPractitionerDto.email;
     if (!email) {
@@ -34,12 +36,13 @@ export class PractitionersService {
     const temporaryPassword = this.generateTemporaryPassword();
     this.logger.log(`Création d'un compte utilisateur pour le praticien: ${createPractitionerDto.firstName} ${createPractitionerDto.lastName}`);
 
-    // Créer l'utilisateur d'abord
+    // Créer l'utilisateur d'abord (avec le numéro de téléphone)
     const user = await this.usersService.createByRole({
       email,
       password: temporaryPassword,
       firstName: createPractitionerDto.firstName,
       lastName: createPractitionerDto.lastName,
+      phoneNumber: createPractitionerDto.phoneNumber,
       role: AuthUserRole.PRACTITIONER,
       tenantId,
     });
@@ -79,13 +82,20 @@ export class PractitionersService {
     await this.availabilityRepository.save(availabilities);
     this.logger.log(`${availabilities.length} créneaux de disponibilité créés`);
 
-    // Log des informations de connexion
-    this.logger.log(`🎉 Praticien créé avec succès !`);
-    this.logger.log(`📧 Email de connexion: ${email}`);
-    this.logger.log(`🔑 Mot de passe temporaire: ${temporaryPassword}`);
-    this.logger.log(`⚠️  Le praticien doit changer son mot de passe lors de la première connexion`);
+    this.logger.log(`Praticien créé avec succès !`);
 
-    return { practitioner: savedPractitioner, temporaryPassword };
+    // Envoyer les identifiants par WhatsApp
+    if (createPractitionerDto.phoneNumber) {
+      this.whatsappService.sendPractitionerCredentials(
+        createPractitionerDto.phoneNumber,
+        createPractitionerDto.firstName,
+        createPractitionerDto.lastName,
+        email,
+        temporaryPassword,
+      ).catch(err => this.logger.error(`Échec envoi WhatsApp praticien: ${err.message}`));
+    }
+
+    return { practitioner: savedPractitioner };
   }
 
   /**
@@ -145,7 +155,12 @@ export class PractitionersService {
     if (updateData.slotDuration !== undefined) practitioner.slotDuration = updateData.slotDuration;
     
     const updatedPractitioner = await this.practitionerRepository.save(practitioner);
-    
+
+    // Synchroniser le numéro de téléphone vers le compte utilisateur
+    if (updateData.phoneNumber !== undefined && practitioner.userId) {
+      await this.usersService.update(practitioner.userId, { phoneNumber: updateData.phoneNumber });
+    }
+
     // Update working hours/availabilities if provided
     if (updateData.workingHours) {
       // Delete existing availabilities

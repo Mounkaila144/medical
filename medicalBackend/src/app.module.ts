@@ -18,6 +18,7 @@ import { HrModule } from './hr/hr.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -110,6 +111,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
       sortSchema: true,
       playground: true,
     }),
+    CommonModule,
     PatientsModule,
     AuthModule,
     SchedulingModule,

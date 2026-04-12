@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateTenantDto {
   @IsString({ message: 'Le nom du tenant doit être une chaîne de caractères' })
@@ -26,4 +26,8 @@ export class CreateTenantDto {
   @IsString({ message: 'Le nom de l\'administrateur doit être une chaîne de caractères' })
   @IsNotEmpty({ message: 'Le nom de l\'administrateur est requis' })
   adminLastName: string;
+
+  @IsString({ message: 'Le numéro de téléphone doit être une chaîne de caractères' })
+  @IsOptional()
+  adminPhoneNumber?: string;
 } 

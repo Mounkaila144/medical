@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe, Logger } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -8,11 +8,17 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { TenantGuard } from '../../common/guards/tenant.guard';
 import { AuthUserRole } from '../entities/user.entity';
+import { WhatsappNotificationService } from '../../common/services/whatsapp-notification.service';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard, TenantGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  private readonly logger = new Logger(UsersController.name);
+
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly whatsappService: WhatsappNotificationService,
+  ) {}
 
   @Post()
   @Roles(AuthUserRole.SUPERADMIN, AuthUserRole.CLINIC_ADMIN)
@@ -27,7 +33,19 @@ export class UsersController {
       }
     }
 
-    return this.usersService.createByRole(createUserDto, currentUser.id);
+    const user = await this.usersService.createByRole(createUserDto, currentUser.id);
+
+    // Envoyer une notification WhatsApp si un numéro de téléphone est fourni
+    if (createUserDto.phoneNumber) {
+      this.whatsappService.sendAccountCreationNotification(
+        createUserDto.phoneNumber,
+        user.firstName,
+        user.lastName,
+        user.email,
+      ).catch(err => this.logger.error(`Échec envoi WhatsApp: ${err.message}`));
+    }
+
+    return user;
   }
 
   @Get()

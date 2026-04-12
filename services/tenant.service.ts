@@ -88,7 +88,7 @@ export class TenantService {
   }
 
   static async updateUser(id: string, userData: any): Promise<UserManagement> {
-    return apiClient.put<UserManagement>(`/admin/users/${id}`, userData);
+    return apiClient.patch<UserManagement>(`/users/${id}`, userData);
   }
 
   static async deleteUser(id: string): Promise<void> {

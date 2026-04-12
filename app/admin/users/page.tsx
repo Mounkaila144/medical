@@ -104,6 +104,19 @@ const userFormSchema = z.object({
 
 type UserFormData = z.infer<typeof userFormSchema>;
 
+const editUserFormSchema = z.object({
+  firstName: z.string().min(1, 'Le prénom est requis'),
+  lastName: z.string().min(1, 'Le nom est requis'),
+  email: z.string().email('Email invalide'),
+  role: z.enum(['SUPERADMIN', 'CLINIC_ADMIN', 'EMPLOYEE', 'PRACTITIONER', 'ACCOUNTANT'], {
+    errorMap: () => ({ message: 'Le rôle doit être valide' })
+  }),
+  phoneNumber: z.string().optional(),
+  password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères').optional().or(z.literal('')),
+});
+
+type EditUserFormData = z.infer<typeof editUserFormSchema>;
+
 export default function UsersPage() {
   const router = useRouter();
   const { isAuthenticated, checkAuth } = useAuth();
@@ -115,7 +128,10 @@ export default function UsersPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserManagement | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -133,6 +149,63 @@ export default function UsersPage() {
       password: '',
     },
   });
+
+  const editForm = useForm<EditUserFormData>({
+    resolver: zodResolver(editUserFormSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      role: 'EMPLOYEE',
+      phoneNumber: '',
+      password: '',
+    },
+  });
+
+  const openEditModal = (user: UserManagement) => {
+    setSelectedUser(user);
+    editForm.reset({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role as any,
+      phoneNumber: (user as any).phoneNumber || '',
+      password: '',
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateUser = async (data: EditUserFormData) => {
+    if (!selectedUser) return;
+    try {
+      setIsUpdating(true);
+      if (!checkAuth()) {
+        toast.error('Vous devez être connecté');
+        router.push('/auth/login');
+        return;
+      }
+
+      const updateData: any = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        role: data.role,
+      };
+      if (data.phoneNumber) updateData.phoneNumber = data.phoneNumber;
+      if (data.password && data.password.length >= 8) updateData.password = data.password;
+
+      await TenantService.updateUser(selectedUser.id, updateData);
+      await loadUsers(currentPage);
+      setIsEditModalOpen(false);
+      setSelectedUser(null);
+      toast.success('Utilisateur modifié avec succès');
+    } catch (error: any) {
+      console.error('Error updating user:', error);
+      toast.error('Erreur lors de la modification de l\'utilisateur');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   // Load users from API
   const loadUsers = async (page = 1) => {
@@ -806,7 +879,7 @@ export default function UsersPage() {
                               )}
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => router.push(`/admin/users/${user.id}/edit`)}
+                              onClick={() => openEditModal(user)}
                             >
                               <Edit className="mr-2 h-4 w-4" />
                               Modifier
@@ -882,6 +955,124 @@ export default function UsersPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Edit User Modal */}
+      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Modifier l'utilisateur</DialogTitle>
+            <DialogDescription>
+              Modifiez les informations de {selectedUser?.firstName} {selectedUser?.lastName}
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...editForm}>
+            <form onSubmit={editForm.handleSubmit(handleUpdateUser)} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={editForm.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prénom</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={editForm.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nom</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={editForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={editForm.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Numéro WhatsApp</FormLabel>
+                    <FormControl>
+                      <Input type="tel" placeholder="90000000" {...field} />
+                    </FormControl>
+                    <FormDescription>Pour les notifications et la réinitialisation du mot de passe</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={editForm.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rôle</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="SUPERADMIN">Super Admin</SelectItem>
+                        <SelectItem value="CLINIC_ADMIN">Admin Clinique</SelectItem>
+                        <SelectItem value="EMPLOYEE">Employé</SelectItem>
+                        <SelectItem value="PRACTITIONER">Praticien</SelectItem>
+                        <SelectItem value="ACCOUNTANT">Comptable</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={editForm.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nouveau mot de passe</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Laisser vide pour ne pas changer" {...field} />
+                    </FormControl>
+                    <FormDescription>Minimum 8 caractères. Laisser vide pour conserver le mot de passe actuel.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                  Annuler
+                </Button>
+                <Button type="submit" disabled={isUpdating}>
+                  {isUpdating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Enregistrer
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 

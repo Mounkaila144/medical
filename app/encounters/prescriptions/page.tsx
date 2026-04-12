@@ -108,7 +108,7 @@ const prescriptionItemSchema = z.object({
 
 const prescriptionFormSchema = z.object({
   encounterId: z.string().min(1, 'La consultation est requise'),
-  practitionerId: z.string().min(1, 'Le praticien est requis'),
+  practitionerId: z.string().optional(),
   expiresAt: z.string().optional(),
   items: z.array(prescriptionItemSchema).min(1, 'Au moins un médicament est requis'),
 });
@@ -117,7 +117,8 @@ type PrescriptionFormData = z.infer<typeof prescriptionFormSchema>;
 
 export default function PrescriptionsPage() {
   const router = useRouter();
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated, checkAuth, practitioner, user } = useAuth();
+  const isPractitioner = user?.role === 'PRACTITIONER' && !!practitioner;
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -240,7 +241,7 @@ export default function PrescriptionsPage() {
 
       const prescriptionData: CreatePrescriptionDto = {
         encounterId: data.encounterId,
-        practitionerId: data.practitionerId,
+        practitionerId: isPractitioner ? practitioner!.id : data.practitionerId!,
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         items: data.items,
       };
@@ -278,7 +279,7 @@ export default function PrescriptionsPage() {
 
       const prescriptionData: Partial<CreatePrescriptionDto> = {
         encounterId: data.encounterId,
-        practitionerId: data.practitionerId,
+        practitionerId: isPractitioner ? practitioner!.id : data.practitionerId!,
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         items: data.items,
       };
@@ -420,30 +421,32 @@ export default function PrescriptionsPage() {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="practitionerId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Praticien *</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Sélectionner un praticien" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {practitioners.map((practitioner) => (
-                                <SelectItem key={practitioner.id} value={practitioner.id}>
-                                  Dr. {practitioner.firstName} {practitioner.lastName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {!isPractitioner && (
+                      <FormField
+                        control={form.control}
+                        name="practitionerId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Praticien *</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Sélectionner un praticien" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {practitioners.map((pract) => (
+                                  <SelectItem key={pract.id} value={pract.id}>
+                                    Dr. {pract.firstName} {pract.lastName}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                   </div>
 
                   <FormField
@@ -1283,30 +1286,32 @@ export default function PrescriptionsPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={editForm.control}
-                    name="practitionerId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Praticien *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionner un praticien" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {practitioners.map((practitioner) => (
-                              <SelectItem key={practitioner.id} value={practitioner.id}>
-                                Dr. {practitioner.firstName} {practitioner.lastName}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {!isPractitioner && (
+                    <FormField
+                      control={editForm.control}
+                      name="practitionerId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Praticien *</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Sélectionner un praticien" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {practitioners.map((pract) => (
+                                <SelectItem key={pract.id} value={pract.id}>
+                                  Dr. {pract.firstName} {pract.lastName}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
 
                 <FormField

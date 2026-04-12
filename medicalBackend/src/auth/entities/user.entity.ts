@@ -49,6 +49,10 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   lastName: string;
 
+  @Field({ nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  phoneNumber: string;
+
   @Field()
   @Column({ type: 'boolean', default: true })
   isActive: boolean;

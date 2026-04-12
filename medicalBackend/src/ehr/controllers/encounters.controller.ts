@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards, Req } from '@nestjs/common';
 import { EncountersService } from '../services/encounters.service';
 import { CreateEncounterDto } from '../dto/create-encounter.dto';
 import { UpdateEncounterDto } from '../dto/update-encounter.dto';
@@ -22,8 +22,11 @@ export class EncountersController {
 
   @Get()
   @Roles(AuthUserRole.CLINIC_ADMIN, AuthUserRole.EMPLOYEE, AuthUserRole.PRACTITIONER)
-  async findAll(@Req() req) {
-    return this.encountersService.findAll(req.user.tenantId);
+  async findAll(
+    @Req() req,
+    @Query('practitionerId') practitionerId?: string,
+  ) {
+    return this.encountersService.findAll(req.user.tenantId, practitionerId);
   }
 
   @Get(':id')

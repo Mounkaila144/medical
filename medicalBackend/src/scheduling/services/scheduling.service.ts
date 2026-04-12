@@ -167,17 +167,21 @@ export class SchedulingService {
     });
   }
 
-  async getAllAppointments(tenantId: string, dateString?: string): Promise<Appointment[]> {
+  async getAllAppointments(tenantId: string, dateString?: string, practitionerId?: string): Promise<Appointment[]> {
     const whereCondition: any = { tenantId };
-    
+
+    if (practitionerId) {
+      whereCondition.practitionerId = practitionerId;
+    }
+
     if (dateString) {
       const date = new Date(dateString);
       const startOfDay = new Date(date);
       startOfDay.setHours(0, 0, 0, 0);
-      
+
       const endOfDay = new Date(date);
       endOfDay.setHours(23, 59, 59, 999);
-      
+
       whereCondition.startAt = MoreThan(startOfDay);
       whereCondition.endAt = LessThan(endOfDay);
     }

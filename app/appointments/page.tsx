@@ -50,9 +50,12 @@ import { AppointmentService } from "@/services/appointment.service";
 import { practitionersService } from "@/services/practitioners-service";
 import { Appointment } from "@/types/appointment";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function AppointmentsPage() {
   const router = useRouter();
+  const { practitioner, user } = useAuth();
+  const isPractitioner = user?.role === 'PRACTITIONER' && !!practitioner;
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("calendar");
@@ -96,7 +99,10 @@ export default function AppointmentsPage() {
         startDate: format(date, 'yyyy-MM-dd'),
       };
 
-      if (selectedPractitioner !== "all") {
+      // Si c'est un praticien, forcer le filtre sur ses propres rendez-vous
+      if (isPractitioner) {
+        params.practitionerId = practitioner!.id;
+      } else if (selectedPractitioner !== "all") {
         params.practitionerId = selectedPractitioner;
       }
 
@@ -156,7 +162,7 @@ export default function AppointmentsPage() {
 
   useEffect(() => {
     fetchAppointments();
-  }, [date, statusFilter, searchQuery, selectedPractitioner]);
+  }, [date, statusFilter, searchQuery, selectedPractitioner, isPractitioner]);
 
   const handleCreateAppointment = () => {
     setSelectedAppointment(null);
@@ -246,30 +252,32 @@ export default function AppointmentsPage() {
         </CardHeader>
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            <div className="space-y-2">
-              <label className="text-xs md:text-sm font-medium flex items-center gap-2">
-                <User className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-600" />
-                Praticien
-              </label>
-              <Select value={selectedPractitioner} onValueChange={setSelectedPractitioner}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Tous les praticiens" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les praticiens</SelectItem>
-                  {practitioners.map((practitioner) => (
-                    <SelectItem key={practitioner.id} value={practitioner.id}>
-                      {practitioner.firstName} {practitioner.lastName}
-                      {practitioner.speciality && (
-                        <span className="text-muted-foreground ml-2">
-                          - {practitioner.speciality}
-                        </span>
-                      )}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {!isPractitioner && (
+              <div className="space-y-2">
+                <label className="text-xs md:text-sm font-medium flex items-center gap-2">
+                  <User className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-600" />
+                  Praticien
+                </label>
+                <Select value={selectedPractitioner} onValueChange={setSelectedPractitioner}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Tous les praticiens" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous les praticiens</SelectItem>
+                    {practitioners.map((pract) => (
+                      <SelectItem key={pract.id} value={pract.id}>
+                        {pract.firstName} {pract.lastName}
+                        {pract.speciality && (
+                          <span className="text-muted-foreground ml-2">
+                            - {pract.speciality}
+                          </span>
+                        )}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="space-y-2">
               <label className="text-xs md:text-sm font-medium flex items-center gap-2">

@@ -83,10 +83,9 @@ import {
   X,
   Mail,
   Phone,
-  Copy,
   Check,
-  KeyRound,
   Download,
+  MessageSquare,
 } from 'lucide-react';
 import { 
   practitionersService, 
@@ -287,10 +286,10 @@ export default function PractitionersPage() {
 
       const response = await practitionersService.createPractitioner(practitionerData);
 
-      // Stocker les credentials pour affichage
+      // Stocker les infos pour affichage
       setNewPractitionerCredentials({
         email: response.practitioner.email || '',
-        password: response.temporaryPassword,
+        password: '',
         name: `Dr. ${response.practitioner.firstName} ${response.practitioner.lastName}`,
       });
 
@@ -298,7 +297,7 @@ export default function PractitionersPage() {
       setIsCreateModalOpen(false);
       form.reset();
 
-      // Afficher la modal avec les credentials
+      // Afficher la modal de confirmation
       setShowCredentialsModal(true);
 
       toast.success('Praticien créé avec succès');
@@ -597,7 +596,7 @@ export default function PractitionersPage() {
                           <FormItem>
                             <FormLabel>Téléphone *</FormLabel>
                             <FormControl>
-                              <Input placeholder="+33123456789" {...field} />
+                              <Input placeholder="90000000" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1292,7 +1291,7 @@ export default function PractitionersPage() {
                         <FormItem>
                           <FormLabel>Téléphone *</FormLabel>
                           <FormControl>
-                            <Input placeholder="+33123456789" {...field} />
+                            <Input placeholder="90000000" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -1457,7 +1456,7 @@ export default function PractitionersPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Credentials Modal - Afficher les informations de connexion */}
+      {/* Credentials Modal - Confirmation d'envoi WhatsApp */}
       <Dialog open={showCredentialsModal} onOpenChange={setShowCredentialsModal}>
         <DialogContent className="max-w-md">
           <DialogHeader>
@@ -1465,78 +1464,23 @@ export default function PractitionersPage() {
               <Check className="h-6 w-6" />
               Praticien créé avec succès
             </DialogTitle>
-            <DialogDescription>
-              Notez bien ces informations de connexion. Le mot de passe ne sera plus affiché.
-            </DialogDescription>
           </DialogHeader>
 
           {newPractitionerCredentials && (
             <div className="space-y-4 py-4">
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
-                <div>
-                  <Label className="text-xs text-gray-600 font-medium">Nom du praticien</Label>
-                  <p className="text-sm font-semibold text-gray-900 mt-1">
-                    {newPractitionerCredentials.name}
-                  </p>
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-center space-y-3">
+                <div className="flex justify-center">
+                  <MessageSquare className="h-10 w-10 text-green-600" />
                 </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600 font-medium flex items-center gap-1">
-                    <Mail className="h-3 w-3" />
-                    Email de connexion
-                  </Label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <p className="text-sm font-mono bg-white px-3 py-2 rounded border flex-1">
-                      {newPractitionerCredentials.email}
-                    </p>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => {
-                        navigator.clipboard.writeText(newPractitionerCredentials.email);
-                        toast.success('Email copié !');
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-600 font-medium flex items-center gap-1">
-                    <KeyRound className="h-3 w-3" />
-                    Mot de passe temporaire
-                  </Label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <p className="text-sm font-mono bg-white px-3 py-2 rounded border flex-1">
-                      {newPractitionerCredentials.password}
-                    </p>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => {
-                        navigator.clipboard.writeText(newPractitionerCredentials.password);
-                        toast.success('Mot de passe copié !');
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                <div className="flex items-start gap-2">
-                  <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 shrink-0" />
-                  <div className="text-xs text-amber-800">
-                    <p className="font-semibold mb-1">Important :</p>
-                    <ul className="list-disc list-inside space-y-1">
-                      <li>Communiquez ces informations au praticien de manière sécurisée</li>
-                      <li>Le praticien devra changer son mot de passe lors de sa première connexion</li>
-                      <li>Le mot de passe ne sera plus affiché après la fermeture de cette fenêtre</li>
-                    </ul>
-                  </div>
-                </div>
+                <p className="text-sm font-semibold text-gray-900">
+                  {newPractitionerCredentials.name}
+                </p>
+                <p className="text-sm text-gray-700">
+                  Les informations de connexion ont été envoyées sur le compte WhatsApp du praticien.
+                </p>
+                <p className="text-xs text-gray-500">
+                  Demandez au praticien de vérifier ses messages WhatsApp pour retrouver ses identifiants de connexion.
+                </p>
               </div>
             </div>
           )}
@@ -1549,7 +1493,7 @@ export default function PractitionersPage() {
               }}
               className="w-full"
             >
-              J'ai noté les informations
+              Compris
             </Button>
           </DialogFooter>
         </DialogContent>

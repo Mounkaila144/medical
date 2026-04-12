@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User, AuthUserRole } from '../entities/user.entity';
+import { Practitioner } from '../../scheduling/entities/practitioner.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 
@@ -11,6 +12,8 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Practitioner)
+    private practitionerRepository: Repository<Practitioner>,
   ) {}
 
   async findById(id: string): Promise<User> {
@@ -61,6 +64,7 @@ export class UsersService {
       role: createUserDto.role,
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
+      phoneNumber: createUserDto.phoneNumber || undefined,
       tenantId: createUserDto.tenantId || undefined,
     });
 
@@ -81,6 +85,14 @@ export class UsersService {
       ...updateUserDto,
       ...(passwordHash && { passwordHash }),
     });
+
+    // Synchroniser le numéro de téléphone vers la table practitioners si c'est un praticien
+    if (updateUserDto.phoneNumber && user.role === AuthUserRole.PRACTITIONER) {
+      await this.practitionerRepository.update(
+        { userId: id },
+        { phoneNumber: updateUserDto.phoneNumber },
+      );
+    }
 
     return this.findById(id);
   }

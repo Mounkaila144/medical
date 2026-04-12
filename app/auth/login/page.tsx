@@ -116,24 +116,10 @@ function LoginFormContent() {
                 </Button>
               </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              Pas encore de compte ?{" "}
-              <Link href="/auth/register" className="text-primary hover:underline">
-                S'inscrire
-              </Link>
-            </p>
-                </div>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p className="mb-2">Comptes de démonstration :</p>
-            <div className="space-y-1 text-xs bg-muted p-3 rounded-lg">
-              <p><strong>Admin :</strong> admin@example.com / password123</p>
-              <p><strong>Praticien :</strong> sarah.johnson@clinic.com / practitioner123</p>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Le système déterminera automatiquement votre rôle et vous redirigera vers la bonne interface.
-            </p>
+          <div className="mt-4 text-center">
+            <Link href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+              Mot de passe oublié ?
+            </Link>
           </div>
         </CardContent>
       </Card>

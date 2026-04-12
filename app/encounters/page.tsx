@@ -96,7 +96,7 @@ import { useAuth } from '@/hooks/useAuth';
 // Form validation schema
 const encounterFormSchema = z.object({
   patientId: z.string().min(1, 'Le patient est requis'),
-  practitionerId: z.string().min(1, 'Le praticien est requis'),
+  practitionerId: z.string().optional(),
   startAt: z.string().min(1, 'La date/heure de début est requise'),
   endAt: z.string().optional(),
   motive: z.string().min(1, 'Le motif de consultation est requis'),
@@ -109,7 +109,8 @@ type EncounterFormData = z.infer<typeof encounterFormSchema>;
 
 export default function EncountersPage() {
   const router = useRouter();
-  const { isAuthenticated, checkAuth } = useAuth();
+  const { isAuthenticated, checkAuth, practitioner, user } = useAuth();
+  const isPractitioner = user?.role === 'PRACTITIONER' && !!practitioner;
   const [encounters, setEncounters] = useState<Encounter[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -233,7 +234,7 @@ export default function EncountersPage() {
 
       const encounterData: CreateEncounterDto = {
         patientId: data.patientId,
-        practitionerId: data.practitionerId,
+        practitionerId: isPractitioner ? practitioner!.id : data.practitionerId,
         startAt: data.startAt,
         endAt: data.endAt || undefined,
         motive: data.motive,
@@ -275,7 +276,7 @@ export default function EncountersPage() {
       const encounterData: UpdateEncounterDto = {
         id: selectedEncounter.id,
         patientId: data.patientId,
-        practitionerId: data.practitionerId,
+        practitionerId: isPractitioner ? practitioner!.id : data.practitionerId,
         startAt: data.startAt,
         endAt: data.endAt || undefined,
         motive: data.motive,
@@ -418,30 +419,32 @@ export default function EncountersPage() {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="practitionerId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Praticien *</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Sélectionner un praticien" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {practitioners.map((practitioner) => (
-                                <SelectItem key={practitioner.id} value={practitioner.id}>
-                                  Dr. {practitioner.firstName} {practitioner.lastName}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {!isPractitioner && (
+                      <FormField
+                        control={form.control}
+                        name="practitionerId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Praticien *</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Sélectionner un praticien" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {practitioners.map((pract) => (
+                                  <SelectItem key={pract.id} value={pract.id}>
+                                    Dr. {pract.firstName} {pract.lastName}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -1178,30 +1181,32 @@ export default function EncountersPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={editForm.control}
-                    name="practitionerId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Praticien *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionner un praticien" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {practitioners.map((practitioner) => (
-                              <SelectItem key={practitioner.id} value={practitioner.id}>
-                                Dr. {practitioner.firstName} {practitioner.lastName}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {!isPractitioner && (
+                    <FormField
+                      control={editForm.control}
+                      name="practitionerId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Praticien *</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Sélectionner un praticien" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {practitioners.map((pract) => (
+                                <SelectItem key={pract.id} value={pract.id}>
+                                  Dr. {pract.firstName} {pract.lastName}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

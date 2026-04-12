@@ -361,7 +361,7 @@ export default function PatientEditPage() {
                       <FormItem>
                         <FormLabel>Téléphone</FormLabel>
                         <FormControl>
-                          <Input placeholder="+33123456789" {...field} />
+                          <Input placeholder="90000000" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

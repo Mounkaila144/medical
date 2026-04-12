@@ -23,6 +23,10 @@ export class UpdateUserDto {
   @IsOptional()
   lastName?: string;
 
+  @IsString({ message: 'Le numéro de téléphone doit être une chaîne de caractères' })
+  @IsOptional()
+  phoneNumber?: string;
+
   @IsBoolean({ message: 'Le statut actif doit être un booléen' })
   @IsOptional()
   isActive?: boolean;

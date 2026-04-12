@@ -1,17 +1,21 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tenant } from '../entities/tenant.entity';
 import { CreateTenantDto } from '../dto/create-tenant.dto';
 import { UsersService } from './users.service';
 import { User, AuthUserRole } from '../entities/user.entity';
+import { WhatsappNotificationService } from '../../common/services/whatsapp-notification.service';
 
 @Injectable()
 export class SuperadminService {
+  private readonly logger = new Logger(SuperadminService.name);
+
   constructor(
     @InjectRepository(Tenant)
     private tenantsRepository: Repository<Tenant>,
     private usersService: UsersService,
+    private whatsappService: WhatsappNotificationService,
   ) {}
 
   async createTenantWithAdmin(createTenantDto: CreateTenantDto): Promise<Tenant> {
@@ -45,9 +49,20 @@ export class SuperadminService {
       password: createTenantDto.adminPassword,
       firstName: createTenantDto.adminFirstName,
       lastName: createTenantDto.adminLastName,
+      phoneNumber: createTenantDto.adminPhoneNumber,
       role: AuthUserRole.CLINIC_ADMIN,
       tenantId: savedTenant.id,
     });
+
+    // Envoyer une notification WhatsApp à l'admin si un numéro est fourni
+    if (createTenantDto.adminPhoneNumber) {
+      this.whatsappService.sendAccountCreationNotification(
+        createTenantDto.adminPhoneNumber,
+        createTenantDto.adminFirstName,
+        createTenantDto.adminLastName,
+        createTenantDto.adminEmail,
+      ).catch(err => this.logger.error(`Échec envoi WhatsApp: ${err.message}`));
+    }
 
     return savedTenant;
   }

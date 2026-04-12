@@ -50,8 +50,7 @@ export class AppointmentsController {
       const date = new Date(dateString);
       return this.schedulingService.listAgenda(tenantId, practitionerId, date);
     }
-    // If no specific filters, return all appointments for the tenant
-    return this.schedulingService.getAllAppointments(tenantId, dateString);
+    return this.schedulingService.getAllAppointments(tenantId, dateString, practitionerId);
   }
 
   @Get(':id')

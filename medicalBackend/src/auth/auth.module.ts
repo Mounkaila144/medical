@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { Tenant } from './entities/tenant.entity';
 import { Session } from './entities/session.entity';
+import { PasswordReset } from './entities/password-reset.entity';
 import { Practitioner } from '../scheduling/entities/practitioner.entity';
 
 // Services
@@ -34,7 +35,7 @@ import { GqlRolesGuard } from './guards/gql-roles.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Tenant, Session, Practitioner]),
+    TypeOrmModule.forFeature([User, Tenant, Session, PasswordReset, Practitioner]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

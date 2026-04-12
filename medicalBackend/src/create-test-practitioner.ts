@@ -32,7 +32,7 @@ async function createTestPractitioner() {
 
     // Créer un praticien de test
     // Note: Le service create() crée automatiquement l'utilisateur et le lie au praticien
-    const { practitioner, temporaryPassword } = await practitionersService.create(tenant.id, {
+    const { practitioner } = await practitionersService.create(tenant.id, {
       firstName: 'Dr. Sarah',
       lastName: 'Johnson',
       speciality: Speciality.CARDIOLOGY,
@@ -69,7 +69,6 @@ async function createTestPractitioner() {
 
     console.log('\n🎉 Praticien de test créé avec succès !');
     console.log(`📧 Email: ${practitioner.email}`);
-    console.log(`🔑 Mot de passe temporaire: ${temporaryPassword}`);
 
   } catch (error) {
     console.error('❌ Erreur:', error.message);
