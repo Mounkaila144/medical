@@ -1,0 +1,32 @@
+# Déploiement automatique : chaque push sur main lance ./deploy.sh sur le serveur.
+# Secrets à créer dans GitHub (Settings > Secrets and variables > Actions) :
+#   DEPLOY_HOST     IP ou domaine du serveur
+#   DEPLOY_USER     utilisateur SSH (ex. root)
+#   DEPLOY_SSH_KEY  clé privée SSH autorisée sur le serveur
+# Tant que DEPLOY_HOST n'est pas défini, le job est simplement ignoré.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_HOST: ${{ secrets.DEPLOY_HOST != '' }}
+    steps:
+      - name: Déployer sur le serveur
+        if: env.HAS_HOST == 'true'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          command_timeout: 30m
+          script: /var/www/medical/deploy.sh

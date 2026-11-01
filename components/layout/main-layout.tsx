@@ -53,17 +53,13 @@ export function MainLayout({ children }: MainLayoutProps) {
     const isAllowed = allowedRoutes.some(route => pathname?.startsWith(route));
 
     if (!isAllowed) {
+      setRoleChecked(false);
       const dashboard = ROLE_DASHBOARD[role] || '/dashboard';
       router.push(dashboard);
     } else {
       setRoleChecked(true);
     }
   }, [user, practitioner, pathname, isLoading, isPublicRoute, router]);
-
-  // Reset roleChecked when pathname changes
-  useEffect(() => {
-    setRoleChecked(false);
-  }, [pathname]);
 
   if (isPublicRoute) {
     return <>{children}</>;

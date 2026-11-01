@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -23,6 +23,7 @@
     "create:test-practitioner": "ts-node -r tsconfig-paths/register src/create-test-practitioner.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.13.0",
     "@nestjs/apollo": "^13.1.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -52,6 +53,7 @@
     "csv-stringify": "^6.5.2",
     "fast-csv": "^5.0.2",
     "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.7",
     "graphql-type-json": "^0.3.2",
     "jsonwebtoken": "^9.0.2",
     "minio": "^8.0.5",

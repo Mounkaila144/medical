@@ -9,7 +9,7 @@ Gestion-Medical is a comprehensive medical clinic management system built with N
 **Key characteristics:**
 - Multi-tenant architecture supporting multiple clinics
 - Dual authentication system (Users and Practitioners)
-- Static export configuration (`output: 'export'`)
+- Served by `next start` behind Apache (no static export: middleware + dynamic routes)
 - French as primary language (UI labels, metadata)
 
 ## Development Commands
@@ -18,15 +18,16 @@ Gestion-Medical is a comprehensive medical clinic management system built with N
 # Development server
 npm run dev
 
-# Build for production (static export)
+# Build for production
 npm run build
-
-# Start production server
-npm start
 
 # Lint code
 npm run lint
 ```
+
+## Deployment (no Docker)
+
+Production deploy = `./deploy.sh` on the server (see `DEPLOY.md`). PM2 config: root `ecosystem.config.js` (backend :3001, frontend :3021). Never commit `medicalBackend/dist`.
 
 ## Architecture
 
@@ -151,7 +152,7 @@ Forms use React Hook Form + Zod validation:
 
 ## Key Technical Decisions
 
-1. **Static Export**: Next.js configured with `output: 'export'` for static hosting
+1. **Deployment**: `next start` + NestJS under PM2, behind Apache — see DEPLOY.md
 2. **No SSR**: Authentication and API calls are client-side only
 3. **Token Storage**: localStorage used (not cookies) for token persistence
 4. **Path Aliases**: `@/*` resolves to project root (configured in `tsconfig.json`)
@@ -224,7 +225,7 @@ if (hasAnyRole(['CLINIC_ADMIN', 'SUPER_ADMIN'])) {
 
 - **Language**: UI is in French ("Système de Gestion Médicale")
 - **ESLint**: Disabled during builds (`ignoreDuringBuilds: true`)
-- **Images**: Unoptimized for static export compatibility
+- **Images**: Unoptimized (`images.unoptimized`)
 - **Hydration**: Components handle SSR/CSR mismatch with `mounted` state
 - **Token Refresh**: Both proactive (scheduled) and reactive (on 401) refresh strategies implemented
 

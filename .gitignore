@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# logs & env de production (spécifiques au serveur)
+/logs
+.env.production
+
+# artefacts temporaires de deploy.sh
+/.deploy-tmp/
+/.next-build/
+/.next.old/
+/.next.failed/

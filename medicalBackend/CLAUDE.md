@@ -181,20 +181,13 @@ Global filters configured:
 
 ## Environment Setup
 
-Required services (via Docker Compose):
-```bash
-docker-compose up -d
-```
+No Docker. Services (database, etc.) run natively on the server and are configured via `.env` (see `.env.example`).
 
-This starts:
-- PostgreSQL (port 5432)
-- RabbitMQ (port 5672, management UI at 15672)
-- MinIO (API at 9000, console at 9001)
+Deployment = `./deploy.sh` at the repository root (see `DEPLOY.md` at the root); PM2 config is the root `ecosystem.config.js`.
 
-Default credentials in `.env`:
-- DB: root / (no password) / database: medical
-- RabbitMQ: admin / admin
-- MinIO: minioadmin / minioadmin
+Utility scripts live in `scripts/`:
+- `scripts/create-admin.ts`: create the SUPERADMIN (`npx ts-node -r tsconfig-paths/register scripts/create-admin.ts`)
+- `scripts/seed-clinic.sh`: seed demo clinic data (MySQL)
 
 ## GraphQL Playground
 
